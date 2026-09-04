@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tobias-fernandes.github.io/web-2026-2-TOBIAS/sitemap.xml

@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- ==== TROQUE A URL ABAIXO PELO SEU DOMÍNIO ALOCADO (5 ocorrências no arquivo) ==== -->
+<title>AltoTech Manager | Sistema de gestão para empresas juniores</title>
+<meta name="description" content="Sistema web para empresas juniores acompanharem projetos, horas de membros, clientes e relatórios em um só lugar. Projeto acadêmico e open source da UFERSA.">
+<link rel="canonical" href="https://tobias-fernandes.github.io/web-2026-2-TOBIAS/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Tobias Fernandes">
+<meta name="theme-color" content="#191735">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="AltoTech Manager">
+<meta property="og:title" content="AltoTech Manager | Sistema de gestão para empresas juniores">
+<meta property="og:description" content="Projetos, horas de membros, clientes e relatórios da sua EJ em um só lugar.">
+<meta property="og:url" content="https://tobias-fernandes.github.io/web-2026-2-TOBIAS/">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%235B34D9'/><path d='M9 22 16 9l7 13' stroke='%23fff' stroke-width='3' fill='none' stroke-linejoin='round'/></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ====================== MARKUP EXIGIDO NA ATIVIDADE: FAQPage ====================== -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "O que é o AltoTech Manager?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "É um sistema web de gestão para empresas juniores. Ele reúne em um só lugar o acompanhamento de projetos, o registro de horas dos membros, o cadastro de clientes e os números que a EJ precisa prestar de contas no fim da gestão."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quem pode usar o sistema?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Qualquer empresa júnior, federada ou em processo de federação, e também núcleos de extensão e ligas acadêmicas que trabalham por projetos com equipes rotativas."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "O AltoTech Manager é gratuito?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sim. É um projeto acadêmico de código aberto, desenvolvido na disciplina de Desenvolvimento Web do Bacharelado em Tecnologia da Informação da UFERSA. O código está publicado no GitHub e pode ser usado e adaptado livremente."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quais tecnologias são usadas no projeto?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A interface é feita em HTML, CSS e JavaScript, sem dependência de framework para a página pública. O repositório traz as instruções de instalação e a estrutura de pastas do sistema."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Como o sistema controla as horas dos membros?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cada membro lança as horas dedicadas em um projeto e o total aparece consolidado por pessoa, por projeto e por período, o que ajuda a diretoria a enxergar sobrecarga e ociosidade antes que virem problema."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Como acompanho o andamento dos projetos?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pelo painel de projetos, que mostra escopo, responsável, prazo e situação atual de cada contrato em execução, com o histórico do que já foi entregue."
+      }
+    }
+  ]
+}
+</script>
+
+<!-- Markup complementar: identifica o site e o software para o Google -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "AltoTech Manager",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "url": "https://tobias-fernandes.github.io/web-2026-2-TOBIAS/",
+  "description": "Sistema web de gestão para empresas juniores: projetos, horas de membros, clientes e relatórios.",
+  "inLanguage": "pt-BR",
+  "author": {
+    "@type": "Person",
+    "name": "Tobias Fernandes"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "BRL"
+  }
+}
+</script>
+
+<style>
+:root{
+  --tinta:#191735;
+  --tinta-suave:#4E4C6B;
+  --papel:#F2F3F7;
+  --papel-alto:#FFFFFF;
+  --violeta:#5B34D9;
+  --violeta-lav:#EBE5FB;
+  --linha:#D5D6E3;
+  --verde:#1F7A5C;
+  --ambar:#B06A12;
+  --medida:64ch;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{
+  margin:0;
+  background:var(--papel);
+  color:var(--tinta);
+  font-family:"IBM Plex Sans",system-ui,sans-serif;
+  font-size:17px;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:"Bricolage Grotesque","IBM Plex Sans",sans-serif;font-weight:700;letter-spacing:-.02em;margin:0}
+p{margin:0 0 1rem;max-width:var(--medida)}
+a{color:var(--violeta)}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--violeta);outline-offset:3px;border-radius:2px}
+.env{width:min(1080px,92vw);margin-inline:auto}
+
+/* ---------- topo ---------- */
+.topo{border-bottom:1px solid var(--linha);background:var(--papel-alto)}
+.topo .env{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.9rem 0}
+.marca{display:flex;align-items:center;gap:.55rem;font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.05rem;color:var(--tinta);text-decoration:none}
+.marca span{display:grid;place-items:center;width:26px;height:26px;border-radius:6px;background:var(--violeta);color:#fff;font-size:.8rem}
+.menu{display:flex;gap:1.4rem;font-size:.95rem}
+.menu a{color:var(--tinta-suave);text-decoration:none}
+.menu a:hover{color:var(--violeta)}
+@media (max-width:620px){.menu{display:none}}
+
+/* ---------- capa ---------- */
+.capa{padding:4.5rem 0 3.5rem;border-bottom:1px solid var(--linha)}
+.capa .env{display:grid;grid-template-columns:1.05fr .95fr;gap:3.5rem;align-items:center}
+.capa h1{font-size:clamp(2.3rem,5.2vw,3.9rem);line-height:1.03}
+.capa .linha-fina{font-size:1.12rem;color:var(--tinta-suave);margin-top:1.3rem}
+.acoes{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2rem}
+.btn{display:inline-block;padding:.72rem 1.35rem;border-radius:4px;font-weight:600;font-size:.98rem;text-decoration:none}
+.btn-cheio{background:var(--violeta);color:#fff}
+.btn-cheio:hover{background:#4A28BC}
+.btn-linha{border:1px solid var(--tinta);color:var(--tinta)}
+.btn-linha:hover{background:var(--tinta);color:var(--papel-alto)}
+@media (max-width:860px){.capa .env{grid-template-columns:1fr;gap:2.5rem}}
+
+/* ---------- quadro ---------- */
+.quadro{background:var(--papel-alto);border:1px solid var(--linha);border-radius:8px;padding:1rem}
+.quadro-topo{display:flex;justify-content:space-between;align-items:baseline;font-size:.82rem;color:var(--tinta-suave);padding:.2rem .3rem .8rem;border-bottom:1px solid var(--linha)}
+.colunas{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-top:.8rem}
+.coluna h3{font-size:.72rem;font-weight:600;color:var(--tinta-suave);letter-spacing:.01em;margin-bottom:.5rem;font-family:"IBM Plex Sans",sans-serif}
+.ficha{background:var(--papel);border:1px solid var(--linha);border-radius:5px;padding:.55rem .6rem;margin-bottom:.5rem;font-size:.78rem;line-height:1.35}
+.ficha b{display:block;font-weight:600;margin-bottom:.28rem}
+.selo{display:inline-block;font-size:.68rem;padding:.1rem .4rem;border-radius:3px;background:var(--violeta-lav);color:var(--violeta);font-weight:600}
+.selo.ok{background:#DCF0E8;color:var(--verde)}
+.selo.atencao{background:#F6EAD6;color:var(--ambar)}
+@media (max-width:520px){.colunas{grid-template-columns:1fr}}
+
+/* ---------- blocos ---------- */
+.faixa{padding:3.8rem 0;border-bottom:1px solid var(--linha)}
+.faixa h2{font-size:clamp(1.6rem,3.2vw,2.2rem);margin-bottom:2rem;max-width:22ch}
+.dores{display:grid;grid-template-columns:1fr 1fr;gap:2.2rem 3rem}
+.dor{border-left:2px solid var(--violeta);padding-left:1.1rem}
+.dor h3{font-size:1.04rem;margin-bottom:.4rem}
+.dor p{font-size:.96rem;color:var(--tinta-suave);margin:0}
+@media (max-width:720px){.dores{grid-template-columns:1fr}}
+
+.passos{counter-reset:p;display:grid;gap:1.6rem;max-width:70ch}
+.passo{display:grid;grid-template-columns:auto 1fr;gap:1.1rem;align-items:start}
+.passo::before{
+  counter-increment:p;content:counter(p);
+  display:grid;place-items:center;width:32px;height:32px;
+  border:1px solid var(--tinta);border-radius:50%;
+  font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:.9rem;
+}
+.passo h3{font-size:1.02rem;margin-bottom:.25rem}
+.passo p{font-size:.96rem;color:var(--tinta-suave);margin:0}
+
+/* ---------- faq ---------- */
+.faq{max-width:72ch}
+.faq details{border-bottom:1px solid var(--linha);padding:1rem 0}
+.faq details[open] summary{color:var(--violeta)}
+.faq summary{
+  cursor:pointer;list-style:none;font-family:"Bricolage Grotesque",sans-serif;
+  font-weight:700;font-size:1.03rem;display:flex;justify-content:space-between;gap:1rem;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-weight:500;color:var(--tinta-suave)}
+.faq details[open] summary::after{content:"–"}
+.faq details p{margin:.7rem 0 0;color:var(--tinta-suave);font-size:.97rem}
+
+/* ---------- rodapé ---------- */
+.rodape{padding:2.6rem 0 3.4rem;font-size:.9rem;color:var(--tinta-suave)}
+.rodape p{max-width:70ch}
+.rodape a{color:var(--violeta)}
+</style>
+</head>
+
+<body>
+
+<header class="topo">
+  <div class="env">
+    <a class="marca" href="#inicio"><span>A</span>AltoTech Manager</a>
+    <nav class="menu" aria-label="Seções da página">
+      <a href="#solucao">O que resolve</a>
+      <a href="#funciona">Como funciona</a>
+      <a href="#faq">Perguntas frequentes</a>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+
+  <section class="capa">
+    <div class="env">
+      <div>
+        <h1>A gestão da sua empresa júnior fora da planilha</h1>
+        <p class="linha-fina">O AltoTech Manager reúne projetos, horas de membros, clientes e indicadores em um só lugar, para a diretoria parar de reconstruir o mesmo controle a cada troca de gestão.</p>
+        <div class="acoes">
+          <a class="btn btn-cheio" href="https://github.com/Tobias-fernandes/web-2026-2-TOBIAS">Ver o código no GitHub</a>
+          <a class="btn btn-linha" href="#solucao">Conhecer o sistema</a>
+        </div>
+      </div>
+
+      <div class="quadro" aria-label="Exemplo do painel de projetos">
+        <div class="quadro-topo">
+          <span>Painel de projetos — gestão 2026</span>
+          <span>412 h lançadas</span>
+        </div>
+        <div class="colunas">
+          <div class="coluna">
+            <h3>Prospecção</h3>
+            <div class="ficha"><b>Diagnóstico de processos</b><span class="selo">Proposta enviada</span></div>
+            <div class="ficha"><b>Identidade visual</b><span class="selo">Reunião marcada</span></div>
+          </div>
+          <div class="coluna">
+            <h3>Em execução</h3>
+            <div class="ficha"><b>Site institucional</b><span class="selo atencao">Prazo em 6 dias</span></div>
+            <div class="ficha"><b>App de vistoria</b><span class="selo">Sprint 3 de 5</span></div>
+          </div>
+          <div class="coluna">
+            <h3>Entregue</h3>
+            <div class="ficha"><b>Landing page</b><span class="selo ok">Contrato encerrado</span></div>
+            <div class="ficha"><b>Automação de relatórios</b><span class="selo ok">Contrato encerrado</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="faixa" id="solucao">
+    <div class="env">
+      <h2>Quatro controles que toda EJ improvisa</h2>
+      <div class="dores">
+        <div class="dor">
+          <h3>Projetos que ninguém sabe onde param</h3>
+          <p>Cada contrato tem escopo, responsável, prazo e situação visíveis para a diretoria inteira, sem depender de quem participou da última reunião.</p>
+        </div>
+        <div class="dor">
+          <h3>Horas lançadas de memória</h3>
+          <p>O membro registra as horas no projeto em que trabalhou e o total aparece consolidado por pessoa e por período.</p>
+        </div>
+        <div class="dor">
+          <h3>Prospecção espalhada no WhatsApp</h3>
+          <p>Um cadastro único de contatos, propostas e status de negociação, que continua na EJ quando o diretor comercial sai.</p>
+        </div>
+        <div class="dor">
+          <h3>Relatório da gestão feito na correria</h3>
+          <p>Faturamento, número de projetos e horas por membro já somados, prontos para o relatório anual e para a prestação de contas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="faixa" id="funciona">
+    <div class="env">
+      <h2>Como funciona</h2>
+      <div class="passos">
+        <div class="passo">
+          <div>
+            <h3>Cadastre a empresa júnior e a equipe</h3>
+            <p>Diretorias, membros e cargos são registrados uma vez e acompanham a EJ nas gestões seguintes.</p>
+          </div>
+        </div>
+        <div class="passo">
+          <div>
+            <h3>Abra os projetos e vincule os clientes</h3>
+            <p>Cada projeto recebe cliente, escopo, prazo e equipe responsável no momento em que o contrato é fechado.</p>
+          </div>
+        </div>
+        <div class="passo">
+          <div>
+            <h3>Acompanhe tudo pelo painel</h3>
+            <p>Horas, entregas e situação de cada contrato ficam visíveis em uma tela, atualizados pelos próprios membros.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="faixa" id="faq">
+    <div class="env">
+      <h2>Perguntas frequentes</h2>
+      <div class="faq">
+
+        <details open>
+          <summary>O que é o AltoTech Manager?</summary>
+          <p>É um sistema web de gestão para empresas juniores. Ele reúne em um só lugar o acompanhamento de projetos, o registro de horas dos membros, o cadastro de clientes e os números que a EJ precisa prestar de contas no fim da gestão.</p>
+        </details>
+
+        <details>
+          <summary>Quem pode usar o sistema?</summary>
+          <p>Qualquer empresa júnior, federada ou em processo de federação, e também núcleos de extensão e ligas acadêmicas que trabalham por projetos com equipes rotativas.</p>
+        </details>
+
+        <details>
+          <summary>O AltoTech Manager é gratuito?</summary>
+          <p>Sim. É um projeto acadêmico de código aberto, desenvolvido na disciplina de Desenvolvimento Web do Bacharelado em Tecnologia da Informação da UFERSA. O código está publicado no GitHub e pode ser usado e adaptado livremente.</p>
+        </details>
+
+        <details>
+          <summary>Quais tecnologias são usadas no projeto?</summary>
+          <p>A interface é feita em HTML, CSS e JavaScript, sem dependência de framework para a página pública. O repositório traz as instruções de instalação e a estrutura de pastas do sistema.</p>
+        </details>
+
+        <details>
+          <summary>Como o sistema controla as horas dos membros?</summary>
+          <p>Cada membro lança as horas dedicadas em um projeto e o total aparece consolidado por pessoa, por projeto e por período, o que ajuda a diretoria a enxergar sobrecarga e ociosidade antes que virem problema.</p>
+        </details>
+
+        <details>
+          <summary>Como acompanho o andamento dos projetos?</summary>
+          <p>Pelo painel de projetos, que mostra escopo, responsável, prazo e situação atual de cada contrato em execução, com o histórico do que já foi entregue.</p>
+        </details>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="rodape">
+  <div class="env">
+    <p>AltoTech Manager — projeto da disciplina de Desenvolvimento Web, Bacharelado em Tecnologia da Informação, UFERSA, Campus Pau dos Ferros.</p>
+    <p>Desenvolvido por Tobias Fernandes · <a href="https://github.com/Tobias-fernandes/web-2026-2-TOBIAS">github.com/Tobias-fernandes/web-2026-2-TOBIAS</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

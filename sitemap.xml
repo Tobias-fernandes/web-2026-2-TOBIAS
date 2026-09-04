@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- TROQUE https://tobias-fernandes.github.io/web-2026-2-TOBIAS/ pelo seu domínio alocado -->
+
+  <url>
+    <loc>https://tobias-fernandes.github.io/web-2026-2-TOBIAS/</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Descomente e ajuste conforme você publicar outras páginas do projeto -->
+  <!--
+  <url>
+    <loc>https://tobias-fernandes.github.io/web-2026-2-TOBIAS/sobre.html</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tobias-fernandes.github.io/web-2026-2-TOBIAS/contato.html</loc>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  -->
+
+</urlset>

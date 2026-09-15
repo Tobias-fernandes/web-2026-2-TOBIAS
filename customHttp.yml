@@ -1,0 +1,22 @@
+# Cabeçalhos HTTP aplicados pelo Amplify Hosting.
+#
+# Os arquivos com hash no nome (dist/assets/*) podem ser cacheados para sempre;
+# o index.html precisa ser sempre revalidado para que um novo deploy chegue ao
+# usuário na primeira visita.
+customHeaders:
+  - pattern: "/assets/*"
+    headers:
+      - key: Cache-Control
+        value: "public, max-age=31536000, immutable"
+
+  - pattern: "/index.html"
+    headers:
+      - key: Cache-Control
+        value: "public, max-age=0, must-revalidate"
+
+  - pattern: "/**/*"
+    headers:
+      - key: X-Content-Type-Options
+        value: "nosniff"
+      - key: Referrer-Policy
+        value: "strict-origin-when-cross-origin"

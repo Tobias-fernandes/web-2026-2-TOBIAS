@@ -245,15 +245,45 @@ O [`amplify.yml`](amplify.yml) já faz `npm ci` + `npm run build` e publica
 ### Rewrite de SPA (obrigatório)
 
 Sem isso, recarregar a página em `/app/projetos` devolve 404, porque esse arquivo
-não existe no bucket. Em **App settings → Rewrites and redirects**, adicione:
+não existe no bucket. Em **Hosting → Rewrites and redirects → Manage redirects**,
+use o editor de texto e cole:
 
-| Source address | Target address | Type |
-| --- | --- | --- |
-| `</^[^.]+$\|\.(?!(css\|gif\|ico\|jpg\|js\|png\|txt\|svg\|woff\|woff2\|ttf\|map\|json\|xml\|webmanifest)$)([^.]+$)/>` | `/index.html` | 200 (Rewrite) |
+```json
+[
+  {
+    "source": "</^[^.]+$|\\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|woff2|ttf|map|json|xml|webmanifest|html)$)([^.]+$)/>",
+    "target": "/index.html",
+    "status": "200",
+    "condition": null
+  },
+  {
+    "source": "/<*>",
+    "target": "/index.html",
+    "status": "404-200",
+    "condition": null
+  }
+]
+```
 
-A expressão desvia para o `index.html` tudo que não tiver extensão de arquivo —
-assim `robots.txt`, `sitemap.xml` e a verificação do Google continuam sendo
-servidos como arquivos de verdade.
+A primeira regra desvia para o `index.html` tudo que não tiver extensão de
+arquivo — as rotas do sistema. A segunda é a padrão do Amplify e serve de rede
+de segurança. **A ordem importa:** o Amplify avalia de cima para baixo, e a
+curinga `/<*>` precisa ficar por último.
+
+**A lista de extensões protege arquivos que precisam ser servidos como si
+mesmos.** Um rewrite `200` não verifica se o arquivo existe: ele reescreve tudo
+que casar com o padrão. Sem `html` na lista, a verificação do Search Console
+(`public/google*.html`) passa a devolver o HTML da aplicação e o Google perde a
+verificação do domínio. `xml` protege o `sitemap.xml` pelo mesmo motivo.
+Ao adicionar um arquivo estático com extensão nova em `public/`, acrescente a
+extensão aqui também.
+
+Para conferir depois de publicar:
+
+```bash
+curl -s https://SEU-DOMINIO/google*.html | grep google-site-verification
+curl -s https://SEU-DOMINIO/sitemap.xml  | head -3
+```
 
 ### Cabeçalhos
 

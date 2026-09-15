@@ -1,0 +1,28 @@
+import { DEFAULT_REGION, DEFAULT_SITE_URL } from './constants'
+import type { AppEnv, DataSource } from './types'
+
+/**
+ * Environment configuration.
+ *
+ * Every variable is read in one place so it stays obvious what has to be
+ * registered in the Amplify console (App settings → Environment variables)
+ * once the AWS backend is live.
+ */
+function readText(value: string | undefined, fallback = ''): string {
+  return value?.trim() ? value.trim() : fallback
+}
+
+export const env: AppEnv = {
+  dataSource: readText(import.meta.env.VITE_DATA_SOURCE, 'mock') as DataSource,
+  apiUrl: readText(import.meta.env.VITE_API_URL),
+  region: readText(import.meta.env.VITE_AWS_REGION, DEFAULT_REGION),
+  cognito: {
+    userPoolId: readText(import.meta.env.VITE_COGNITO_USER_POOL_ID),
+    clientId: readText(import.meta.env.VITE_COGNITO_CLIENT_ID),
+    domain: readText(import.meta.env.VITE_COGNITO_DOMAIN),
+  },
+  siteUrl: readText(import.meta.env.VITE_SITE_URL, DEFAULT_SITE_URL),
+}
+
+/** `true` while the app runs against the demo data instead of the AWS backend. */
+export const isUsingMockData = env.dataSource !== 'aws'

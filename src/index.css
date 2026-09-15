@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   AltoTech Manager design tokens.
+
+   The token names stay in Portuguese on purpose: they mirror the palette of the
+   original static page (tinta, papel, violeta), so the React landing renders in
+   exactly the same colours as what is already published and indexed.
+--------------------------------------------------------------------------- */
+@theme {
+  --color-tinta: #191735;
+  --color-tinta-suave: #4e4c6b;
+  --color-papel: #f2f3f7;
+  --color-papel-alto: #ffffff;
+  --color-violeta: #5b34d9;
+  --color-violeta-escuro: #4a28bc;
+  --color-violeta-lav: #ebe5fb;
+  --color-linha: #d5d6e3;
+  --color-verde: #1f7a5c;
+  --color-verde-lav: #dcf0e8;
+  --color-ambar: #b06a12;
+  --color-ambar-lav: #f6ead6;
+
+  --font-display: "Bricolage Grotesque", "IBM Plex Sans", sans-serif;
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+
+  --text-base: 17px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-papel text-tinta font-sans antialiased;
+    font-size: 17px;
+    line-height: 1.62;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display font-bold tracking-[-0.02em];
+  }
+
+  :focus-visible {
+    @apply outline-3 outline-violeta outline-offset-[3px] rounded-[2px];
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+}
+
+/* Page gutter shared by the landing sections. */
+@utility env {
+  width: min(1080px, 92vw);
+  margin-inline: auto;
+}

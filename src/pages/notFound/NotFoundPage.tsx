@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
+import { ROUTES } from "@/config/routes";
 
 export function NotFoundPage() {
   return (
@@ -11,19 +12,19 @@ export function NotFoundPage() {
         </p>
         <div className="mt-6 flex justify-center gap-3">
           <Link
-            to="/"
-            className="rounded-[4px] bg-violeta px-5 py-2.5 font-semibold text-white no-underline hover:bg-violeta-escuro"
+            to={ROUTES.landing}
+            className="rounded-sm bg-violeta-forte px-5 py-2.5 font-semibold text-white no-underline hover:bg-violeta-escuro"
           >
             Página inicial
           </Link>
           <Link
-            to="/app"
-            className="rounded-[4px] border border-tinta px-5 py-2.5 font-semibold text-tinta no-underline hover:bg-tinta hover:text-white"
+            to={ROUTES.app.root}
+            className="rounded-sm border border-tinta px-5 py-2.5 font-semibold text-tinta no-underline hover:bg-tinta hover:text-papel"
           >
             Ir para o sistema
           </Link>
         </div>
       </div>
     </div>
-  )
+  );
 }

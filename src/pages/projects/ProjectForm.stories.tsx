@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { fn } from 'storybook/test'
 import { clientList, memberList } from '@/stories/fixtures'
-import { EMPTY_PROJECT_FORM } from './constants'
+import { buildEmptyProjectForm } from './constants'
 import { ProjectForm } from './ProjectForm'
 import type { ProjectFormState } from './types'
 
@@ -29,7 +29,7 @@ const meta = {
   args: {
     onChange: fn(),
     value: {
-      ...EMPTY_PROJECT_FORM,
+      ...buildEmptyProjectForm(),
       clientId: clientList[0].id,
       ownerId: memberList[0].id,
     },
@@ -55,7 +55,8 @@ export const Preenchido: Story = {
       status: 'inProgress',
       contractValue: '4800',
       estimatedHours: '120',
-      dueAt: '2026-09-20',
+      startedAt: '2026-08-10',
+      dueAt: '2026-10-09',
     },
   },
 }

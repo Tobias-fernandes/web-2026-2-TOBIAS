@@ -1,10 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { fn } from 'storybook/test'
 import {
+  burningMargin,
   deliveredProject,
+  healthyMargin,
   inProgressProject,
   overdueProject,
-  prospectingProject,
+  planningProject,
 } from '@/stories/fixtures'
 import { ProjectCard } from './ProjectCard'
 
@@ -16,8 +18,9 @@ const meta = {
     docs: {
       description: {
         component:
-          'Card do painel de projetos. O selo de prazo só aparece em contratos em execução, ' +
-          'e o botão de avançar some na última coluna do funil.',
+          'Card do quadro de projetos. Além de prazo e valor, mostra o consumo do ' +
+          'orçamento de horas e o preço por hora real — o número que corrige a ' +
+          'próxima proposta.',
       },
     },
   },
@@ -33,7 +36,8 @@ const meta = {
     project: inProgressProject,
     clientName: 'Padaria Pão de Ouro',
     ownerName: 'Tobias Fernandes',
-    nextStatus: 'delivered',
+    margin: healthyMargin,
+    editable: true,
     moving: false,
   },
 } satisfies Meta<typeof ProjectCard>
@@ -48,22 +52,32 @@ export const Atrasado: Story = {
   args: { project: overdueProject, clientName: 'Vistoria Norte Engenharia' },
 }
 
-/** Em prospecção não há selo de prazo — o contrato ainda não começou. */
-export const EmProspeccao: Story = {
+/** Orçamento estourado: a barra e a hora real viram âmbar. */
+export const OrcamentoEstourado: Story = {
   args: {
-    project: prospectingProject,
-    clientName: 'Clínica Bem Viver',
-    ownerName: 'Júlia Andrade',
-    nextStatus: 'inProgress',
+    project: overdueProject,
+    clientName: 'Vistoria Norte Engenharia',
+    margin: burningMargin,
   },
 }
 
-/** Última coluna do funil: sem botão de avançar. */
+/** Em planejamento, e ainda sem horas lançadas para calcular margem. */
+export const EmPlanejamento: Story = {
+  args: {
+    project: planningProject,
+    clientName: 'Clínica Bem Viver',
+    ownerName: 'Júlia Andrade',
+    margin: undefined,
+  },
+}
+
+/** Sem permissão de gerir projetos: o botão de avançar não aparece. */
 export const Entregue: Story = {
   args: {
     project: deliveredProject,
     ownerName: 'Júlia Andrade',
-    nextStatus: null,
+    margin: undefined,
+    editable: false,
   },
 }
 

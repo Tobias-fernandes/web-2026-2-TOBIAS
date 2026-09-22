@@ -1,6 +1,12 @@
-import { SelectField, TextAreaField, TextField } from '@/components/ui'
+import {
+  nameOptions,
+  SelectField,
+  TextAreaField,
+  TextField,
+} from '@/components/ui'
 import { PROJECT_BOARD_COLUMNS, PROJECT_STATUS_LABELS } from '@/domain/constants'
 import type { Client, Member, ProjectStatus } from '@/domain/types'
+import { setField } from '@/lib/utils'
 import type { ProjectFormState } from './types'
 
 interface ProjectFormProps {
@@ -17,10 +23,7 @@ export function ProjectForm({
   members,
   onChange,
 }: ProjectFormProps) {
-  const set = <K extends keyof ProjectFormState>(
-    key: K,
-    fieldValue: ProjectFormState[K],
-  ) => onChange({ ...value, [key]: fieldValue })
+  const set = setField(value, onChange)
 
   return (
     <>
@@ -35,20 +38,15 @@ export function ProjectForm({
         label="Cliente"
         value={value.clientId}
         onChange={(event) => set('clientId', event.target.value)}
-        options={clients.map((client) => ({
-          value: client.id,
-          label: client.name,
-        }))}
+        options={nameOptions(clients)}
       />
 
       <SelectField
-        label="Responsável"
+        label="Gerente do projeto"
+        hint="Responsável pela entrega e pelo consumo do orçamento de horas."
         value={value.ownerId}
         onChange={(event) => set('ownerId', event.target.value)}
-        options={members.map((member) => ({
-          value: member.id,
-          label: member.name,
-        }))}
+        options={nameOptions(members)}
       />
 
       <TextAreaField
@@ -76,17 +74,24 @@ export function ProjectForm({
         />
         <TextField
           label="Valor do contrato (R$)"
-          type="number"
-          min={0}
+          inputMode="decimal"
           value={value.contractValue}
+          placeholder="4800"
           onChange={(event) => set('contractValue', event.target.value)}
         />
         <TextField
-          label="Horas estimadas"
+          label="Horas orçadas"
           type="number"
           min={0}
+          hint="A base do preço por hora — e da margem depois da entrega."
           value={value.estimatedHours}
           onChange={(event) => set('estimatedHours', event.target.value)}
+        />
+        <TextField
+          label="Início"
+          type="date"
+          value={value.startedAt}
+          onChange={(event) => set('startedAt', event.target.value)}
         />
         <TextField
           label="Prazo"

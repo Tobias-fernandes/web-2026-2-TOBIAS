@@ -5,26 +5,134 @@
 
    The token names stay in Portuguese on purpose: they mirror the palette of the
    original static page (tinta, papel, violeta), so the React landing renders in
-   exactly the same colours as what is already published and indexed.
+   the same colours as what is already published and indexed.
+
+   Each token is a role, not a colour — `papel` is "the page", `tinta` is "the
+   text" — which is what lets the dark theme be a swap of values here instead of
+   a `dark:` class on every element in the app.
+--------------------------------------------------------------------------- */
+
+:root {
+  /*
+   * Both schemes are allowed, so `light-dark()` follows the operating system
+   * until the reader narrows it in the two rules below.
+   *
+   * Each token is a role, not a colour — `papel` is "the page", `tinta` is "the
+   * text" — and both of its values sit on the same line, which is also the form
+   * you want when checking that a pair still contrasts. Nothing in the app
+   * carries a `dark:` class because of this.
+   */
+  color-scheme: light dark;
+
+  --tinta: light-dark(#1b1930, #eae8f6);
+  --tinta-suave: light-dark(#55536e, #a09dba);
+  --papel: light-dark(#f4f4f8, #131220);
+  --papel-alto: light-dark(#ffffff, #1b1a2b);
+  --linha: light-dark(#dedfeb, #302e46);
+
+  /* `violeta` is read as text, borders and bars; `violeta-forte` is a surface
+     that carries white text. Identical in the light theme, and they have to
+     part ways in the dark one, where a violet legible on a dark card is far too
+     pale to sit behind white type. The same split applies to red. */
+  --violeta: light-dark(#5b34d9, #ab92f8);
+  --violeta-forte: light-dark(#5b34d9, #6d4ce2);
+  --violeta-escuro: light-dark(#4a28bc, #7f61ea);
+  --violeta-lav: light-dark(#ece7fb, #2c2449);
+
+  --verde: light-dark(#1a7355, #63d3a7);
+  --verde-lav: light-dark(#ddf0e8, #16372c);
+  --ambar: light-dark(#9c5d0c, #e9b070);
+  --ambar-lav: light-dark(#f7ecd9, #3b2d18);
+  --vermelho: light-dark(#bb2a21, #f08a80);
+  --vermelho-forte: light-dark(#c0281f, #c0433a);
+  --vermelho-escuro: light-dark(#9d1f17, #d15046);
+  --vermelho-lav: light-dark(#faeae8, #3d1f1c);
+
+  /* Veil behind a modal: the page's ink in light, near-black in dark. */
+  --veu: light-dark(rgb(27 25 48 / 0.45), rgb(4 3 10 / 0.68));
+
+  /**
+   * Height of the public page's sticky header.
+   *
+   * Declared rather than left to the content because the hero below subtracts
+   * it from the viewport to fill exactly one screen — a header that grows by a
+   * pixel would otherwise push the hero into a scrollbar.
+   */
+  --altura-cabecalho: 4.5rem;
+}
+
+/* An explicit choice narrows the scheme, and every token above follows it. */
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/* `inline` keeps the utilities pointing at the variables above instead of
+   copying their values, which is what makes the theme swap at runtime. */
+@theme inline {
+  --color-tinta: var(--tinta);
+  --color-tinta-suave: var(--tinta-suave);
+  --color-papel: var(--papel);
+  --color-papel-alto: var(--papel-alto);
+  --color-linha: var(--linha);
+  --color-violeta: var(--violeta);
+  --color-violeta-forte: var(--violeta-forte);
+  --color-violeta-escuro: var(--violeta-escuro);
+  --color-violeta-lav: var(--violeta-lav);
+  --color-verde: var(--verde);
+  --color-verde-lav: var(--verde-lav);
+  --color-ambar: var(--ambar);
+  --color-ambar-lav: var(--ambar-lav);
+  --color-vermelho: var(--vermelho);
+  --color-vermelho-forte: var(--vermelho-forte);
+  --color-vermelho-escuro: var(--vermelho-escuro);
+  --color-vermelho-lav: var(--vermelho-lav);
+  --color-veu: var(--veu);
+}
+
+/* ---------------------------------------------------------------------------
+   Type scale.
+
+   Nine steps, and nothing between them. The screens used to carry twenty-two
+   different arbitrary sizes — 0.74rem next to 0.76rem next to 0.78rem — which
+   reads as noise: the eye keeps re-measuring what it is looking at instead of
+   settling into a hierarchy.
 --------------------------------------------------------------------------- */
 @theme {
-  --color-tinta: #191735;
-  --color-tinta-suave: #4e4c6b;
-  --color-papel: #f2f3f7;
-  --color-papel-alto: #ffffff;
-  --color-violeta: #5b34d9;
-  --color-violeta-escuro: #4a28bc;
-  --color-violeta-lav: #ebe5fb;
-  --color-linha: #d5d6e3;
-  --color-verde: #1f7a5c;
-  --color-verde-lav: #dcf0e8;
-  --color-ambar: #b06a12;
-  --color-ambar-lav: #f6ead6;
-
   --font-display: "Bricolage Grotesque", "IBM Plex Sans", sans-serif;
   --font-sans: "IBM Plex Sans", system-ui, sans-serif;
 
-  --text-base: 17px;
+  /*
+   * Display face, used only on the public page's large headings.
+   *
+   * A wide geometric sans at its heaviest weight is what gives the landing the
+   * presence of a paid product: there the headline carries the page, a job the
+   * interface's narrower grotesque can only do by shouting. Two weights — 800
+   * for the hero, 700 for the section headings — and nowhere inside the system.
+   */
+  --font-destaque: "Plus Jakarta Sans", "IBM Plex Sans", sans-serif;
+
+  --text-2xs: 0.75rem;
+  --text-2xs--line-height: 1.4;
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: 1.5;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.55;
+  --text-base: 0.9375rem;
+  --text-base--line-height: 1.6;
+  --text-md: 1rem;
+  --text-md--line-height: 1.6;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.5;
+  --text-xl: 1.375rem;
+  --text-xl--line-height: 1.35;
+  --text-2xl: 1.75rem;
+  --text-2xl--line-height: 1.2;
+  --text-3xl: 2.125rem;
+  --text-3xl--line-height: 1.15;
 }
 
 @layer base {
@@ -32,10 +140,21 @@
     scroll-behavior: smooth;
   }
 
+  /*
+   * Anchor targets have to clear the public page's sticky header.
+   *
+   * Without this the browser parks the section flush with the top of the
+   * viewport and the header sits on top of its heading — the jump lands, but it
+   * reads as if the link went to the wrong place.
+   */
+  [id] {
+    scroll-margin-top: calc(var(--altura-cabecalho) + 1.5rem);
+  }
+
   body {
     @apply bg-papel text-tinta font-sans antialiased;
-    font-size: 17px;
-    line-height: 1.62;
+    font-size: 1rem;
+    line-height: 1.65;
   }
 
   h1,
@@ -45,7 +164,16 @@
   }
 
   :focus-visible {
-    @apply outline-3 outline-violeta outline-offset-[3px] rounded-[2px];
+    @apply outline-3 outline-violeta outline-offset-[3px] rounded-xs;
+  }
+
+  ::selection {
+    @apply bg-violeta-lav text-violeta;
+  }
+
+  /* A modal dialog must not let the page scroll behind it. */
+  html:has(dialog[open]) {
+    overflow: hidden;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -64,5 +192,48 @@
 /* Page gutter shared by the landing sections. */
 @utility env {
   width: min(1080px, 92vw);
+  margin-inline: auto;
+}
+
+@keyframes deslizar-da-esquerda {
+  from {
+    translate: -100% 0;
+  }
+  to {
+    translate: 0 0;
+  }
+}
+
+/** Entrance of the mobile navigation panel. Disabled under reduced motion. */
+@utility gaveta {
+  animation: deslizar-da-esquerda 180ms ease-out;
+}
+
+@keyframes subir-e-aparecer {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+/** Entrance of a toast notification. Disabled under reduced motion. */
+@utility toast-entrada {
+  animation: subir-e-aparecer 180ms ease-out;
+}
+
+/**
+ * Reading width for the screens inside the system.
+ *
+ * Without it a table or a paragraph stretches to whatever the monitor is, and
+ * on a wide screen the eye loses the line it was on between one column and the
+ * next. Wide tables still scroll inside their own container.
+ */
+@utility leitura {
+  width: 100%;
+  max-width: 1200px;
   margin-inline: auto;
 }

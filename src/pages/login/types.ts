@@ -3,6 +3,11 @@ export interface LoginFormState {
   password: string
 }
 
+export interface NewPasswordFormState {
+  password: string
+  confirmation: string
+}
+
 export interface LocationStateWithRedirect {
   from?: string
 }

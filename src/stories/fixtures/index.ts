@@ -4,17 +4,30 @@ export {
   negotiatingClient,
   clientList,
 } from './clients'
+export { activeCycle } from './cycles'
 export {
+  courseList,
+  workAreaList,
   presidentMember,
   consultantMember,
   onLeaveMember,
   memberList,
+  presidentMembership,
+  consultantMembership,
+  membershipList,
 } from './members'
 export {
   inProgressProject,
   overdueProject,
-  prospectingProject,
+  planningProject,
   deliveredProject,
   projectList,
+  healthyMargin,
+  burningMargin,
 } from './projects'
-export { presidentUser, traineeUser, buildSession } from './users'
+export {
+  presidentUser,
+  financeDirectorUser,
+  traineeUser,
+  buildSession,
+} from './users'

@@ -49,16 +49,39 @@ export async function request<T>(
   })
 
   const raw = await response.text()
-  const payload = raw ? (JSON.parse(raw) as unknown) : null
+  const payload = parseJson(raw)
 
   if (!response.ok) {
-    const message =
-      (payload as { message?: string } | null)?.message ??
-      `Request failed with status ${response.status}.`
-    throw new ApiError(message, response.status, payload)
+    throw new ApiError(
+      errorMessage(payload) ?? `Request failed with status ${response.status}.`,
+      response.status,
+      // The unparsed text when the body was not JSON, so the gateway's own
+      // response is still available to whoever inspects the error.
+      payload ?? raw,
+    )
   }
 
   return payload as T
+}
+
+/**
+ * A gateway can answer with HTML — a 502 page, a WAF block — and `JSON.parse`
+ * would then throw past `ApiError`, leaving the UI to show "Unexpected token
+ * '<'". Every failure leaves this module as an `ApiError`.
+ */
+function parseJson(raw: string): unknown {
+  if (!raw) return null
+  try {
+    return JSON.parse(raw) as unknown
+  } catch {
+    return null
+  }
+}
+
+function errorMessage(payload: unknown): string | null {
+  if (typeof payload !== 'object' || payload === null) return null
+  const { message } = payload as { message?: unknown }
+  return typeof message === 'string' && message ? message : null
 }
 
 export const api = {

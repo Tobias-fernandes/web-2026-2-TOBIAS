@@ -1,46 +1,54 @@
-import { SelectField, TextField } from '@/components/ui'
-import type { Member, Project } from '@/domain/types'
+import {
+  labelOptions,
+  nameOptions,
+  SelectField,
+  TextField,
+} from '@/components/ui'
+import { TIME_ENTRY_CATEGORY_LABELS } from '@/domain/constants'
+import type { Project, TimeEntryCategory } from '@/domain/types'
+import { setField } from '@/lib/utils'
 import { HOURS_STEP } from './constants'
 import type { TimeEntryFormState } from './types'
 
 interface TimeEntryFormProps {
   value: TimeEntryFormState
-  members: Member[]
   projects: Project[]
   onChange: (value: TimeEntryFormState) => void
 }
 
-export function TimeEntryForm({
-  value,
-  members,
-  projects,
-  onChange,
-}: TimeEntryFormProps) {
-  const set = <K extends keyof TimeEntryFormState>(
-    key: K,
-    fieldValue: TimeEntryFormState[K],
-  ) => onChange({ ...value, [key]: fieldValue })
+const CATEGORY_OPTIONS = labelOptions(TIME_ENTRY_CATEGORY_LABELS)
+
+export function TimeEntryForm({ value, projects, onChange }: TimeEntryFormProps) {
+  const set = setField(value, onChange)
+  const needsProject = value.category === 'project'
 
   return (
     <>
       <SelectField
-        label="Membro"
-        value={value.memberId}
-        onChange={(event) => set('memberId', event.target.value)}
-        options={members.map((member) => ({
-          value: member.id,
-          label: member.name,
-        }))}
+        label="Tipo de hora"
+        hint="Reunião de diretoria, capacitação e prospecção também são horas da EJ."
+        value={value.category}
+        onChange={(event) =>
+          onChange({
+            ...value,
+            category: event.target.value as TimeEntryCategory,
+            // Leaving the project behind on a non-project entry would attribute
+            // internal hours to a contract and distort its margin.
+            projectId: event.target.value === 'project' ? value.projectId : '',
+          })
+        }
+        options={CATEGORY_OPTIONS}
       />
-      <SelectField
-        label="Projeto"
-        value={value.projectId}
-        onChange={(event) => set('projectId', event.target.value)}
-        options={projects.map((project) => ({
-          value: project.id,
-          label: project.name,
-        }))}
-      />
+
+      {needsProject && (
+        <SelectField
+          label="Projeto"
+          value={value.projectId}
+          onChange={(event) => set('projectId', event.target.value)}
+          options={nameOptions(projects)}
+        />
+      )}
+
       <div className="grid gap-4 sm:grid-cols-2">
         <TextField
           label="Data"
@@ -58,6 +66,7 @@ export function TimeEntryForm({
           placeholder="4"
         />
       </div>
+
       <TextField
         label="Descrição"
         value={value.description}

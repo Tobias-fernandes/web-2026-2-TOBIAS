@@ -1,6 +1,13 @@
-import { SelectField, TextAreaField, TextField } from '@/components/ui'
+import {
+  labelOptions,
+  SelectField,
+  TextAreaField,
+  TextField,
+} from '@/components/ui'
 import { CLIENT_STATUS_LABELS } from '@/domain/constants'
 import type { ClientStatus } from '@/domain/types'
+import { formatCnpj, formatPhone } from '@/lib/document'
+import { setField } from '@/lib/utils'
 import type { ClientFormState } from './types'
 
 interface ClientFormProps {
@@ -8,11 +15,10 @@ interface ClientFormProps {
   onChange: (value: ClientFormState) => void
 }
 
+const STATUS_OPTIONS = labelOptions(CLIENT_STATUS_LABELS)
+
 export function ClientForm({ value, onChange }: ClientFormProps) {
-  const set = <K extends keyof ClientFormState>(
-    key: K,
-    fieldValue: ClientFormState[K],
-  ) => onChange({ ...value, [key]: fieldValue })
+  const set = setField(value, onChange)
 
   return (
     <>
@@ -24,8 +30,9 @@ export function ClientForm({ value, onChange }: ClientFormProps) {
       <div className="grid gap-4 sm:grid-cols-2">
         <TextField
           label="CNPJ"
+          inputMode="numeric"
           hint="Opcional para leads."
-          value={value.taxId}
+          value={formatCnpj(value.taxId)}
           onChange={(event) => set('taxId', event.target.value)}
         />
         <TextField
@@ -40,7 +47,8 @@ export function ClientForm({ value, onChange }: ClientFormProps) {
         />
         <TextField
           label="Telefone"
-          value={value.phone}
+          inputMode="tel"
+          value={formatPhone(value.phone)}
           onChange={(event) => set('phone', event.target.value)}
         />
         <TextField
@@ -53,9 +61,7 @@ export function ClientForm({ value, onChange }: ClientFormProps) {
           label="Situação"
           value={value.status}
           onChange={(event) => set('status', event.target.value as ClientStatus)}
-          options={(Object.keys(CLIENT_STATUS_LABELS) as ClientStatus[]).map(
-            (status) => ({ value: status, label: CLIENT_STATUS_LABELS[status] }),
-          )}
+          options={STATUS_OPTIONS}
         />
       </div>
       <TextAreaField

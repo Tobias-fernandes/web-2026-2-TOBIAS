@@ -5,25 +5,38 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>AltoTech Manager | Sistema de gestão para empresas juniores</title>
-<meta name="description" content="Sistema web para empresas juniores acompanharem projetos, horas de membros, clientes e relatórios em um só lugar. Projeto acadêmico e open source da UFERSA.">
+<meta name="description" content="Sistema de gestão para empresas juniores: funil comercial, projetos, horas da equipe, financeiro e indicadores da gestão em um só lugar. Gratuito e sem instalação.">
 <link rel="canonical" href="https://tobias.feliz.web.ufersa.dev.br/">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <meta name="author" content="Tobias Fernandes">
-<meta name="theme-color" content="#191735">
+<meta name="theme-color" content="#f4f4f8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#131220" media="(prefers-color-scheme: dark)">
+
+<script>
+/* Stamps the saved theme on <html> before the first paint, so a reader who chose
+   dark never gets a white flash on load. "Sistema" writes nothing and lets the
+   CSS media query decide — see src/index.css and src/stores/theme. */
+try {
+  var altotechTheme = localStorage.getItem('altotech:theme');
+  if (altotechTheme === 'dark' || altotechTheme === 'light') {
+    document.documentElement.dataset.theme = altotechTheme;
+  }
+} catch (error) { /* storage blocked: the system preference still applies */ }
+</script>
 
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="AltoTech Manager">
 <meta property="og:title" content="AltoTech Manager | Sistema de gestão para empresas juniores">
-<meta property="og:description" content="Projetos, horas de membros, clientes e relatórios da sua EJ em um só lugar.">
+<meta property="og:description" content="Funil, projetos, horas, financeiro e indicadores da sua EJ em um só lugar — e o histórico continua depois da troca de diretoria.">
 <meta property="og:url" content="https://tobias.feliz.web.ufersa.dev.br/">
 <meta name="twitter:card" content="summary_large_image">
 
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%235B34D9'/><path d='M9 22 16 9l7 13' stroke='%23fff' stroke-width='3' fill='none' stroke-linejoin='round'/></svg>">
+<link rel="icon" href="/logo-mark.svg" type="image/svg+xml">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
 
 <!-- ====================== MARKUP EXIGIDO NA ATIVIDADE: FAQPage ======================
      Mantido estático no HTML (e não injetado por JavaScript) para que o Google leia o
@@ -40,7 +53,7 @@
       "name": "O que é o AltoTech Manager?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "É um sistema web de gestão para empresas juniores. Ele reúne em um só lugar o acompanhamento de projetos, o registro de horas dos membros, o cadastro de clientes e os números que a EJ precisa prestar de contas no fim da gestão."
+        "text": "É um sistema web de gestão para empresas juniores. Ele reúne em um só lugar o funil comercial, os projetos, as horas dos membros, o financeiro e os indicadores que a EJ precisa para prestar contas no fim da gestão."
       }
     },
     {
@@ -48,7 +61,7 @@
       "name": "Quem pode usar o sistema?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Qualquer empresa júnior, federada ou em processo de federação, e também núcleos de extensão e ligas acadêmicas que trabalham por projetos com equipes rotativas."
+        "text": "Qualquer empresa júnior, federada ou em processo de federação, e também núcleos de extensão e ligas acadêmicas que trabalham por projetos com equipes que mudam todo ano."
       }
     },
     {
@@ -56,15 +69,23 @@
       "name": "O AltoTech Manager é gratuito?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Sim. É um projeto acadêmico de código aberto, desenvolvido na disciplina de Desenvolvimento Web do Bacharelado em Tecnologia da Informação da UFERSA. O código está publicado no GitHub e pode ser usado e adaptado livremente."
+        "text": "Sim. O sistema é gratuito para empresas juniores: não há mensalidade, cobrança por membro nem limite de projetos, de clientes ou de horas lançadas."
       }
     },
     {
       "@type": "Question",
-      "name": "Quais tecnologias são usadas no projeto?",
+      "name": "Precisa instalar alguma coisa?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A interface é uma aplicação React com Vite, TypeScript e Tailwind CSS, publicada como site estático no AWS Amplify. A camada de dados é isolada em serviços, preparada para consumir uma API na AWS. O repositório traz as instruções de instalação e a estrutura de pastas do sistema."
+        "text": "Não. É um sistema web: abre no navegador, no computador ou no celular, sem instalação, sem servidor próprio e sem planilha para manter em paralelo."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "O que acontece na troca de diretoria?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nada se perde. Cada ano é uma gestão, com diretoria e metas próprias, e o cargo de cada pessoa é registrado dentro dela. A diretoria que entra encontra o histórico completo de projetos, horas, clientes e contas — e consegue comparar o próprio ano com o da gestão anterior."
       }
     },
     {
@@ -72,7 +93,7 @@
       "name": "Como o sistema controla as horas dos membros?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Cada membro lança as horas dedicadas em um projeto e o total aparece consolidado por pessoa, por projeto e por período, o que ajuda a diretoria a enxergar sobrecarga e ociosidade antes que virem problema."
+        "text": "O membro preenche a semana em uma grade, marcando se a hora foi de projeto, de gestão interna, de capacitação ou de prospecção. Não há fila de aprovação: a folha é um guia para a EJ se enxergar, não um ponto a ser fiscalizado — e toda hora lançada já entra no relatório, o que mantém a diretoria enxergando sobrecarga e ociosidade antes que virem problema."
       }
     },
     {
@@ -80,7 +101,7 @@
       "name": "Como acompanho o andamento dos projetos?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Pelo painel de projetos, que mostra escopo, responsável, prazo e situação atual de cada contrato em execução, com o histórico do que já foi entregue."
+        "text": "Pelo quadro de projetos, que mostra escopo, gerente, prazo e orçamento de horas de cada contrato, com o consumo em tempo real e o histórico do que já foi entregue."
       }
     }
   ]
@@ -96,7 +117,7 @@
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "Web",
   "url": "https://tobias.feliz.web.ufersa.dev.br/",
-  "description": "Sistema web de gestão para empresas juniores: projetos, horas de membros, clientes e relatórios.",
+  "description": "Sistema de gestão para empresas juniores: funil comercial, projetos, horas da equipe, financeiro e indicadores da gestão.",
   "inLanguage": "pt-BR",
   "author": {
     "@type": "Person",

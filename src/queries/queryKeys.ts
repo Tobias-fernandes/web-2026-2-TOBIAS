@@ -1,34 +1,72 @@
-import type { ReportPeriod, TimeEntryFilter } from '@/services'
+import type {
+  AllocationFilter,
+  CalendarEventFilter,
+  DealFilter,
+  FinanceFilter,
+  MembershipFilter,
+  ProjectFilter,
+  ReportScope,
+  TimeEntryFilter,
+} from '@/services'
 
 /**
  * Query key factory.
  *
- * Every key is built here so invalidation stays exact: invalidating
- * `queryKeys.projects.all` reaches every project query, including filtered ones.
+ * Every key is built here so the key space stays visible in one file, and so the
+ * entity hooks can be handed their group whole (`createEntityQueries`).
  */
+const entity = (name: string) => ({
+  all: [name] as const,
+  detail: (id: string) => [name, id] as const,
+})
+
 export const queryKeys = {
-  clients: {
-    all: ['clients'] as const,
-    detail: (id: string) => ['clients', id] as const,
-  },
-  members: {
-    all: ['members'] as const,
-    detail: (id: string) => ['members', id] as const,
-  },
+  enterprise: entity('enterprise'),
+  courses: entity('courses'),
+  workAreas: entity('work-areas'),
+  cycles: entity('cycles'),
+  members: entity('members'),
+  clients: entity('clients'),
+
   projects: {
-    all: ['projects'] as const,
-    detail: (id: string) => ['projects', id] as const,
+    ...entity('projects'),
+    filtered: (filter: ProjectFilter) => ['projects', filter] as const,
+  },
+  deals: {
+    ...entity('deals'),
+    filtered: (filter: DealFilter) => ['deals', filter] as const,
+  },
+  memberships: {
+    ...entity('memberships'),
+    filtered: (filter: MembershipFilter) => ['memberships', filter] as const,
+  },
+  allocations: {
+    ...entity('allocations'),
+    filtered: (filter: AllocationFilter) => ['allocations', filter] as const,
   },
   timeEntries: {
-    all: ['timeEntries'] as const,
+    ...entity('timeEntries'),
     filtered: (filter: TimeEntryFilter) => ['timeEntries', filter] as const,
   },
+  finance: {
+    ...entity('finance'),
+    filtered: (filter: FinanceFilter) => ['finance', filter] as const,
+  },
+  calendarEvents: {
+    ...entity('calendarEvents'),
+    filtered: (filter: CalendarEventFilter) => ['calendarEvents', filter] as const,
+  },
+
   reports: {
-    all: ['reports'] as const,
-    dashboard: (period: ReportPeriod) => ['reports', 'dashboard', period] as const,
-    hoursByMember: (period: ReportPeriod) =>
-      ['reports', 'hoursByMember', period] as const,
-    hoursByProject: (period: ReportPeriod) =>
-      ['reports', 'hoursByProject', period] as const,
+    dashboard: (scope: ReportScope) => ['reports', 'dashboard', scope] as const,
+    cycleProgress: (cycleId: string) =>
+      ['reports', 'cycleProgress', cycleId] as const,
+    workload: (scope: ReportScope) => ['reports', 'workload', scope] as const,
+    projectMargins: (cycleId: string) =>
+      ['reports', 'projectMargins', cycleId] as const,
+    hoursByCategory: (scope: ReportScope) =>
+      ['reports', 'hoursByCategory', scope] as const,
+    funnel: (scope: ReportScope) => ['reports', 'funnel', scope] as const,
+    cashFlow: (scope: ReportScope) => ['reports', 'cashFlow', scope] as const,
   },
 } as const

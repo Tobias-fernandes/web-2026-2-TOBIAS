@@ -1,24 +1,59 @@
 import { useQuery } from '@tanstack/react-query'
-import { dataLayer, type ReportPeriod } from '@/services'
+import type { ID } from '@/domain/types'
+import { dataLayer, type ReportScope } from '@/services'
 import { queryKeys } from './queryKeys'
 
-export function useDashboardMetrics(period: ReportPeriod = {}) {
+export function useDashboardMetrics(scope: ReportScope = {}) {
   return useQuery({
-    queryKey: queryKeys.reports.dashboard(period),
-    queryFn: () => dataLayer.reports.dashboardMetrics(period),
+    queryKey: queryKeys.reports.dashboard(scope),
+    queryFn: () => dataLayer.reports.dashboardMetrics(scope),
   })
 }
 
-export function useHoursByMember(period: ReportPeriod = {}) {
+export function useCycleProgress(cycleId: ID | undefined) {
   return useQuery({
-    queryKey: queryKeys.reports.hoursByMember(period),
-    queryFn: () => dataLayer.reports.hoursByMember(period),
+    queryKey: queryKeys.reports.cycleProgress(cycleId ?? ''),
+    queryFn: () => dataLayer.reports.cycleProgress(cycleId ?? ''),
+    enabled: Boolean(cycleId),
   })
 }
 
-export function useHoursByProject(period: ReportPeriod = {}) {
+export function useWorkloadByMember(scope: ReportScope = {}) {
   return useQuery({
-    queryKey: queryKeys.reports.hoursByProject(period),
-    queryFn: () => dataLayer.reports.hoursByProject(period),
+    queryKey: queryKeys.reports.workload(scope),
+    queryFn: () => dataLayer.reports.workloadByMember(scope),
+  })
+}
+
+/**
+ * Margin is read per management, never per period: a contract's hours are its
+ * whole life. Disabled until the cycle is known, like the other scoped reads.
+ */
+export function useProjectMargins(cycleId: ID | undefined) {
+  return useQuery({
+    queryKey: queryKeys.reports.projectMargins(cycleId ?? ''),
+    queryFn: () => dataLayer.reports.projectMargins(cycleId),
+    enabled: Boolean(cycleId),
+  })
+}
+
+export function useHoursByCategory(scope: ReportScope = {}) {
+  return useQuery({
+    queryKey: queryKeys.reports.hoursByCategory(scope),
+    queryFn: () => dataLayer.reports.hoursByCategory(scope),
+  })
+}
+
+export function useFunnel(scope: ReportScope = {}) {
+  return useQuery({
+    queryKey: queryKeys.reports.funnel(scope),
+    queryFn: () => dataLayer.reports.funnel(scope),
+  })
+}
+
+export function useCashFlow(scope: ReportScope = {}) {
+  return useQuery({
+    queryKey: queryKeys.reports.cashFlow(scope),
+    queryFn: () => dataLayer.reports.cashFlow(scope),
   })
 }

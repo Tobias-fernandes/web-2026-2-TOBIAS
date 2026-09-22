@@ -1,8 +1,15 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import type { CreateInput, ID, TimeEntry } from '@/domain/types'
+import { useQuery } from '@tanstack/react-query'
 import { dataLayer, type TimeEntryFilter } from '@/services'
+import { createEntityQueries } from './createEntityQueries'
 import { queryKeys } from './queryKeys'
 
+const timeEntries = createEntityQueries(queryKeys.timeEntries, dataLayer.timeEntries)
+
+export const useCreateTimeEntry = timeEntries.useCreate
+export const useUpdateTimeEntry = timeEntries.useUpdate
+export const useDeleteTimeEntry = timeEntries.useRemove
+
+/** Always filtered: the page's date range and pickers are part of the key. */
 export function useTimeEntries(filter: TimeEntryFilter = {}) {
   return useQuery({
     queryKey: queryKeys.timeEntries.filtered(filter),
@@ -10,30 +17,5 @@ export function useTimeEntries(filter: TimeEntryFilter = {}) {
     // Keeps the previous rows on screen while a new filter loads, so the table
     // does not flash empty on every keystroke or date change.
     placeholderData: (previous) => previous,
-  })
-}
-
-export function useCreateTimeEntry() {
-  const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn: (input: CreateInput<TimeEntry>) =>
-      dataLayer.timeEntries.create(input),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.timeEntries.all })
-      queryClient.invalidateQueries({ queryKey: queryKeys.reports.all })
-    },
-  })
-}
-
-export function useDeleteTimeEntry() {
-  const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn: (id: ID) => dataLayer.timeEntries.remove(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.timeEntries.all })
-      queryClient.invalidateQueries({ queryKey: queryKeys.reports.all })
-    },
   })
 }

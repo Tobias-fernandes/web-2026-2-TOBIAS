@@ -1,44 +1,40 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import type { CreateInput, ID, Member, MemberStatus } from '@/domain/types'
-import { dataLayer } from '@/services'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import type { ID } from '@/domain/types'
+import { dataLayer, type MemberAdmission } from '@/services'
+import { createEntityQueries } from './createEntityQueries'
 import { queryKeys } from './queryKeys'
 
-export function useMembers() {
+const members = createEntityQueries(queryKeys.members, dataLayer.members)
+
+export const useMembers = members.useList
+export const useMember = members.useDetail
+export const useCreateMember = members.useCreate
+export const useUpdateMember = members.useUpdate
+
+const memberships = createEntityQueries(queryKeys.memberships, dataLayer.memberships)
+
+export const useCreateMembership = memberships.useCreate
+export const useUpdateMembership = memberships.useUpdate
+export const useRemoveMembership = memberships.useRemove
+
+/** Positions held in one management — the whole history is noise on a screen. */
+export function useCycleMemberships(cycleId: ID | undefined) {
   return useQuery({
-    queryKey: queryKeys.members.all,
-    queryFn: () => dataLayer.members.list(),
+    queryKey: queryKeys.memberships.filtered({ cycleId }),
+    queryFn: () => dataLayer.memberships.listBy({ cycleId }),
+    enabled: Boolean(cycleId),
   })
 }
 
-export function useMember(id: ID) {
-  return useQuery({
-    queryKey: queryKeys.members.detail(id),
-    queryFn: () => dataLayer.members.get(id),
-    enabled: Boolean(id),
-  })
-}
-
-export function useCreateMember() {
-  const queryClient = useQueryClient()
-
+/**
+ * Admits someone: the person and the position they take, in one write.
+ *
+ * A real mutation rather than a pair of calls stitched together in a screen —
+ * the rule that a member without a membership is invisible to every report
+ * belongs to the data layer, not to the form that happens to trigger it.
+ */
+export function useAdmitMember() {
   return useMutation({
-    mutationFn: (input: CreateInput<Member>) => dataLayer.members.create(input),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.members.all })
-      queryClient.invalidateQueries({ queryKey: queryKeys.reports.all })
-    },
-  })
-}
-
-export function useUpdateMemberStatus() {
-  const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn: ({ id, status }: { id: ID; status: MemberStatus }) =>
-      dataLayer.members.update(id, { status }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.members.all })
-      queryClient.invalidateQueries({ queryKey: queryKeys.reports.all })
-    },
+    mutationFn: (admission: MemberAdmission) => dataLayer.members.admit(admission),
   })
 }

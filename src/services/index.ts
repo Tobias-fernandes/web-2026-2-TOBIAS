@@ -1,12 +1,30 @@
-export { dataLayer, currentDataSource } from './dataLayer'
+export { dataLayer } from './dataLayer'
+export { onboardingService, SignUpError } from './onboarding'
+export type { OnboardingService, SignUpInput } from './onboarding'
 export type {
   CrudRepository,
-  ClientRepository,
+  CycleRepository,
+  CourseRepository,
+  WorkAreaRepository,
+  EnterpriseGateway,
   MemberRepository,
+  MemberAdmission,
+  MembershipRepository,
+  MembershipFilter,
+  ClientRepository,
+  DealRepository,
+  DealFilter,
   ProjectRepository,
+  ProjectFilter,
+  AllocationRepository,
+  AllocationFilter,
   TimeEntryRepository,
   TimeEntryFilter,
+  FinanceRepository,
+  FinanceFilter,
+  CalendarEventRepository,
+  CalendarEventFilter,
   ReportService,
-  ReportPeriod,
+  ReportScope,
   DataLayer,
 } from './types'

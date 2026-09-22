@@ -1,8 +1,9 @@
-import type { ID } from './common'
+import type { ID, IsoDate } from './common'
 
 export type ProjectStatus =
-  | 'prospecting'
+  | 'planning'
   | 'inProgress'
+  | 'review'
   | 'delivered'
   | 'cancelled'
 
@@ -10,15 +11,22 @@ export interface Project {
   id: ID
   name: string
   clientId: ID
+  cycleId: ID
+  /** Project manager, accountable for the delivery and for approving hours. */
   ownerId: ID
   teamIds: ID[]
   scope: string
   status: ProjectStatus
-  /** Short label shown on the board card: "Sprint 3 de 5", "Proposta enviada"… */
+  /** Short label shown on the board card: "Sprint 3 de 5", "Revisão final"… */
   stage: string
-  contractValue: number
+  contractValueCents: number
   estimatedHours: number
-  startedAt: string
-  dueAt: string
-  closedAt: string | null
+  startedAt: IsoDate
+  dueAt: IsoDate
+  closedAt: IsoDate | null
+  /** Client satisfaction, 0-10, collected at delivery. Null until then. */
+  npsScore: number | null
+  /** Set when the deal that originated the project is known. */
+  dealId: ID | null
+  createdAt: IsoDate
 }

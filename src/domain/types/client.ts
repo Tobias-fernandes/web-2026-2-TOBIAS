@@ -1,4 +1,4 @@
-import type { ID } from './common'
+import type { ID, IsoDate } from './common'
 
 export type ClientStatus = 'lead' | 'negotiating' | 'active' | 'closed'
 
@@ -13,5 +13,5 @@ export interface Client {
   segment: string
   status: ClientStatus
   notes: string
-  createdAt: string
+  createdAt: IsoDate
 }

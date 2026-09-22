@@ -1,4 +1,5 @@
 import { BrowserRouter } from 'react-router-dom'
+import { Toaster } from '@/components/ui'
 import { AppProviders } from './providers'
 import { AppRoutes } from './routes'
 
@@ -7,6 +8,7 @@ export function App() {
     <BrowserRouter>
       <AppProviders>
         <AppRoutes />
+        <Toaster />
       </AppProviders>
     </BrowserRouter>
   )

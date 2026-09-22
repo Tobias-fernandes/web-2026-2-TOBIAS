@@ -10,3 +10,5 @@ storybook-static
 .vite
 node_modules/.tmp
 npm-debug.log*
+DESENVOLVIMENTO.md
+fazer-depois.md

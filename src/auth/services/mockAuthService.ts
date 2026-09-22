@@ -1,23 +1,58 @@
-import type { Session } from '@/domain/types'
+import { readStoredSession, writeStoredSession } from '@/config/storage'
+import type { Session, User } from '@/domain/types'
+import { findAccount } from '@/services/mock/accounts'
+import { resolveSessionProfile } from '@/services/mock/sessionProfile'
 import { AuthError } from './AuthError'
 import {
   DEMO_PASSWORD,
   DEMO_USERS,
   MOCK_SIGN_IN_LATENCY_MS,
   SESSION_DURATION_MS,
-  SESSION_STORAGE_KEY,
 } from './constants'
 import type { AuthService, Credentials } from './types'
 
 const delay = () =>
   new Promise((resolve) => setTimeout(resolve, MOCK_SIGN_IN_LATENCY_MS))
 
-function persist(session: Session | null): void {
-  try {
-    if (session) localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(session))
-    else localStorage.removeItem(SESSION_STORAGE_KEY)
-  } catch {
-    // No storage: the session lives only while the tab is open.
+/**
+ * Two kinds of account share one door.
+ *
+ * The demo users are fixtures of the seeded enterprise, with a password printed
+ * on the login screen. The others were registered through the sign-up form and
+ * carry their own. Both end up as the same `User`; what differs is where the
+ * position comes from — the fixtures state theirs, the registered ones have
+ * theirs read from the management they belong to.
+ */
+function authenticate(email: string, password: string): User {
+  const demoUser = DEMO_USERS.find(
+    (candidate) => candidate.email.toLowerCase() === email.trim().toLowerCase(),
+  )
+  if (demoUser) {
+    if (password !== DEMO_PASSWORD) throw new AuthError('E-mail ou senha incorretos.')
+    return demoUser
+  }
+
+  const account = findAccount(email)
+  if (!account || account.password !== password) {
+    throw new AuthError('E-mail ou senha incorretos.')
+  }
+
+  const profile = resolveSessionProfile(account.enterpriseId, account.memberId)
+  if (!profile) {
+    throw new AuthError(
+      'Sua conta não tem cargo na gestão vigente. Fale com a presidência da sua EJ.',
+    )
+  }
+
+  return {
+    id: account.id,
+    enterpriseId: account.enterpriseId,
+    name: account.name,
+    email: account.email,
+    role: profile.role,
+    directorate: profile.directorate,
+    avatarUrl: null,
+    memberId: account.memberId,
   }
 }
 
@@ -25,13 +60,7 @@ export const mockAuthService: AuthService = {
   async signIn({ email, password }: Credentials) {
     await delay()
 
-    const user = DEMO_USERS.find(
-      (candidate) => candidate.email.toLowerCase() === email.trim().toLowerCase(),
-    )
-
-    if (!user || password !== DEMO_PASSWORD) {
-      throw new AuthError('E-mail ou senha incorretos.')
-    }
+    const user = authenticate(email, password)
 
     const session: Session = {
       user,
@@ -39,28 +68,29 @@ export const mockAuthService: AuthService = {
       expiresAt: Date.now() + SESSION_DURATION_MS,
     }
 
-    persist(session)
+    writeStoredSession(session)
     return session
   },
 
+  async completeNewPassword() {
+    // Nothing in the demo forces a password change, so `signIn` never throws
+    // `NewPasswordRequiredError` and this is never actually called.
+    throw new AuthError('Este fluxo não existe na demonstração.')
+  },
+
   async signOut() {
-    persist(null)
+    writeStoredSession(null)
   },
 
   async restore() {
-    try {
-      const raw = localStorage.getItem(SESSION_STORAGE_KEY)
-      if (!raw) return null
+    const session = readStoredSession()
+    if (!session) return null
 
-      const session = JSON.parse(raw) as Session
-      if (session.expiresAt < Date.now()) {
-        persist(null)
-        return null
-      }
-
-      return session
-    } catch {
+    if (session.expiresAt < Date.now()) {
+      writeStoredSession(null)
       return null
     }
+
+    return session
   },
 }

@@ -1,21 +1,21 @@
 import { useAuthStore } from './authStore'
 import {
-  selectIsAuthenticated,
+  selectAdopt,
+  selectCompleteNewPassword,
   selectIsRestoring,
   selectSignIn,
   selectSignOut,
-  selectStatus,
   selectUser,
 } from './selectors'
 
 export const useCurrentUser = () => useAuthStore(selectUser)
 
-export const useAuthStatus = () => useAuthStore(selectStatus)
-
 export const useIsRestoringSession = () => useAuthStore(selectIsRestoring)
 
-export const useIsAuthenticated = () => useAuthStore(selectIsAuthenticated)
-
 export const useSignIn = () => useAuthStore(selectSignIn)
+
+export const useCompleteNewPassword = () => useAuthStore(selectCompleteNewPassword)
+
+export const useAdoptSession = () => useAuthStore(selectAdopt)
 
 export const useSignOut = () => useAuthStore(selectSignOut)

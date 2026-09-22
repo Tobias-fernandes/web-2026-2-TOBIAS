@@ -6,15 +6,12 @@ import type { AuthState } from './types'
  */
 export const selectUser = (state: AuthState) => state.session?.user ?? null
 
-export const selectStatus = (state: AuthState) => state.status
-
 export const selectIsRestoring = (state: AuthState) => state.status === 'restoring'
-
-export const selectIsAuthenticated = (state: AuthState) =>
-  state.status === 'authenticated'
 
 export const selectSignIn = (state: AuthState) => state.signIn
 
-export const selectSignOut = (state: AuthState) => state.signOut
+export const selectCompleteNewPassword = (state: AuthState) => state.completeNewPassword
 
-export const selectRestore = (state: AuthState) => state.restore
+export const selectAdopt = (state: AuthState) => state.adopt
+
+export const selectSignOut = (state: AuthState) => state.signOut

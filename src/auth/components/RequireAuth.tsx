@@ -1,5 +1,6 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { Spinner } from '@/components/ui'
+import { ROUTES } from '@/config/routes'
 import { useCurrentUser, useIsRestoringSession } from '@/stores/auth'
 
 /** Guards the `/app` routes, returning the user to their destination after login. */
@@ -17,7 +18,7 @@ export function RequireAuth() {
   }
 
   if (!user) {
-    return <Navigate to="/login" state={{ from: location.pathname }} replace />
+    return <Navigate to={ROUTES.login} state={{ from: location.pathname }} replace />
   }
 
   return <Outlet />

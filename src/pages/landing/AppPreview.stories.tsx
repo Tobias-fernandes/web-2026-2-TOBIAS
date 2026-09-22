@@ -1,20 +1,22 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { ProjectBoardPreview } from './ProjectBoardPreview'
+import { AppPreview } from './AppPreview'
 
 const meta = {
-  title: 'Páginas/Landing/ProjectBoardPreview',
-  component: ProjectBoardPreview,
+  title: 'Páginas/Landing/AppPreview',
+  component: AppPreview,
   tags: ['autodocs'],
   parameters: {
+    layout: 'padded',
     docs: {
       description: {
         component:
-          'Ilustração do painel exibida na capa da landing. Lê os dados de demonstração ' +
-          'diretamente, porque a página pública não é autenticada e não deve chamar a API.',
+          'Retrato do sistema exibido na capa da landing. Carrega a própria cópia dos dados: ' +
+          'a página pública não é autenticada, não deve chamar a API e não pode mudar de forma ' +
+          'toda vez que alguém edita os dados de demonstração.',
       },
     },
   },
-} satisfies Meta<typeof ProjectBoardPreview>
+} satisfies Meta<typeof AppPreview>
 
 export default meta
 type Story = StoryObj<typeof meta>
@@ -22,7 +24,7 @@ type Story = StoryObj<typeof meta>
 export const Padrao: Story = {
   decorators: [
     (Story) => (
-      <div className="max-w-lg">
+      <div className="max-w-2xl">
         <Story />
       </div>
     ),

@@ -1,30 +1,21 @@
-import { Badge } from '@/components/ui'
-import { DEAL_FUNNEL_COLUMNS, DEAL_SOURCE_LABELS } from '@/domain/constants'
-import type { Deal, DealStage } from '@/domain/types'
-import { formatDate, formatMoney } from '@/lib/format'
+import { Badge } from "@/components/ui";
+import { DEAL_FUNNEL_COLUMNS, DEAL_SOURCE_LABELS } from "@/domain/constants";
+import type { DealStage } from "@/domain/types";
+import { formatDate, formatMoney } from "@/lib/format";
+import type { DealCardProps } from "./types";
 
 /** Next column on the funnel; the last open stage has nowhere left to advance. */
 function nextStage(stage: DealStage): DealStage | null {
-  const index = DEAL_FUNNEL_COLUMNS.indexOf(stage)
+  const index = DEAL_FUNNEL_COLUMNS.indexOf(stage);
   return index >= 0 && index < DEAL_FUNNEL_COLUMNS.length - 1
     ? DEAL_FUNNEL_COLUMNS[index + 1]
-    : null
+    : null;
 }
 
 const ACTION =
-  'rounded-md border border-linha bg-papel-alto px-2 py-1.5 text-xs text-tinta-suave disabled:opacity-55'
+  "rounded-md border border-linha bg-papel-alto px-2 py-1.5 text-xs text-tinta-suave disabled:opacity-55";
 
-interface DealCardProps {
-  deal: Deal
-  clientName: string
-  ownerName: string
-  editable: boolean
-  moving: boolean
-  onAdvance: (stage: DealStage) => void
-  onLose: () => void
-}
-
-export function DealCard({
+const DealCard: React.FC<DealCardProps> = ({
   deal,
   clientName,
   ownerName,
@@ -32,8 +23,8 @@ export function DealCard({
   moving,
   onAdvance,
   onLose,
-}: DealCardProps) {
-  const next = nextStage(deal.stage)
+}) => {
+  const next = nextStage(deal.stage);
 
   return (
     <li className="rounded-lg border border-linha bg-papel p-3">
@@ -64,7 +55,7 @@ export function DealCard({
           <button
             type="button"
             disabled={moving}
-            onClick={() => onAdvance('won')}
+            onClick={() => onAdvance("won")}
             className={`${ACTION} hover:border-verde hover:text-verde`}
           >
             Ganhar
@@ -80,5 +71,7 @@ export function DealCard({
         </div>
       )}
     </li>
-  )
-}
+  );
+};
+
+export { DealCard };

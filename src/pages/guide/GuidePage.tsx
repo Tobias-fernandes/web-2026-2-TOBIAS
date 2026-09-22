@@ -40,7 +40,7 @@ const STATUS_TONES: Record<RoadmapStatus, Tone> = {
  * system models, who does what in it, the weekly routine that keeps the data
  * honest, and what is still coming.
  */
-export function GuidePage() {
+const GuidePage: React.FC = () => {
   const demo = useDemoData();
 
   return (
@@ -64,7 +64,7 @@ export function GuidePage() {
           {FLOW_STEPS.map((step) => (
             <li
               key={step.title}
-              className="flex flex-col rounded-[6px] border border-linha bg-papel p-3.5"
+              className="flex flex-col rounded-md border border-linha bg-papel p-3.5"
             >
               <p className="m-0 font-display font-bold">{step.title}</p>
               <p className="mt-1.5 mb-3 flex-1 text-sm text-tinta-suave">
@@ -195,8 +195,8 @@ export function GuidePage() {
         Percorrer o sistema do zero
       </h2>
       <p className="mt-0 mb-4 max-w-[72ch] text-base leading-relaxed text-tinta-suave">
-        Ler o modelo explica; começar do vazio ensina. Abaixo está a ordem em que
-        um sistema sem nada dentro precisa ser preenchido — e a razão de ser
+        Ler o modelo explica; começar do vazio ensina. Abaixo está a ordem em
+        que um sistema sem nada dentro precisa ser preenchido — e a razão de ser
         nessa ordem é que cada passo depende do que o anterior criou.
       </p>
 
@@ -205,4 +205,6 @@ export function GuidePage() {
       <ZeroFlow />
     </>
   );
-}
+};
+
+export { GuidePage };

@@ -3,24 +3,22 @@ import {
   nameOptions,
   SelectField,
   TextField,
-} from '@/components/ui'
-import { TIME_ENTRY_CATEGORY_LABELS } from '@/domain/constants'
-import type { Project, TimeEntryCategory } from '@/domain/types'
-import { setField } from '@/lib/utils'
-import { HOURS_STEP } from './constants'
-import type { TimeEntryFormState } from './types'
+} from "@/components/ui";
+import { TIME_ENTRY_CATEGORY_LABELS } from "@/domain/constants";
+import type { TimeEntryCategory } from "@/domain/types";
+import { setField } from "@/lib/utils";
+import { HOURS_STEP } from "./constants";
+import type { TimeEntryFormProps } from "./types";
 
-interface TimeEntryFormProps {
-  value: TimeEntryFormState
-  projects: Project[]
-  onChange: (value: TimeEntryFormState) => void
-}
+const CATEGORY_OPTIONS = labelOptions(TIME_ENTRY_CATEGORY_LABELS);
 
-const CATEGORY_OPTIONS = labelOptions(TIME_ENTRY_CATEGORY_LABELS)
-
-export function TimeEntryForm({ value, projects, onChange }: TimeEntryFormProps) {
-  const set = setField(value, onChange)
-  const needsProject = value.category === 'project'
+const TimeEntryForm: React.FC<TimeEntryFormProps> = ({
+  value,
+  projects,
+  onChange,
+}) => {
+  const set = setField(value, onChange);
+  const needsProject = value.category === "project";
 
   return (
     <>
@@ -34,7 +32,7 @@ export function TimeEntryForm({ value, projects, onChange }: TimeEntryFormProps)
             category: event.target.value as TimeEntryCategory,
             // Leaving the project behind on a non-project entry would attribute
             // internal hours to a contract and distort its margin.
-            projectId: event.target.value === 'project' ? value.projectId : '',
+            projectId: event.target.value === "project" ? value.projectId : "",
           })
         }
         options={CATEGORY_OPTIONS}
@@ -44,7 +42,7 @@ export function TimeEntryForm({ value, projects, onChange }: TimeEntryFormProps)
         <SelectField
           label="Projeto"
           value={value.projectId}
-          onChange={(event) => set('projectId', event.target.value)}
+          onChange={(event) => set("projectId", event.target.value)}
           options={nameOptions(projects)}
         />
       )}
@@ -54,7 +52,7 @@ export function TimeEntryForm({ value, projects, onChange }: TimeEntryFormProps)
           label="Data"
           type="date"
           value={value.date}
-          onChange={(event) => set('date', event.target.value)}
+          onChange={(event) => set("date", event.target.value)}
         />
         <TextField
           label="Horas"
@@ -62,7 +60,7 @@ export function TimeEntryForm({ value, projects, onChange }: TimeEntryFormProps)
           min={HOURS_STEP}
           step={HOURS_STEP}
           value={value.hours}
-          onChange={(event) => set('hours', event.target.value)}
+          onChange={(event) => set("hours", event.target.value)}
           placeholder="4"
         />
       </div>
@@ -70,9 +68,11 @@ export function TimeEntryForm({ value, projects, onChange }: TimeEntryFormProps)
       <TextField
         label="Descrição"
         value={value.description}
-        onChange={(event) => set('description', event.target.value)}
+        onChange={(event) => set("description", event.target.value)}
         placeholder="O que foi feito nessas horas."
       />
     </>
-  )
-}
+  );
+};
+
+export { TimeEntryForm };

@@ -1,13 +1,10 @@
-import { useId } from 'react'
-import logo from '@/assets/brand/altotech-manager-v2.png'
-
-export interface BrandLockupProps {
-  className?: string
-}
+import logo from "@/assets/brand/altotech-manager-v2.png";
+import type { BrandLockupProps } from "./types";
+import { useBrandLockup } from "./hooks";
 
 /** The approved artwork, framed without its transparent outer margins. */
-export function BrandLockup({ className }: BrandLockupProps) {
-  const textMaskId = useId()
+const BrandLockup: React.FC<BrandLockupProps> = ({ className }) => {
+  const { textMaskId } = useBrandLockup();
 
   return (
     <svg
@@ -27,7 +24,7 @@ export function BrandLockup({ className }: BrandLockupProps) {
           y={126}
           width={1175}
           height={484}
-          style={{ maskType: 'alpha' }}
+          style={{ maskType: "alpha" }}
         >
           <image href={logo} width={2172} height={724} />
         </mask>
@@ -42,5 +39,7 @@ export function BrandLockup({ className }: BrandLockupProps) {
         mask={`url(#${textMaskId})`}
       />
     </svg>
-  )
-}
+  );
+};
+
+export { BrandLockup };

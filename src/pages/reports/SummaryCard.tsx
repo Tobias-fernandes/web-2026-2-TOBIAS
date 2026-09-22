@@ -1,37 +1,35 @@
-import {
-  Card,
-  CardTitle,
-  QueryState,
-  SkeletonMetrics,
-} from '@/components/ui'
-import type { Loadable } from '@/components/ui'
-import type { DashboardMetrics } from '@/domain/types'
-import { formatHours, formatMoney, formatScore } from '@/lib/format'
+import { Card, CardTitle, QueryState, SkeletonMetrics } from "@/components/ui";
+import type { Loadable } from "@/components/ui";
+import type { DashboardMetrics } from "@/domain/types";
+import { formatHours, formatMoney, formatScore } from "@/lib/format";
 
 /** The eight figures a management hands over at the end of the year. */
 function figuresOf(data: DashboardMetrics) {
   return [
-    { label: 'Faturamento contratado', value: formatMoney(data.contractedRevenueCents) },
-    { label: 'Recebido em caixa', value: formatMoney(data.receivedRevenueCents) },
-    { label: 'Projetos entregues', value: String(data.projectsDelivered) },
-    { label: 'Horas lançadas', value: formatHours(data.loggedHours) },
-    { label: 'Projetos em andamento', value: String(data.projectsInProgress) },
-    { label: 'Membros na gestão', value: String(data.activeMembers) },
-    { label: 'Clientes ativos', value: String(data.activeClients) },
     {
-      label: 'Satisfação média',
-      value: data.averageNps !== null ? formatScore(data.averageNps) : '—',
+      label: "Faturamento contratado",
+      value: formatMoney(data.contractedRevenueCents),
     },
-  ]
+    {
+      label: "Recebido em caixa",
+      value: formatMoney(data.receivedRevenueCents),
+    },
+    { label: "Projetos entregues", value: String(data.projectsDelivered) },
+    { label: "Horas lançadas", value: formatHours(data.loggedHours) },
+    { label: "Projetos em andamento", value: String(data.projectsInProgress) },
+    { label: "Membros na gestão", value: String(data.activeMembers) },
+    { label: "Clientes ativos", value: String(data.activeClients) },
+    {
+      label: "Satisfação média",
+      value: data.averageNps !== null ? formatScore(data.averageNps) : "—",
+    },
+  ];
 }
 
-export function SummaryCard({
-  metrics,
-  cycleName,
-}: {
-  metrics: Loadable<DashboardMetrics>
-  cycleName: string
-}) {
+const SummaryCard: React.FC<{
+  metrics: Loadable<DashboardMetrics>;
+  cycleName: string;
+}> = ({ metrics, cycleName }) => {
   return (
     <QueryState
       query={metrics}
@@ -61,5 +59,7 @@ export function SummaryCard({
         </Card>
       )}
     </QueryState>
-  )
-}
+  );
+};
+
+export { SummaryCard };

@@ -1,4 +1,4 @@
-import type { ID, IsoDate } from './common'
+import type { ID, IsoDate } from "./common";
 
 /**
  * Planned load: how many hours a week a member is expected to give a project,
@@ -10,11 +10,11 @@ import type { ID, IsoDate } from './common'
  * the group chat later.
  */
 export interface Allocation {
-  id: ID
-  memberId: ID
-  projectId: ID
-  weeklyHours: number
-  startsAt: IsoDate
-  endsAt: IsoDate
-  createdAt: IsoDate
+  id: ID;
+  memberId: ID;
+  projectId: ID;
+  weeklyHours: number;
+  startsAt: IsoDate;
+  endsAt: IsoDate;
+  createdAt: IsoDate;
 }

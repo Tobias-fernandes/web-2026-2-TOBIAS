@@ -1,1 +1,1 @@
-export * from './CycleGoalsFields'
+export * from "./CycleGoalsFields";

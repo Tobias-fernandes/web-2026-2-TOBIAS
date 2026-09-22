@@ -1,21 +1,20 @@
-import { PageHeader } from '@/components/layout'
+import { PageHeader } from "@/components/layout";
 import {
   Button,
   EmptyState,
   FormDialog,
   ListState,
   SkeletonBoard,
-} from '@/components/ui'
-import { DealBoard } from './DealBoard'
-import { DealForm } from './DealForm'
-import { FunnelSummaryRow } from './FunnelSummaryRow'
-import { LossReasonDialog } from './LossReasonDialog'
-import { SourceTable } from './SourceTable'
-import { useFunnelPage } from './hooks'
+} from "@/components/ui";
+import { DealBoard } from "./DealBoard";
+import { DealForm } from "./DealForm";
+import { FunnelSummaryRow } from "./FunnelSummaryRow";
+import { LossReasonDialog } from "./LossReasonDialog";
+import { SourceTable } from "./SourceTable";
+import { useFunnelPage } from "./hooks";
 
-export function FunnelPage() {
-  const funnel = useFunnelPage()
-
+const FunnelPage: React.FC = () => {
+  const funnel = useFunnelPage();
 
   return (
     <>
@@ -29,7 +28,10 @@ export function FunnelPage() {
         }
       />
 
-      <FunnelSummaryRow summary={funnel.summary} openCount={funnel.open.length} />
+      <FunnelSummaryRow
+        summary={funnel.summary}
+        openCount={funnel.open.length}
+      />
 
       <ListState
         query={funnel.deals}
@@ -88,5 +90,7 @@ export function FunnelPage() {
         onConfirm={funnel.confirmLoss}
       />
     </>
-  )
-}
+  );
+};
+
+export { FunnelPage };

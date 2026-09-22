@@ -1,5 +1,5 @@
-import type { IsoDate } from '@/domain/types'
-import { DAYS_IN_WEEK, MS_PER_DAY, WEEK_START_DAY } from './constants'
+import type { IsoDate } from "@/domain/types";
+import { DAYS_IN_WEEK, MS_PER_DAY, WEEK_START_DAY } from "./constants";
 
 /**
  * Date arithmetic on `YYYY-MM-DD` strings.
@@ -11,54 +11,56 @@ import { DAYS_IN_WEEK, MS_PER_DAY, WEEK_START_DAY } from './constants'
  * a plain date string again.
  */
 export function parseIsoDate(iso: IsoDate): Date {
-  const [year, month, day] = iso.slice(0, 10).split('-').map(Number)
-  return new Date(year, (month ?? 1) - 1, day ?? 1)
+  const [year, month, day] = iso.slice(0, 10).split("-").map(Number);
+  return new Date(year, (month ?? 1) - 1, day ?? 1);
 }
 
 export function toIsoDate(date: Date): IsoDate {
-  const month = String(date.getMonth() + 1).padStart(2, '0')
-  const day = String(date.getDate()).padStart(2, '0')
-  return `${date.getFullYear()}-${month}-${day}`
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${date.getFullYear()}-${month}-${day}`;
 }
 
 /** Today as an ISO date (YYYY-MM-DD), the format used across the domain. */
-export const todayIso = (): IsoDate => toIsoDate(new Date())
+export const todayIso = (): IsoDate => toIsoDate(new Date());
 
 export function addDays(iso: IsoDate, days: number): IsoDate {
-  const date = parseIsoDate(iso)
-  date.setDate(date.getDate() + days)
-  return toIsoDate(date)
+  const date = parseIsoDate(iso);
+  date.setDate(date.getDate() + days);
+  return toIsoDate(date);
 }
 
 export function daysBetween(from: IsoDate, to: IsoDate): number {
   return Math.round(
     (parseIsoDate(to).getTime() - parseIsoDate(from).getTime()) / MS_PER_DAY,
-  )
+  );
 }
 
 /** Days left until the date — negative once it has passed. */
-export const daysUntil = (iso: IsoDate): number => daysBetween(todayIso(), iso)
+export const daysUntil = (iso: IsoDate): number => daysBetween(todayIso(), iso);
 
 /** The Monday of the week the date falls in. */
 export function startOfWeek(iso: IsoDate = todayIso()): IsoDate {
-  const date = parseIsoDate(iso)
-  const offset = (date.getDay() - WEEK_START_DAY + DAYS_IN_WEEK) % DAYS_IN_WEEK
-  return addDays(iso, -offset)
+  const date = parseIsoDate(iso);
+  const offset = (date.getDay() - WEEK_START_DAY + DAYS_IN_WEEK) % DAYS_IN_WEEK;
+  return addDays(iso, -offset);
 }
 
 /** The seven dates of the week starting on `monday`, Monday first. */
 export function weekDates(monday: IsoDate): IsoDate[] {
-  return Array.from({ length: DAYS_IN_WEEK }, (_, index) => addDays(monday, index))
+  return Array.from({ length: DAYS_IN_WEEK }, (_, index) =>
+    addDays(monday, index),
+  );
 }
 
 /** The first day of the month the date falls in. */
 export const startOfMonth = (iso: IsoDate = todayIso()): IsoDate =>
-  `${iso.slice(0, 7)}-01`
+  `${iso.slice(0, 7)}-01`;
 
 /** The last day of that month — 28, 29, 30 or 31, asked of the calendar. */
 export function endOfMonth(iso: IsoDate): IsoDate {
-  const date = parseIsoDate(iso)
-  return toIsoDate(new Date(date.getFullYear(), date.getMonth() + 1, 0))
+  const date = parseIsoDate(iso);
+  return toIsoDate(new Date(date.getFullYear(), date.getMonth() + 1, 0));
 }
 
 /**
@@ -68,19 +70,19 @@ export function endOfMonth(iso: IsoDate): IsoDate {
  * month arrows on the calendar would skip February entirely.
  */
 export function addMonths(iso: IsoDate, months: number): IsoDate {
-  const date = parseIsoDate(iso)
-  const shifted = new Date(date.getFullYear(), date.getMonth() + months, 1)
+  const date = parseIsoDate(iso);
+  const shifted = new Date(date.getFullYear(), date.getMonth() + months, 1);
   const lastDay = new Date(
     shifted.getFullYear(),
     shifted.getMonth() + 1,
     0,
-  ).getDate()
-  shifted.setDate(Math.min(date.getDate(), lastDay))
-  return toIsoDate(shifted)
+  ).getDate();
+  shifted.setDate(Math.min(date.getDate(), lastDay));
+  return toIsoDate(shifted);
 }
 
 export const isSameMonth = (a: IsoDate, b: IsoDate): boolean =>
-  a.slice(0, 7) === b.slice(0, 7)
+  a.slice(0, 7) === b.slice(0, 7);
 
 /**
  * Every cell of a month grid, Monday first, including the days borrowed from
@@ -91,17 +93,21 @@ export const isSameMonth = (a: IsoDate, b: IsoDate): boolean =>
  * empty weeks under it.
  */
 export function monthGrid(iso: IsoDate): IsoDate[] {
-  const first = startOfWeek(startOfMonth(iso))
-  const span = daysBetween(first, endOfMonth(iso)) + 1
-  const cells = Math.ceil(span / DAYS_IN_WEEK) * DAYS_IN_WEEK
-  return Array.from({ length: cells }, (_, index) => addDays(first, index))
+  const first = startOfWeek(startOfMonth(iso));
+  const span = daysBetween(first, endOfMonth(iso)) + 1;
+  const cells = Math.ceil(span / DAYS_IN_WEEK) * DAYS_IN_WEEK;
+  return Array.from({ length: cells }, (_, index) => addDays(first, index));
 }
 
 /** Inclusive on both ends; an absent bound does not restrict. */
-export function isWithinPeriod(date: IsoDate, from?: IsoDate, to?: IsoDate): boolean {
-  if (from && date < from) return false
-  if (to && date > to) return false
-  return true
+export function isWithinPeriod(
+  date: IsoDate,
+  from?: IsoDate,
+  to?: IsoDate,
+): boolean {
+  if (from && date < from) return false;
+  if (to && date > to) return false;
+  return true;
 }
 
 /**
@@ -111,10 +117,10 @@ export function isWithinPeriod(date: IsoDate, from?: IsoDate, to?: IsoDate): boo
  * good news in week 3 and bad news in week 14.
  */
 export function elapsedShare(startsAt: IsoDate, endsAt: IsoDate): number {
-  const total = daysBetween(startsAt, endsAt)
-  if (total <= 0) return 1
-  const done = daysBetween(startsAt, todayIso())
-  return Math.min(1, Math.max(0, done / total))
+  const total = daysBetween(startsAt, endsAt);
+  if (total <= 0) return 1;
+  const done = daysBetween(startsAt, todayIso());
+  return Math.min(1, Math.max(0, done / total));
 }
 
 /**
@@ -130,7 +136,7 @@ export function overlapsPeriod(
   from?: IsoDate,
   to?: IsoDate,
 ): boolean {
-  if (to && startsAt > to) return false
-  if (from && endsAt < from) return false
-  return true
+  if (to && startsAt > to) return false;
+  if (from && endsAt < from) return false;
+  return true;
 }

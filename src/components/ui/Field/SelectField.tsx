@@ -1,25 +1,25 @@
-import { useId } from 'react'
-import { cn } from '@/lib/utils'
-import { FIELD_BASE_CLASSES } from './constants'
-import { FieldShell } from './FieldShell'
-import type { SelectFieldProps } from './types'
+import { useId } from "react";
+import { cn } from "@/lib/utils";
+import { FIELD_BASE_CLASSES } from "./constants";
+import { FieldShell } from "./FieldShell";
+import type { SelectFieldProps } from "./types";
 
-export function SelectField({
+const SelectField: React.FC<SelectFieldProps> = ({
   label,
   hint,
   error,
   options,
   className,
   ...props
-}: SelectFieldProps) {
-  const id = useId()
+}) => {
+  const id = useId();
 
   return (
     <FieldShell id={id} label={label} hint={hint} error={error}>
       <select
         id={id}
         aria-invalid={error ? true : undefined}
-        className={cn(FIELD_BASE_CLASSES, error && 'border-ambar', className)}
+        className={cn(FIELD_BASE_CLASSES, error && "border-ambar", className)}
         {...props}
       >
         {options.map((option) => (
@@ -29,5 +29,7 @@ export function SelectField({
         ))}
       </select>
     </FieldShell>
-  )
-}
+  );
+};
+
+export { SelectField };

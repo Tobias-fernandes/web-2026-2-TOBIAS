@@ -1,24 +1,21 @@
-import { MetricCard, QueryState, SkeletonMetrics } from '@/components/ui'
-import type { Loadable } from '@/components/ui'
-import { LOSS_REASON_LABELS } from '@/domain/constants'
-import type { FunnelSummary } from '@/domain/types'
-import { formatMoney, formatPercent } from '@/lib/format'
+import { MetricCard, QueryState, SkeletonMetrics } from "@/components/ui";
+import type { Loadable } from "@/components/ui";
+import { LOSS_REASON_LABELS } from "@/domain/constants";
+import type { FunnelSummary } from "@/domain/types";
+import { formatMoney, formatPercent } from "@/lib/format";
 
 /** The four figures that summarise the commercial year. */
-export function FunnelSummaryRow({
-  summary,
-  openCount,
-}: {
-  summary: Loadable<FunnelSummary>
-  openCount: number
-}) {
+const FunnelSummaryRow: React.FC<{
+  summary: Loadable<FunnelSummary>;
+  openCount: number;
+}> = ({ summary, openCount }) => {
   return (
     <QueryState
       query={summary}
       skeleton={<SkeletonMetrics label="Consolidando o funil…" />}
     >
       {(data) => {
-        const topReason = data.lossReasons[0]
+        const topReason = data.lossReasons[0];
 
         return (
           <div className="mb-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -37,22 +34,24 @@ export function FunnelSummaryRow({
               value={
                 data.averageDaysToClose !== null
                   ? `${data.averageDaysToClose} dias`
-                  : '—'
+                  : "—"
               }
               hint="Do primeiro contato até ganhar ou perder"
             />
             <MetricCard
               label="Motivo de perda mais comum"
-              value={topReason ? LOSS_REASON_LABELS[topReason.reason] : '—'}
+              value={topReason ? LOSS_REASON_LABELS[topReason.reason] : "—"}
               hint={
                 topReason
                   ? `${topReason.count} negociação(ões)`
-                  : 'Nenhuma perda registrada'
+                  : "Nenhuma perda registrada"
               }
             />
           </div>
-        )
+        );
       }}
     </QueryState>
-  )
-}
+  );
+};
+
+export { FunnelSummaryRow };

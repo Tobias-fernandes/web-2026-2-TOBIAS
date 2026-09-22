@@ -1,8 +1,7 @@
-import { useId, useState } from 'react'
-import { toSquareDataUrl } from '@/lib/image'
-import { Avatar } from '@/components/ui/Avatar'
-import { Button } from '@/components/ui/Button'
-import type { AvatarFieldProps } from './types'
+import { Avatar } from "@/components/ui/Avatar";
+import { Button } from "@/components/ui/Button";
+import { useAvatarField } from "./hooks";
+import type { AvatarFieldProps } from "./types";
 
 /**
  * Picking a profile picture.
@@ -12,32 +11,20 @@ import type { AvatarFieldProps } from './types'
  * square before it leaves this component, so what the form carries is already
  * the size it will be stored at.
  */
-export function AvatarField({ label, name, value, onChange }: AvatarFieldProps) {
-  const id = useId()
-  const [error, setError] = useState<string | null>(null)
-
-  async function handleFile(file: File | undefined) {
-    if (!file) return
-    setError(null)
-
-    if (!file.type.startsWith('image/')) {
-      setError('Escolha um arquivo de imagem.')
-      return
-    }
-
-    try {
-      onChange(await toSquareDataUrl(file))
-    } catch {
-      setError('Não foi possível ler esta imagem.')
-    }
-  }
+const AvatarField: React.FC<AvatarFieldProps> = ({
+  label,
+  name,
+  value,
+  onChange,
+}) => {
+  const { id, error, handleFile, clear } = useAvatarField(onChange);
 
   return (
     <div className="flex flex-col gap-2">
       <span className="text-sm font-semibold text-tinta">{label}</span>
 
       <div className="flex items-center gap-3">
-        <Avatar name={name || '?'} src={value ?? undefined} size="lg" />
+        <Avatar name={name || "?"} src={value ?? undefined} size="lg" />
 
         <div className="flex flex-col items-start gap-1.5">
           <input
@@ -51,11 +38,11 @@ export function AvatarField({ label, name, value, onChange }: AvatarFieldProps) 
             htmlFor={id}
             className="cursor-pointer rounded-md border border-linha px-3 py-1.5 text-sm font-medium text-tinta hover:border-violeta hover:text-violeta"
           >
-            {value ? 'Trocar foto' : 'Escolher foto'}
+            {value ? "Trocar foto" : "Escolher foto"}
           </label>
 
           {value && (
-            <Button type="button" variant="subtle" onClick={() => onChange(null)}>
+            <Button type="button" variant="subtle" onClick={clear}>
               Remover
             </Button>
           )}
@@ -68,5 +55,7 @@ export function AvatarField({ label, name, value, onChange }: AvatarFieldProps) 
         <p className="text-xs text-tinta-suave">Opcional.</p>
       )}
     </div>
-  )
-}
+  );
+};
+
+export { AvatarField };

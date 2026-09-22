@@ -2,12 +2,12 @@ import { cn } from "@/lib/utils";
 import { BUTTON_BASE_CLASSES, BUTTON_VARIANT_CLASSES } from "./constants";
 import type { ButtonProps } from "./types";
 
-export function Button({
+const Button: React.FC<ButtonProps> = ({
   variant = "solid",
   className,
   children,
   ...props
-}: ButtonProps) {
+}) => {
   return (
     <button
       className={cn(
@@ -20,4 +20,6 @@ export function Button({
       {children}
     </button>
   );
-}
+};
+
+export { Button };

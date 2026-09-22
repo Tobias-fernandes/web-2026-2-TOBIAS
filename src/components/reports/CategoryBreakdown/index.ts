@@ -1,1 +1,2 @@
-export { CategoryBreakdown, type CategoryBreakdownProps } from './CategoryBreakdown'
+export { CategoryBreakdown } from "./CategoryBreakdown";
+export type { CategoryBreakdownProps } from "./types";

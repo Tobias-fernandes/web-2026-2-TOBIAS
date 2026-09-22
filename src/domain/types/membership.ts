@@ -1,13 +1,13 @@
-import type { ID, IsoDate } from './common'
+import type { ID, IsoDate } from "./common";
 
 /** Position held inside the junior enterprise. Drives permissions and reports. */
 export type MemberRole =
-  | 'president'
-  | 'vicePresident'
-  | 'director'
-  | 'manager'
-  | 'consultant'
-  | 'trainee'
+  | "president"
+  | "vicePresident"
+  | "director"
+  | "manager"
+  | "consultant"
+  | "trainee";
 
 /**
  * A person's position in one term.
@@ -17,10 +17,10 @@ export type MemberRole =
  * last term's reports keep saying what was true at the time.
  */
 export interface Membership {
-  id: ID
-  memberId: ID
-  cycleId: ID
-  role: MemberRole
+  id: ID;
+  memberId: ID;
+  cycleId: ID;
+  role: MemberRole;
   /**
    * The area held in this term, named by the enterprise.
    *
@@ -28,10 +28,10 @@ export interface Membership {
    * function is read through the area, so an EJ renaming its areas never
    * rewrites the history of who did what.
    */
-  workAreaId: ID
+  workAreaId: ID;
   /** Hours per week the member committed to for this term. */
-  weeklyHours: number
-  startsAt: IsoDate
-  endsAt: IsoDate | null
-  createdAt: IsoDate
+  weeklyHours: number;
+  startsAt: IsoDate;
+  endsAt: IsoDate | null;
+  createdAt: IsoDate;
 }

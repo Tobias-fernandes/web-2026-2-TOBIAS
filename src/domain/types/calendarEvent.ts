@@ -1,5 +1,5 @@
-import type { Directorate } from './directorate'
-import type { ID, IsoDate, IsoTime } from './common'
+import type { Directorate } from "./directorate";
+import type { ID, IsoDate, IsoTime } from "./common";
 
 /**
  * What the commitment is.
@@ -10,16 +10,16 @@ import type { ID, IsoDate, IsoTime } from './common'
  * needs to tell them apart before reading a single title.
  */
 export type EventKind =
-  | 'meeting'
-  | 'training'
-  | 'selection'
-  | 'commercial'
-  | 'external'
-  | 'social'
-  | 'deadline'
+  | "meeting"
+  | "training"
+  | "selection"
+  | "commercial"
+  | "external"
+  | "social"
+  | "deadline";
 
 /** Who is expected: everyone, or only the area that called it. */
-export type EventAudience = 'enterprise' | 'directorate'
+export type EventAudience = "enterprise" | "directorate";
 
 /**
  * Cancelled rather than deleted.
@@ -28,7 +28,7 @@ export type EventAudience = 'enterprise' | 'directorate'
  * an event that simply disappears from the calendar looks like a bug, and the
  * person shows up anyway.
  */
-export type EventStatus = 'scheduled' | 'cancelled'
+export type EventStatus = "scheduled" | "cancelled";
 
 /**
  * Something on the enterprise's calendar: a meeting, a training, an event.
@@ -38,28 +38,28 @@ export type EventStatus = 'scheduled' | 'cancelled'
  * one's month view.
  */
 export interface CalendarEvent {
-  id: ID
-  cycleId: ID
-  title: string
-  kind: EventKind
+  id: ID;
+  cycleId: ID;
+  title: string;
+  kind: EventKind;
   /** The area that called it — and who `directorate` means as an audience. */
-  directorate: Directorate
-  audience: EventAudience
-  startsAt: IsoDate
+  directorate: Directorate;
+  audience: EventAudience;
+  startsAt: IsoDate;
   /** The same day for most; later for a trip, a selection week, a congress. */
-  endsAt: IsoDate
-  allDay: boolean
+  endsAt: IsoDate;
+  allDay: boolean;
   /** Both null on an all-day event. */
-  startTime: IsoTime | null
-  endTime: IsoTime | null
-  location: string
+  startTime: IsoTime | null;
+  endTime: IsoTime | null;
+  location: string;
   /** Meeting link, for what happens remotely — half of an EJ's agenda does. */
-  onlineUrl: string | null
-  description: string
+  onlineUrl: string | null;
+  description: string;
   /** Set when the commitment belongs to a project: kickoff, checkpoint, entrega. */
-  projectId: ID | null
-  status: EventStatus
+  projectId: ID | null;
+  status: EventStatus;
   /** Who scheduled it, so there is someone to ask. */
-  createdBy: ID
-  createdAt: IsoDate
+  createdBy: ID;
+  createdAt: IsoDate;
 }

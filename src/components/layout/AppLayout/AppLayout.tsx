@@ -1,16 +1,13 @@
-import { useState } from 'react'
-import { Outlet, useLocation } from 'react-router-dom'
-import { ROUTES } from '@/config/routes'
-import { Sheet } from '@/components/ui'
-import { MenuIcon } from '@/components/ui/icons'
-import { Brand } from '@/components/layout/Brand'
-import { SidebarContent } from './SidebarContent'
+import { Outlet } from "react-router-dom";
+import { ROUTES } from "@/config/routes";
+import { Sheet } from "@/components/ui";
+import { MenuIcon } from "@/components/ui/icons";
+import { Brand } from "@/components/layout/Brand";
+import { SidebarContent } from "./SidebarContent";
+import { useAppLayout } from "./hooks";
 
-export function AppLayout() {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const location = useLocation()
-
-  const closeMenu = () => setMenuOpen(false)
+const AppLayout: React.FC = () => {
+  const { location, menuOpen, setMenuOpen, closeMenu } = useAppLayout();
 
   return (
     <div className="min-h-dvh bg-papel lg:grid lg:grid-cols-[252px_1fr]">
@@ -55,9 +52,14 @@ export function AppLayout() {
         <SidebarContent key={location.pathname} onNavigate={closeMenu} />
       </Sheet>
 
-      <main id="content" className="leitura min-w-0 px-5 py-8 lg:px-10 lg:py-10">
+      <main
+        id="content"
+        className="leitura min-w-0 px-5 py-8 lg:px-10 lg:py-10"
+      >
         <Outlet />
       </main>
     </div>
-  )
-}
+  );
+};
+
+export { AppLayout };

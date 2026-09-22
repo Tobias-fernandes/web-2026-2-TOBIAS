@@ -1,4 +1,4 @@
-import type { ID, Session } from '@/domain/types'
+import type { ID, Session } from "@/domain/types";
 
 /**
  * Browser storage keys used across the app.
@@ -9,7 +9,7 @@ import type { ID, Session } from '@/domain/types'
  * Cognito alike) write it. A shared module keeps that from becoming a cycle.
  */
 
-export const SESSION_STORAGE_KEY = 'altotech:session:v3'
+export const SESSION_STORAGE_KEY = "altotech:session:v3";
 
 /**
  * The one place that reads or writes the stored session.
@@ -21,17 +21,18 @@ export const SESSION_STORAGE_KEY = 'altotech:session:v3'
  */
 export function readStoredSession(): Session | null {
   try {
-    const raw = localStorage.getItem(SESSION_STORAGE_KEY)
-    return raw ? (JSON.parse(raw) as Session) : null
+    const raw = localStorage.getItem(SESSION_STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as Session) : null;
   } catch {
-    return null
+    return null;
   }
 }
 
 export function writeStoredSession(session: Session | null): void {
   try {
-    if (session) localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(session))
-    else localStorage.removeItem(SESSION_STORAGE_KEY)
+    if (session)
+      localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(session));
+    else localStorage.removeItem(SESSION_STORAGE_KEY);
   } catch {
     // No persistence available; the session lives only while the tab is open.
   }
@@ -55,20 +56,20 @@ export function writeStoredSession(session: Session | null): void {
  * regardless of which service is active; letting each implementation also
  * remember to keep this in sync is how it drifts.
  */
-const ACTIVE_ENTERPRISE_KEY = 'altotech:active-enterprise'
+const ACTIVE_ENTERPRISE_KEY = "altotech:active-enterprise";
 
 export function readActiveEnterpriseId(): ID | null {
   try {
-    return localStorage.getItem(ACTIVE_ENTERPRISE_KEY)
+    return localStorage.getItem(ACTIVE_ENTERPRISE_KEY);
   } catch {
-    return null
+    return null;
   }
 }
 
 export function writeActiveEnterpriseId(enterpriseId: ID | null): void {
   try {
-    if (enterpriseId) localStorage.setItem(ACTIVE_ENTERPRISE_KEY, enterpriseId)
-    else localStorage.removeItem(ACTIVE_ENTERPRISE_KEY)
+    if (enterpriseId) localStorage.setItem(ACTIVE_ENTERPRISE_KEY, enterpriseId);
+    else localStorage.removeItem(ACTIVE_ENTERPRISE_KEY);
   } catch {
     // No persistence available; the demo falls back to its default tenant.
   }
@@ -82,7 +83,7 @@ export function writeActiveEnterpriseId(enterpriseId: ID | null): void {
  * v4 is where each record started belonging to an enterprise. Bumping the
  * prefix retires the old data instead of migrating a demonstration.
  */
-export const DEMO_STORAGE_PREFIX = 'altotech:demo:v4:'
+export const DEMO_STORAGE_PREFIX = "altotech:demo:v4:";
 
 /** The enterprise the seed data belongs to. A signed-up EJ starts empty. */
-export const DEMO_ENTERPRISE_ID = 'ej-altotech'
+export const DEMO_ENTERPRISE_ID = "ej-altotech";

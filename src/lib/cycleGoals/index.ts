@@ -3,5 +3,5 @@ export {
   cycleGoalsFromForm,
   cycleGoalsToForm,
   validateCycleGoals,
-} from './cycleGoals'
-export type { CycleGoalsFormState } from './cycleGoals'
+} from "./cycleGoals";
+export type { CycleGoalsFormState } from "./cycleGoals";

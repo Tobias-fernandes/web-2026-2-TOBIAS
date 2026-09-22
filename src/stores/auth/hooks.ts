@@ -1,4 +1,4 @@
-import { useAuthStore } from './authStore'
+import { useAuthStore } from "./authStore";
 import {
   selectAdopt,
   selectCompleteNewPassword,
@@ -6,16 +6,17 @@ import {
   selectSignIn,
   selectSignOut,
   selectUser,
-} from './selectors'
+} from "./selectors";
 
-export const useCurrentUser = () => useAuthStore(selectUser)
+export const useCurrentUser = () => useAuthStore(selectUser);
 
-export const useIsRestoringSession = () => useAuthStore(selectIsRestoring)
+export const useIsRestoringSession = () => useAuthStore(selectIsRestoring);
 
-export const useSignIn = () => useAuthStore(selectSignIn)
+export const useSignIn = () => useAuthStore(selectSignIn);
 
-export const useCompleteNewPassword = () => useAuthStore(selectCompleteNewPassword)
+export const useCompleteNewPassword = () =>
+  useAuthStore(selectCompleteNewPassword);
 
-export const useAdoptSession = () => useAuthStore(selectAdopt)
+export const useAdoptSession = () => useAuthStore(selectAdopt);
 
-export const useSignOut = () => useAuthStore(selectSignOut)
+export const useSignOut = () => useAuthStore(selectSignOut);

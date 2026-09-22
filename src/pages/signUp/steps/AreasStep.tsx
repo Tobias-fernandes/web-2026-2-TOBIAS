@@ -1,43 +1,41 @@
-import { Button, labelOptions, SelectField, TextField } from '@/components/ui'
-import { CloseIcon } from '@/components/ui/icons'
-import { DIRECTORATE_LABELS } from '@/domain/constants'
-import type { Directorate } from '@/domain/types'
-import type { SignUpFormState, WorkAreaDraft } from '../types'
+import { Button, labelOptions, SelectField, TextField } from "@/components/ui";
+import { CloseIcon } from "@/components/ui/icons";
+import { DIRECTORATE_LABELS } from "@/domain/constants";
+import type { Directorate } from "@/domain/types";
+import type { WorkAreaDraft } from "../types";
+import type { StepProps } from "./types";
 
-interface StepProps {
-  value: SignUpFormState
-  onChange: (value: SignUpFormState) => void
-}
+const FUNCTION_OPTIONS = labelOptions(DIRECTORATE_LABELS);
 
-const FUNCTION_OPTIONS = labelOptions(DIRECTORATE_LABELS)
-
-export function AreasStep({ value, onChange }: StepProps) {
+const AreasStep: React.FC<StepProps> = ({ value, onChange }) => {
   function setArea(index: number, area: WorkAreaDraft) {
     onChange({
       ...value,
-      workAreas: value.workAreas.map((item, at) => (at === index ? area : item)),
-    })
+      workAreas: value.workAreas.map((item, at) =>
+        at === index ? area : item,
+      ),
+    });
   }
 
   function remove(index: number) {
     onChange({
       ...value,
       workAreas: value.workAreas.filter((_, at) => at !== index),
-    })
+    });
   }
 
   function add() {
     onChange({
       ...value,
-      workAreas: [...value.workAreas, { name: '', directorate: 'projects' }],
-    })
+      workAreas: [...value.workAreas, { name: "", directorate: "projects" }],
+    });
   }
 
   return (
     <>
       <p className="mt-0 mb-1 text-sm text-tinta-suave">
-        O nome é o que a sua EJ usa. A função ao lado é o que o sistema entende —
-        é ela que decide, por exemplo, quem enxerga o financeiro.
+        O nome é o que a sua EJ usa. A função ao lado é o que o sistema entende
+        — é ela que decide, por exemplo, quem enxerga o financeiro.
       </p>
 
       <ul className="m-0 flex list-none flex-col gap-3 p-0">
@@ -65,7 +63,7 @@ export function AreasStep({ value, onChange }: StepProps) {
             />
             <button
               type="button"
-              aria-label={`Remover ${area.name || 'área'}`}
+              aria-label={`Remover ${area.name || "área"}`}
               onClick={() => remove(index)}
               className="mb-2.5 rounded-md p-2 text-tinta-suave hover:bg-violeta-lav hover:text-violeta"
             >
@@ -75,9 +73,16 @@ export function AreasStep({ value, onChange }: StepProps) {
         ))}
       </ul>
 
-      <Button type="button" variant="outline" onClick={add} className="self-start">
+      <Button
+        type="button"
+        variant="outline"
+        onClick={add}
+        className="self-start"
+      >
         Adicionar área
       </Button>
     </>
-  )
-}
+  );
+};
+
+export { AreasStep };

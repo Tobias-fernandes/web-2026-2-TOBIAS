@@ -1,14 +1,14 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
-import { formatMoney, formatPercent } from '@/lib/format'
-import { ProgressBar } from './ProgressBar'
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { formatMoney, formatPercent } from "@/lib/format";
+import { ProgressBar } from "./ProgressBar";
 
 const meta = {
-  title: 'UI/ProgressBar',
+  title: "UI/ProgressBar",
   component: ProgressBar,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   args: {
     ratio: 0.42,
-    label: 'Faturamento contratado',
+    label: "Faturamento contratado",
     value: formatMoney(1_900_000),
   },
   decorators: [
@@ -18,12 +18,12 @@ const meta = {
       </div>
     ),
   ],
-} satisfies Meta<typeof ProgressBar>
+} satisfies Meta<typeof ProgressBar>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
-export const Padrao: Story = {}
+export const Padrao: Story = {};
 
 /**
  * Com o marcador de ritmo: a linha vertical mostra quanto da gestão já passou,
@@ -32,24 +32,24 @@ export const Padrao: Story = {}
 export const ComRitmoDaGestao: Story = {
   args: {
     reference: 0.3,
-    referenceLabel: '30% da gestão percorrida',
+    referenceLabel: "30% da gestão percorrida",
   },
-}
+};
 
 export const MetaBatida: Story = {
   args: {
     ratio: 1.18,
-    tone: 'green',
+    tone: "green",
     value: formatPercent(1.18),
   },
-}
+};
 
 export const Atencao: Story = {
   args: {
     ratio: 0.12,
-    tone: 'amber',
-    label: 'Membros na gestão',
-    value: '2 de 14',
+    tone: "amber",
+    label: "Membros na gestão",
+    value: "2 de 14",
     reference: 0.6,
   },
-}
+};

@@ -1,21 +1,24 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
-import type { ID } from '@/domain/types'
-import { dataLayer, type MemberAdmission } from '@/services'
-import { createEntityQueries } from './createEntityQueries'
-import { queryKeys } from './queryKeys'
+import { useMutation, useQuery } from "@tanstack/react-query";
+import type { ID } from "@/domain/types";
+import { dataLayer, type MemberAdmission } from "@/services";
+import { createEntityQueries } from "./createEntityQueries";
+import { queryKeys } from "./queryKeys";
 
-const members = createEntityQueries(queryKeys.members, dataLayer.members)
+const members = createEntityQueries(queryKeys.members, dataLayer.members);
 
-export const useMembers = members.useList
-export const useMember = members.useDetail
-export const useCreateMember = members.useCreate
-export const useUpdateMember = members.useUpdate
+export const useMembers = members.useList;
+export const useMember = members.useDetail;
+export const useCreateMember = members.useCreate;
+export const useUpdateMember = members.useUpdate;
 
-const memberships = createEntityQueries(queryKeys.memberships, dataLayer.memberships)
+const memberships = createEntityQueries(
+  queryKeys.memberships,
+  dataLayer.memberships,
+);
 
-export const useCreateMembership = memberships.useCreate
-export const useUpdateMembership = memberships.useUpdate
-export const useRemoveMembership = memberships.useRemove
+export const useCreateMembership = memberships.useCreate;
+export const useUpdateMembership = memberships.useUpdate;
+export const useRemoveMembership = memberships.useRemove;
 
 /** Positions held in one management — the whole history is noise on a screen. */
 export function useCycleMemberships(cycleId: ID | undefined) {
@@ -23,7 +26,7 @@ export function useCycleMemberships(cycleId: ID | undefined) {
     queryKey: queryKeys.memberships.filtered({ cycleId }),
     queryFn: () => dataLayer.memberships.listBy({ cycleId }),
     enabled: Boolean(cycleId),
-  })
+  });
 }
 
 /**
@@ -35,6 +38,7 @@ export function useCycleMemberships(cycleId: ID | undefined) {
  */
 export function useAdmitMember() {
   return useMutation({
-    mutationFn: (admission: MemberAdmission) => dataLayer.members.admit(admission),
-  })
+    mutationFn: (admission: MemberAdmission) =>
+      dataLayer.members.admit(admission),
+  });
 }

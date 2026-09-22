@@ -1,37 +1,56 @@
-import type { FormDialogState, Loadable } from '@/components/ui'
+import type { FormDialogState, Loadable } from "@/components/ui";
 import type {
   Client,
   Member,
   Project,
   ProjectMargin,
   ProjectStatus,
-} from '@/domain/types'
+} from "@/domain/types";
 
 export interface ProjectFormState {
-  name: string
-  clientId: string
-  ownerId: string
-  scope: string
-  stage: string
-  status: ProjectStatus
+  name: string;
+  clientId: string;
+  ownerId: string;
+  scope: string;
+  stage: string;
+  status: ProjectStatus;
   /** Typed in reais and converted to cents on submit. */
-  contractValue: string
-  estimatedHours: string
-  startedAt: string
-  dueAt: string
+  contractValue: string;
+  estimatedHours: string;
+  startedAt: string;
+  dueAt: string;
 }
 
 export interface ProjectsPageState {
-  editable: boolean
-  projects: Loadable<Project[]>
-  clients: Client[]
-  members: Member[]
-  clientName: (id: string) => string
-  memberName: (id: string) => string
+  editable: boolean;
+  projects: Loadable<Project[]>;
+  clients: Client[];
+  members: Member[];
+  clientName: (id: string) => string;
+  memberName: (id: string) => string;
   /** The margin of each project, by id, or undefined while it loads. */
-  marginOf: (projectId: string) => ProjectMargin | undefined
-  moving: boolean
-  move: (project: Project, status: ProjectStatus) => void
-  dialog: FormDialogState<ProjectFormState>
-  openDialog: () => void
+  marginOf: (projectId: string) => ProjectMargin | undefined;
+  moving: boolean;
+  move: (project: Project, status: ProjectStatus) => void;
+  dialog: FormDialogState<ProjectFormState>;
+  openDialog: () => void;
+}
+
+export interface ProjectCardProps {
+  project: Project;
+  clientName: string;
+  ownerName: string;
+  /** Absent until the margin report has loaded. */
+  margin?: ProjectMargin;
+  /** Only whoever may manage projects gets the "move forward" button. */
+  editable: boolean;
+  moving: boolean;
+  onMove: (status: ProjectStatus) => void;
+}
+
+export interface ProjectFormProps {
+  value: ProjectFormState;
+  clients: Client[];
+  members: Member[];
+  onChange: (value: ProjectFormState) => void;
 }

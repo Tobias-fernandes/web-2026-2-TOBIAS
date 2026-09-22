@@ -1,26 +1,32 @@
-import { PageHeader } from '@/components/layout'
+import { PageHeader } from "@/components/layout";
 import {
   Button,
   EmptyState,
   FormDialog,
   ListState,
   SkeletonBoard,
-} from '@/components/ui'
-import { PROJECT_BOARD_COLUMNS, PROJECT_STATUS_LABELS } from '@/domain/constants'
-import { ProjectCard } from './ProjectCard'
-import { ProjectForm } from './ProjectForm'
-import { useProjectsPage } from './hooks'
+} from "@/components/ui";
+import {
+  PROJECT_BOARD_COLUMNS,
+  PROJECT_STATUS_LABELS,
+} from "@/domain/constants";
+import { ProjectCard } from "./ProjectCard";
+import { ProjectForm } from "./ProjectForm";
+import { useProjectsPage } from "./hooks";
 
-export function ProjectsPage() {
-  const board = useProjectsPage()
-
+const ProjectsPage: React.FC = () => {
+  const board = useProjectsPage();
 
   return (
     <>
       <PageHeader
         title="Projetos"
         description="Cada contrato com escopo, gerente, prazo e orçamento de horas visíveis para a diretoria inteira."
-        action={board.editable && <Button onClick={board.openDialog}>Novo projeto</Button>}
+        action={
+          board.editable && (
+            <Button onClick={board.openDialog}>Novo projeto</Button>
+          )
+        }
       />
 
       <ListState
@@ -32,7 +38,11 @@ export function ProjectsPage() {
           <EmptyState
             title="Nenhum projeto nesta gestão"
             description="Abra o primeiro contrato da gestão para começar a acompanhar prazos, horas e margem."
-            action={board.editable && <Button onClick={board.openDialog}>Novo projeto</Button>}
+            action={
+              board.editable && (
+                <Button onClick={board.openDialog}>Novo projeto</Button>
+              )
+            }
           />
         }
       >
@@ -41,7 +51,7 @@ export function ProjectsPage() {
             {PROJECT_BOARD_COLUMNS.map((column) => {
               const columnProjects = rows.filter(
                 (project) => project.status === column,
-              )
+              );
 
               return (
                 <section
@@ -79,7 +89,7 @@ export function ProjectsPage() {
                     )}
                   </ul>
                 </section>
-              )
+              );
             })}
           </div>
         )}
@@ -102,5 +112,7 @@ export function ProjectsPage() {
         />
       </FormDialog>
     </>
-  )
-}
+  );
+};
+
+export { ProjectsPage };

@@ -1,20 +1,18 @@
-import { TextField } from '@/components/ui'
-import { formatCnpj } from '@/lib/document'
-import type { SignUpFormState } from '../types'
+import { TextField } from "@/components/ui";
+import { formatCnpj } from "@/lib/document";
+import type {} from "../types";
+import type { StepProps } from "./types";
 
-interface StepProps {
-  value: SignUpFormState
-  onChange: (value: SignUpFormState) => void
-}
-
-export function EnterpriseStep({ value, onChange }: StepProps) {
+const EnterpriseStep: React.FC<StepProps> = ({ value, onChange }) => {
   return (
     <>
       <TextField
         label="Nome fantasia"
         placeholder="AltoTech Juniors"
         value={value.tradeName}
-        onChange={(event) => onChange({ ...value, tradeName: event.target.value })}
+        onChange={(event) =>
+          onChange({ ...value, tradeName: event.target.value })
+        }
       />
 
       <div className="grid gap-4 sm:grid-cols-2">
@@ -32,9 +30,13 @@ export function EnterpriseStep({ value, onChange }: StepProps) {
           placeholder="contato@suaej.com.br"
           hint="O endereço da empresa, não o seu."
           value={value.email}
-          onChange={(event) => onChange({ ...value, email: event.target.value })}
+          onChange={(event) =>
+            onChange({ ...value, email: event.target.value })
+          }
         />
       </div>
     </>
-  )
-}
+  );
+};
+
+export { EnterpriseStep };

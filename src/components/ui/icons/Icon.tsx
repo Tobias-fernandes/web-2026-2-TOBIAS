@@ -1,9 +1,5 @@
-import type { ReactNode, SVGProps } from 'react'
-
-export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'children'> {
-  /** Edge length in pixels. Line weight is tuned for 14–18. */
-  size?: number
-}
+import type { ReactNode } from "react";
+import type { IconProps } from "./types";
 
 /**
  * Shared frame for every line icon: one viewBox, one stroke weight, one set of
@@ -14,11 +10,11 @@ export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'children'> {
  * matters is that they are all drawn on the same grid — arrows from three
  * different sources never line up with each other.
  */
-export function Icon({
+const Icon: React.FC<IconProps & { children: ReactNode }> = ({
   size = 16,
   children,
   ...props
-}: IconProps & { children: ReactNode }) {
+}) => {
   return (
     <svg
       width={size}
@@ -34,5 +30,7 @@ export function Icon({
     >
       {children}
     </svg>
-  )
-}
+  );
+};
+
+export { Icon };

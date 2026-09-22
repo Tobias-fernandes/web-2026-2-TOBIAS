@@ -7,31 +7,25 @@ import {
   Table,
   TableCell,
   TableRow,
-} from '@/components/ui'
-import type { Loadable } from '@/components/ui'
+} from "@/components/ui";
+import type {} from "@/components/ui";
 import {
   CYCLE_STATUS_LABELS,
   CYCLE_STATUS_TONES,
   describeCycle,
-} from '@/domain/constants'
-import type { Cycle } from '@/domain/types'
-import { formatMoney, formatPeriod } from '@/lib/format'
-import { CYCLES_TABLE_HEADERS } from './constants'
-
-interface CycleHistoryProps {
-  query: Loadable<Cycle[]>
-  rows: Cycle[]
-  editable: boolean
-  onCreate: () => void
-}
+} from "@/domain/constants";
+import type {} from "@/domain/types";
+import { formatMoney, formatPeriod } from "@/lib/format";
+import { CYCLES_TABLE_HEADERS } from "./constants";
+import type { CycleHistoryProps } from "./types";
 
 /** Every management the EJ has had, newest first. */
-export function CycleHistory({
+const CycleHistory: React.FC<CycleHistoryProps> = ({
   query,
   rows,
   editable,
   onCreate,
-}: CycleHistoryProps) {
+}) => {
   return (
     <ListState
       query={query}
@@ -49,7 +43,9 @@ export function CycleHistory({
         <Table headers={CYCLES_TABLE_HEADERS}>
           {cycles.map((cycle) => (
             <TableRow key={cycle.id}>
-              <TableCell className="font-semibold">{describeCycle(cycle)}</TableCell>
+              <TableCell className="font-semibold">
+                {describeCycle(cycle)}
+              </TableCell>
               <TableCell className="whitespace-nowrap text-tinta-suave">
                 {formatPeriod(cycle.startsAt, cycle.endsAt)}
               </TableCell>
@@ -68,5 +64,7 @@ export function CycleHistory({
         </Table>
       )}
     </ListState>
-  )
-}
+  );
+};
+
+export { CycleHistory };

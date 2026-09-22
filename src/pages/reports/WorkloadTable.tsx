@@ -4,19 +4,17 @@ import {
   Table,
   TableCell,
   TableRow,
-} from '@/components/ui'
-import type { Loadable } from '@/components/ui'
-import { MEMBER_ROLE_LABELS, OVERLOAD_THRESHOLD } from '@/domain/constants'
-import type { MemberWorkload } from '@/domain/types'
-import { formatHours, formatPercent } from '@/lib/format'
-import { NO_ENTRIES, WORKLOAD_HEADERS } from './constants'
+} from "@/components/ui";
+import type { Loadable } from "@/components/ui";
+import { MEMBER_ROLE_LABELS, OVERLOAD_THRESHOLD } from "@/domain/constants";
+import type { MemberWorkload } from "@/domain/types";
+import { formatHours, formatPercent } from "@/lib/format";
+import { NO_ENTRIES, WORKLOAD_HEADERS } from "./constants";
 
 /** What each person committed to, was planned for, and actually logged. */
-export function WorkloadTable({
-  workload,
-}: {
-  workload: Loadable<MemberWorkload[]>
-}) {
+const WorkloadTable: React.FC<{
+  workload: Loadable<MemberWorkload[]>;
+}> = ({ workload }) => {
   return (
     <ListState
       query={workload}
@@ -38,8 +36,8 @@ export function WorkloadTable({
               <TableCell
                 className={
                   row.overload > OVERLOAD_THRESHOLD
-                    ? 'whitespace-nowrap text-ambar'
-                    : 'whitespace-nowrap text-tinta-suave'
+                    ? "whitespace-nowrap text-ambar"
+                    : "whitespace-nowrap text-tinta-suave"
                 }
               >
                 {formatHours(row.allocatedWeeklyHours)}/sem
@@ -55,5 +53,7 @@ export function WorkloadTable({
         </Table>
       )}
     </ListState>
-  )
-}
+  );
+};
+
+export { WorkloadTable };

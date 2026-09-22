@@ -1,10 +1,6 @@
-import type { ReactNode } from 'react'
-import { cn } from '@/lib/utils'
-
-export interface NoteProps {
-  children: ReactNode
-  className?: string
-}
+import type {} from "react";
+import { cn } from "@/lib/utils";
+import type { NoteProps } from "./types";
 
 /**
  * The line that explains what a number means, under the thing it explains.
@@ -14,15 +10,17 @@ export interface NoteProps {
  * the content, the explanation stops competing with the figures above it — it
  * is there for the reader who needs it and skipped by the one who does not.
  */
-export function Note({ children, className }: NoteProps) {
+const Note: React.FC<NoteProps> = ({ children, className }) => {
   return (
     <p
       className={cn(
-        'mt-5 mb-0 border-t border-linha pt-3 text-xs leading-relaxed text-tinta-suave',
+        "mt-5 mb-0 border-t border-linha pt-3 text-xs leading-relaxed text-tinta-suave",
         className,
       )}
     >
       {children}
     </p>
-  )
-}
+  );
+};
+
+export { Note };

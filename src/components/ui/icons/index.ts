@@ -1,4 +1,4 @@
-export { Icon, type IconProps } from './Icon'
+export { Icon } from "./Icon";
 export {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -14,4 +14,5 @@ export {
   CheckIcon,
   AlertIcon,
   InfoIcon,
-} from './icons'
+} from "./icons";
+export type { IconProps } from "./types";

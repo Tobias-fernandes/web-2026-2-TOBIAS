@@ -1,10 +1,15 @@
-import type { Directorate, ID, MemberRole } from '@/domain/types'
-import { SEED_CYCLES, SEED_MEMBERS, SEED_MEMBERSHIPS, SEED_WORK_AREAS } from './seed'
-import { readCollectionOrSeed } from './tenantStorage'
+import type { Directorate, ID, MemberRole } from "@/domain/types";
+import {
+  SEED_CYCLES,
+  SEED_MEMBERS,
+  SEED_MEMBERSHIPS,
+  SEED_WORK_AREAS,
+} from "./seed";
+import { readCollectionOrSeed } from "./tenantStorage";
 
 export interface SessionProfile {
-  role: MemberRole
-  directorate: Directorate
+  role: MemberRole;
+  directorate: Directorate;
 }
 
 /**
@@ -24,29 +29,37 @@ export function resolveSessionProfile(
   enterpriseId: ID,
   memberId: ID,
 ): SessionProfile | null {
-  const cycles = readCollectionOrSeed('cycles', SEED_CYCLES, enterpriseId)
+  const cycles = readCollectionOrSeed("cycles", SEED_CYCLES, enterpriseId);
   const openCycle =
-    cycles.find((cycle) => cycle.status === 'active') ??
-    [...cycles].sort((a, b) => b.startsAt.localeCompare(a.startsAt))[0]
-  if (!openCycle) return null
+    cycles.find((cycle) => cycle.status === "active") ??
+    [...cycles].sort((a, b) => b.startsAt.localeCompare(a.startsAt))[0];
+  if (!openCycle) return null;
 
-  const memberships = readCollectionOrSeed('memberships', SEED_MEMBERSHIPS, enterpriseId)
+  const memberships = readCollectionOrSeed(
+    "memberships",
+    SEED_MEMBERSHIPS,
+    enterpriseId,
+  );
   const membership = memberships.find(
     (item) => item.memberId === memberId && item.cycleId === openCycle.id,
-  )
-  if (!membership) return null
+  );
+  if (!membership) return null;
 
-  const areas = readCollectionOrSeed('work-areas', SEED_WORK_AREAS, enterpriseId)
-  const area = areas.find((item) => item.id === membership.workAreaId)
-  if (!area) return null
+  const areas = readCollectionOrSeed(
+    "work-areas",
+    SEED_WORK_AREAS,
+    enterpriseId,
+  );
+  const area = areas.find((item) => item.id === membership.workAreaId);
+  if (!area) return null;
 
-  return { role: membership.role, directorate: area.directorate }
+  return { role: membership.role, directorate: area.directorate };
 }
 
 export interface AuthenticatedMember extends SessionProfile {
-  memberId: ID
-  name: string
-  avatarUrl: string | null
+  memberId: ID;
+  name: string;
+  avatarUrl: string | null;
 }
 
 /**
@@ -63,18 +76,18 @@ export function resolveSessionProfileByEmail(
   enterpriseId: ID,
   email: string,
 ): AuthenticatedMember | null {
-  const members = readCollectionOrSeed('members', SEED_MEMBERS, enterpriseId)
-  const wanted = email.trim().toLowerCase()
-  const member = members.find((item) => item.email.toLowerCase() === wanted)
-  if (!member) return null
+  const members = readCollectionOrSeed("members", SEED_MEMBERS, enterpriseId);
+  const wanted = email.trim().toLowerCase();
+  const member = members.find((item) => item.email.toLowerCase() === wanted);
+  if (!member) return null;
 
-  const profile = resolveSessionProfile(enterpriseId, member.id)
-  if (!profile) return null
+  const profile = resolveSessionProfile(enterpriseId, member.id);
+  if (!profile) return null;
 
   return {
     ...profile,
     memberId: member.id,
     name: member.name,
     avatarUrl: member.avatarUrl,
-  }
+  };
 }

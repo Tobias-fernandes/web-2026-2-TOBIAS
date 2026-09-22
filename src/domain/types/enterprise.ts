@@ -1,4 +1,4 @@
-import type { ID, IsoDate } from './common'
+import type { ID, IsoDate } from "./common";
 
 /**
  * The junior enterprise that contracted the system — the tenant.
@@ -13,12 +13,12 @@ import type { ID, IsoDate } from './common'
  * forms is how duplicate registrations get in.
  */
 export interface JuniorEnterprise {
-  id: ID
+  id: ID;
   /** Nome fantasia: what the EJ calls itself, not the name on the incorporation. */
-  tradeName: string
+  tradeName: string;
   /** 14 digits, unpunctuated. */
-  cnpj: string
+  cnpj: string;
   /** Official address of the enterprise, not of whoever registered it. */
-  email: string
-  createdAt: IsoDate
+  email: string;
+  createdAt: IsoDate;
 }

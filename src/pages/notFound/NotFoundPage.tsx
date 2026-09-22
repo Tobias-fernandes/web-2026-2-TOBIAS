@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ROUTES } from "@/config/routes";
 
-export function NotFoundPage() {
+const NotFoundPage: React.FC = () => {
   return (
     <div className="grid min-h-dvh place-items-center bg-papel px-5 text-center">
       <div>
@@ -27,4 +27,6 @@ export function NotFoundPage() {
       </div>
     </div>
   );
-}
+};
+
+export { NotFoundPage };

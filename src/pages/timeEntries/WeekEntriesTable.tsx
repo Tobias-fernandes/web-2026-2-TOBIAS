@@ -1,29 +1,29 @@
-import { ListState, Table, TableCell, TableRow } from '@/components/ui'
-import { TIME_ENTRY_CATEGORY_LABELS } from '@/domain/constants'
-import { formatDate, formatHours } from '@/lib/format'
-import { NO_PROJECT, WEEK_ENTRIES_HEADERS } from './constants'
-import type { TimesheetPageState } from './types'
+import { ListState, Table, TableCell, TableRow } from "@/components/ui";
+import { TIME_ENTRY_CATEGORY_LABELS } from "@/domain/constants";
+import { formatDate, formatHours } from "@/lib/format";
+import { NO_PROJECT, WEEK_ENTRIES_HEADERS } from "./constants";
+import type { TimesheetPageState } from "./types";
 
 type WeekEntriesTableProps = Pick<
   TimesheetPageState,
-  | 'entries'
-  | 'weekEntries'
-  | 'weekStart'
-  | 'weekEnd'
-  | 'projectName'
-  | 'deleting'
-  | 'removeEntry'
->
+  | "entries"
+  | "weekEntries"
+  | "weekStart"
+  | "weekEnd"
+  | "projectName"
+  | "deleting"
+  | "removeEntry"
+>;
 
 /** The week's entries as rows, with what can still be undone. */
-export function WeekEntriesTable(props: WeekEntriesTableProps) {
+const WeekEntriesTable: React.FC<WeekEntriesTableProps> = (props) => {
   return (
     <ListState
       query={props.entries}
       rows={props.weekEntries}
       empty={
         <p className="m-0 text-sm text-tinta-suave">
-          Nada lançado entre {formatDate(props.weekStart)} e{' '}
+          Nada lançado entre {formatDate(props.weekStart)} e{" "}
           {formatDate(props.weekEnd)}.
         </p>
       }
@@ -39,9 +39,13 @@ export function WeekEntriesTable(props: WeekEntriesTableProps) {
                 {TIME_ENTRY_CATEGORY_LABELS[entry.category]}
               </TableCell>
               <TableCell className="font-medium">
-                {entry.projectId ? props.projectName(entry.projectId) : NO_PROJECT}
+                {entry.projectId
+                  ? props.projectName(entry.projectId)
+                  : NO_PROJECT}
               </TableCell>
-              <TableCell className="text-tinta-suave">{entry.description}</TableCell>
+              <TableCell className="text-tinta-suave">
+                {entry.description}
+              </TableCell>
               <TableCell className="whitespace-nowrap font-display font-bold">
                 {formatHours(entry.hours)}
               </TableCell>
@@ -60,5 +64,7 @@ export function WeekEntriesTable(props: WeekEntriesTableProps) {
         </Table>
       )}
     </ListState>
-  )
-}
+  );
+};
+
+export { WeekEntriesTable };

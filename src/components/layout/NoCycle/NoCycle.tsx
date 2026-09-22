@@ -1,12 +1,12 @@
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 import {
   BUTTON_BASE_CLASSES,
   BUTTON_VARIANT_CLASSES,
   EmptyState,
-} from '@/components/ui'
-import { ROUTES } from '@/config/routes'
-import { cn } from '@/lib/utils'
-import { PageHeader } from '../PageHeader'
+} from "@/components/ui";
+import { ROUTES } from "@/config/routes";
+import { cn } from "@/lib/utils";
+import { PageHeader } from "../PageHeader";
 
 /**
  * What the system shows before the EJ has opened its first management.
@@ -15,7 +15,7 @@ import { PageHeader } from '../PageHeader'
  * this stays a plain screen that Storybook can render without a router full of
  * queries behind it.
  */
-export function NoCycle() {
+const NoCycle: React.FC = () => {
   return (
     <>
       <PageHeader
@@ -32,7 +32,7 @@ export function NoCycle() {
             className={cn(
               BUTTON_BASE_CLASSES,
               BUTTON_VARIANT_CLASSES.solid,
-              'no-underline',
+              "no-underline",
             )}
           >
             Abrir a gestão
@@ -40,5 +40,7 @@ export function NoCycle() {
         }
       />
     </>
-  )
-}
+  );
+};
+
+export { NoCycle };

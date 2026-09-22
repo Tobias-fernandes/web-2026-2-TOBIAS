@@ -1,7 +1,7 @@
-import type { DataLayer } from '@/services/types'
-import { activeEnterpriseId } from './tenantStorage'
-import { findEnterprise } from './enterprises'
-import { mockReports } from './reports'
+import type { DataLayer } from "@/services/types";
+import { activeEnterpriseId } from "./tenantStorage";
+import { findEnterprise } from "./enterprises";
+import { mockReports } from "./reports";
 import {
   allocations,
   calendarEvents,
@@ -15,14 +15,14 @@ import {
   projects,
   timeEntries,
   workAreas,
-} from './repositories'
+} from "./repositories";
 
 export const mockDataLayer: DataLayer = {
   enterprise: {
     // Resolved from the stored session, the way the API resolves it from the
     // token: whoever is signed in gets their own enterprise and no other.
     async current() {
-      return findEnterprise(activeEnterpriseId())
+      return findEnterprise(activeEnterpriseId());
     },
   },
   courses,
@@ -38,4 +38,4 @@ export const mockDataLayer: DataLayer = {
   finance,
   calendarEvents,
   reports: mockReports,
-}
+};

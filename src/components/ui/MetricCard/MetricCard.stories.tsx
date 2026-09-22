@@ -1,26 +1,26 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
-import { formatHours, formatMoney } from '@/lib/format'
-import { MetricCard } from './MetricCard'
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { formatHours, formatMoney } from "@/lib/format";
+import { MetricCard } from "./MetricCard";
 
 const meta = {
-  title: 'UI/MetricCard',
+  title: "UI/MetricCard",
   component: MetricCard,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   args: {
-    label: 'Projetos em execução',
-    value: '2',
-    hint: '2 em prospecção',
+    label: "Projetos em execução",
+    value: "2",
+    hint: "2 em prospecção",
   },
-} satisfies Meta<typeof MetricCard>
+} satisfies Meta<typeof MetricCard>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
-export const Padrao: Story = {}
+export const Padrao: Story = {};
 
 export const SemApoio: Story = {
   args: { hint: undefined },
-}
+};
 
 /** A fileira completa, como aparece no topo do painel. */
 export const FileiraDoPainel: Story = {
@@ -41,7 +41,11 @@ export const FileiraDoPainel: Story = {
         value={formatMoney(2_360_000)}
         hint={`${formatMoney(730_000)} já entregue`}
       />
-      <MetricCard label="Clientes ativos" value="2" hint="2 projetos entregues" />
+      <MetricCard
+        label="Clientes ativos"
+        value="2"
+        hint="2 projetos entregues"
+      />
     </div>
   ),
-}
+};

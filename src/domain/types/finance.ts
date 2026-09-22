@@ -1,21 +1,21 @@
-import type { Directorate } from './directorate'
-import type { ID, IsoDate } from './common'
+import type { Directorate } from "./directorate";
+import type { ID, IsoDate } from "./common";
 
 /** Money coming in (a contract instalment) or going out (a cost). */
-export type FinanceKind = 'receivable' | 'payable'
+export type FinanceKind = "receivable" | "payable";
 
 export type FinanceCategory =
-  | 'projectInstalment'
-  | 'membershipFee'
-  | 'sponsorship'
-  | 'award'
-  | 'federationFee'
-  | 'tooling'
-  | 'event'
-  | 'training'
-  | 'tax'
-  | 'reimbursement'
-  | 'other'
+  | "projectInstalment"
+  | "membershipFee"
+  | "sponsorship"
+  | "award"
+  | "federationFee"
+  | "tooling"
+  | "event"
+  | "training"
+  | "tax"
+  | "reimbursement"
+  | "other";
 
 /**
  * One line of the cash flow.
@@ -30,24 +30,24 @@ export type FinanceCategory =
  * to be registered is money that ends up in someone's notebook instead.
  */
 export interface FinanceEntry {
-  id: ID
-  cycleId: ID
-  kind: FinanceKind
-  category: FinanceCategory
-  description: string
-  amountCents: number
-  dueAt: IsoDate
+  id: ID;
+  cycleId: ID;
+  kind: FinanceKind;
+  category: FinanceCategory;
+  description: string;
+  amountCents: number;
+  dueAt: IsoDate;
   /** Null while the line is still open; the date the money moved once settled. */
-  paidAt: IsoDate | null
+  paidAt: IsoDate | null;
   /** Set only when the line belongs to a contract. Most lines do not. */
-  projectId: ID | null
-  clientId: ID | null
+  projectId: ID | null;
+  clientId: ID | null;
   /**
    * The member the money passed through: who paid out of their own pocket and
    * is owed a reimbursement, or who received on the EJ's behalf. Null when it
    * moved straight through the enterprise's account.
    */
-  memberId: ID | null
+  memberId: ID | null;
   /**
    * Nota fiscal, recibo or wherever the proof lives — a number or a link.
    *
@@ -55,10 +55,10 @@ export interface FinanceEntry {
    * does not have yet, and an EJ that has to account for the money needs to be
    * able to point at the paper today.
    */
-  receiptRef: string
+  receiptRef: string;
   /** Which area owns the expense; receivables belong to finance. */
-  directorate: Directorate
+  directorate: Directorate;
   /** Member who registered the line — a junior enterprise has to account for it. */
-  createdBy: ID | null
-  createdAt: IsoDate
+  createdBy: ID | null;
+  createdAt: IsoDate;
 }

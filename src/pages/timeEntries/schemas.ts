@@ -1,7 +1,8 @@
-import { z } from 'zod'
-import { zPositiveCount } from '@/lib/validation'
+import { z } from "zod";
+import { zPositiveCount } from "@/lib/validation";
 
-const MESSAGE = 'Informe a quantidade de horas e, para horas de projeto, qual projeto.'
+const MESSAGE =
+  "Informe a quantidade de horas e, para horas de projeto, qual projeto.";
 
 export const timeEntryFormSchema = z
   .object({
@@ -9,7 +10,7 @@ export const timeEntryFormSchema = z
     category: z.string(),
     projectId: z.string(),
   })
-  .refine((form) => form.category !== 'project' || form.projectId !== '', {
+  .refine((form) => form.category !== "project" || form.projectId !== "", {
     message: MESSAGE,
-    path: ['projectId'],
-  })
+    path: ["projectId"],
+  });

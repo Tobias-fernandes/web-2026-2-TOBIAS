@@ -1,14 +1,12 @@
-import { Card, CardTitle, ListState, SkeletonBars } from '@/components/ui'
-import type { Loadable } from '@/components/ui'
-import { CategoryBreakdown } from '@/components/reports'
-import type { HoursByCategory } from '@/domain/types'
+import { Card, CardTitle, ListState, SkeletonBars } from "@/components/ui";
+import type { Loadable } from "@/components/ui";
+import { CategoryBreakdown } from "@/components/reports";
+import type { HoursByCategory } from "@/domain/types";
 
 /** Project work against everything else it takes to run the enterprise. */
-export function CategoriesCard({
-  query,
-}: {
-  query: Loadable<HoursByCategory[]>
-}) {
+const CategoriesCard: React.FC<{
+  query: Loadable<HoursByCategory[]>;
+}> = ({ query }) => {
   return (
     <Card>
       <CardTitle>Para onde foram as horas</CardTitle>
@@ -26,5 +24,7 @@ export function CategoriesCard({
         {(rows) => <CategoryBreakdown rows={rows} />}
       </ListState>
     </Card>
-  )
-}
+  );
+};
+
+export { CategoriesCard };

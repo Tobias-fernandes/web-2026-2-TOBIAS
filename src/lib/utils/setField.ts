@@ -7,4 +7,4 @@
 export const setField =
   <T extends object>(value: T, onChange: (next: T) => void) =>
   <K extends keyof T>(key: K, fieldValue: T[K]) =>
-    onChange({ ...value, [key]: fieldValue })
+    onChange({ ...value, [key]: fieldValue });

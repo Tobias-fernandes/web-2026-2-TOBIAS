@@ -1,5 +1,5 @@
-import { ErrorText } from '@/components/ui/ListState'
-import type { QueryStateProps } from './types'
+import { ErrorText } from "@/components/ui/ListState";
+import type { QueryStateProps } from "./types";
 
 /**
  * The loading → error → empty → content decision for a single value.
@@ -10,14 +10,17 @@ import type { QueryStateProps } from './types'
  * skeleton and the error at once, because `isPending` and `error` are not
  * mutually exclusive in the way the markup assumed.
  */
-export function QueryState<T>({
+const QueryState = <T,>({
   query,
   skeleton,
   empty,
   children,
-}: QueryStateProps<T>) {
-  if (query.isPending) return <>{skeleton}</>
-  if (query.error) return <ErrorText>{query.error.message}</ErrorText>
-  if (query.data === undefined || query.data === null) return <>{empty ?? null}</>
-  return <>{children(query.data as NonNullable<T>)}</>
-}
+}: QueryStateProps<T>) => {
+  if (query.isPending) return <>{skeleton}</>;
+  if (query.error) return <ErrorText>{query.error.message}</ErrorText>;
+  if (query.data === undefined || query.data === null)
+    return <>{empty ?? null}</>;
+  return <>{children(query.data as NonNullable<T>)}</>;
+};
+
+export { QueryState };

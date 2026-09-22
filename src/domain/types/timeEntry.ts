@@ -1,4 +1,4 @@
-import type { ID, IsoDate } from './common'
+import type { ID, IsoDate } from "./common";
 
 /**
  * What the hours were spent on.
@@ -8,11 +8,7 @@ import type { ID, IsoDate } from './common'
  * it is running the enterprise.
  */
 export type TimeEntryCategory =
-  | 'project'
-  | 'internal'
-  | 'training'
-  | 'commercial'
-  | 'event'
+  "project" | "internal" | "training" | "commercial" | "event";
 
 /**
  * An hour of work, as the person who did it recorded it.
@@ -26,12 +22,12 @@ export type TimeEntryCategory =
  * person who typed it, which is what it was going to be either way.
  */
 export interface TimeEntry {
-  id: ID
-  memberId: ID
+  id: ID;
+  memberId: ID;
   /** Null for every category other than `project`. */
-  projectId: ID | null
-  category: TimeEntryCategory
-  date: IsoDate
-  hours: number
-  description: string
+  projectId: ID | null;
+  category: TimeEntryCategory;
+  date: IsoDate;
+  hours: number;
+  description: string;
 }

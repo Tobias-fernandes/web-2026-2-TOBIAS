@@ -1,11 +1,14 @@
-import { Badge } from '@/components/ui'
-import { PROJECT_STATUS_LABELS, PROJECT_STATUS_TONES } from '@/domain/constants'
-import { cn } from '@/lib/utils'
+import { Badge } from "@/components/ui";
+import {
+  PROJECT_STATUS_LABELS,
+  PROJECT_STATUS_TONES,
+} from "@/domain/constants";
+import { cn } from "@/lib/utils";
 import {
   BOARD_PREVIEW_COLUMNS,
   PREVIEW_ADDRESS,
   PREVIEW_METRICS,
-} from './constants'
+} from "./constants";
 
 /**
  * Picture of the system, shown in the hero.
@@ -14,12 +17,12 @@ import {
  * unauthenticated, must not fire an API call, and must not change shape every
  * time someone edits the demonstration data.
  */
-export function AppPreview({ className }: { className?: string }) {
+const AppPreview: React.FC<{ className?: string }> = ({ className }) => {
   return (
     <div
       aria-label="Exemplo do painel do sistema"
       className={cn(
-        'overflow-hidden rounded-xl border border-linha bg-papel-alto shadow-[0_24px_60px_-30px_rgb(27_25_48/0.45)]',
+        "overflow-hidden rounded-xl border border-linha bg-papel-alto shadow-[0_24px_60px_-30px_rgb(27_25_48/0.45)]",
         className,
       )}
     >
@@ -38,7 +41,9 @@ export function AppPreview({ className }: { className?: string }) {
         {PREVIEW_METRICS.map((metric) => (
           <div key={metric.label} className="bg-papel-alto px-4 py-3.5">
             <p className="m-0 text-2xs text-tinta-suave">{metric.label}</p>
-            <p className="m-0 mt-1 font-display text-lg font-bold">{metric.value}</p>
+            <p className="m-0 mt-1 font-display text-lg font-bold">
+              {metric.value}
+            </p>
           </div>
         ))}
       </div>
@@ -66,5 +71,7 @@ export function AppPreview({ className }: { className?: string }) {
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
+
+export { AppPreview };

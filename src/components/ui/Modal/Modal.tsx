@@ -1,34 +1,18 @@
-import { useEffect, useRef, type ReactNode } from 'react'
-
-export interface ModalProps {
-  open: boolean
-  title: string
-  onClose: () => void
-  children: ReactNode
-}
+import type {} from "react";
+import { useModal } from "./hooks";
+import type { ModalProps } from "./types";
 
 /**
  * Dialog backed by the native <dialog> element, so focus is trapped inside the
  * form and Escape closes it without extra code.
  */
-export function Modal({ open, title, onClose, children }: ModalProps) {
-  const ref = useRef<HTMLDialogElement>(null)
-
-  useEffect(() => {
-    const dialog = ref.current
-    if (!dialog) return
-
-    if (open && !dialog.open) dialog.showModal()
-    if (!open && dialog.open) dialog.close()
-  }, [open])
+const Modal: React.FC<ModalProps> = ({ open, title, onClose, children }) => {
+  const { ref, handleCancel } = useModal(open, onClose);
 
   return (
     <dialog
       ref={ref}
-      onCancel={(event) => {
-        event.preventDefault()
-        onClose()
-      }}
+      onCancel={handleCancel}
       onClose={onClose}
       aria-label={title}
       className="m-auto w-[min(560px,92vw)] rounded-xl border border-linha bg-papel-alto p-0 text-tinta backdrop:bg-veu"
@@ -44,7 +28,11 @@ export function Modal({ open, title, onClose, children }: ModalProps) {
           ×
         </button>
       </div>
-      <div className="max-h-[70dvh] overflow-y-auto px-6 pt-6 pb-7">{children}</div>
+      <div className="max-h-[70dvh] overflow-y-auto px-6 pt-6 pb-7">
+        {children}
+      </div>
     </dialog>
-  )
-}
+  );
+};
+
+export { Modal };

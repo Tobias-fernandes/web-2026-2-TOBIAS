@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { ReactNode } from "react";
 
 /**
  * The slice of a query the component layer actually reads.
@@ -8,16 +8,16 @@ import type { ReactNode } from 'react'
  * components a value it computed itself.
  */
 export interface Loadable<T> {
-  data: T | undefined
-  isPending: boolean
-  error: Error | null
+  data: T | undefined;
+  isPending: boolean;
+  error: Error | null;
 }
 
 export interface QueryStateProps<T> {
-  query: Loadable<T>
+  query: Loadable<T>;
   /** Placeholder shaped like what is coming, shown while it loads. */
-  skeleton: ReactNode
+  skeleton: ReactNode;
   /** Rendered when the query resolved to nothing — absent by default. */
-  empty?: ReactNode
-  children: (data: NonNullable<T>) => ReactNode
+  empty?: ReactNode;
+  children: (data: NonNullable<T>) => ReactNode;
 }

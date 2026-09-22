@@ -1,6 +1,6 @@
-import { useMemo } from 'react'
+import { useMemo } from "react";
 
-const UNKNOWN = '—'
+const UNKNOWN = "—";
 
 /**
  * Resolves an id to a display name in constant time.
@@ -13,7 +13,7 @@ export function useNameLookup(
   items: readonly { id: string; name: string }[] | undefined,
 ): (id: string) => string {
   return useMemo(() => {
-    const byId = new Map((items ?? []).map((item) => [item.id, item.name]))
-    return (id: string) => byId.get(id) ?? UNKNOWN
-  }, [items])
+    const byId = new Map((items ?? []).map((item) => [item.id, item.name]));
+    return (id: string) => byId.get(id) ?? UNKNOWN;
+  }, [items]);
 }

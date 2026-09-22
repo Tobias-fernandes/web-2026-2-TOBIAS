@@ -1,31 +1,31 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Badge } from '@/components/ui/Badge'
-import { CLIENT_STATUS_LABELS, CLIENT_STATUS_TONES } from '@/domain/constants'
-import { formatDate } from '@/lib/format'
-import { clientList } from '@/stories/fixtures'
-import { Table, TableCell, TableRow } from './Table'
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Badge } from "@/components/ui/Badge";
+import { CLIENT_STATUS_LABELS, CLIENT_STATUS_TONES } from "@/domain/constants";
+import { formatDate } from "@/lib/format";
+import { clientList } from "@/stories/fixtures";
+import { Table, TableCell, TableRow } from "./Table";
 
 const meta = {
-  title: 'UI/Table',
+  title: "UI/Table",
   component: Table,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
     docs: {
       description: {
         component:
-          'A tabela vive dentro de um contêiner com `overflow-x: auto`, então colunas demais ' +
-          'rolam na horizontal em vez de alargar a página.',
+          "A tabela vive dentro de um contêiner com `overflow-x: auto`, então colunas demais " +
+          "rolam na horizontal em vez de alargar a página.",
       },
     },
   },
   args: {
-    headers: ['Cliente', 'Contato', 'Segmento', 'Situação', 'Desde'],
+    headers: ["Cliente", "Contato", "Segmento", "Situação", "Desde"],
     children: null,
   },
-} satisfies Meta<typeof Table>
+} satisfies Meta<typeof Table>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Padrao: Story = {
   render: (args) => (
@@ -35,7 +35,7 @@ export const Padrao: Story = {
           <TableCell>
             <p className="m-0 font-semibold">{client.name}</p>
             <p className="m-0 text-xs text-tinta-suave">
-              {client.taxId ?? 'Sem CNPJ cadastrado'}
+              {client.taxId ?? "Sem CNPJ cadastrado"}
             </p>
           </TableCell>
           <TableCell>{client.contactName}</TableCell>
@@ -52,7 +52,7 @@ export const Padrao: Story = {
       ))}
     </Table>
   ),
-}
+};
 
 /** Uma linha só, para conferir o espaçamento vertical. */
 export const LinhaUnica: Story = {
@@ -71,21 +71,21 @@ export const LinhaUnica: Story = {
       </TableRow>
     </Table>
   ),
-}
+};
 
 /** Muitas colunas: o contêiner rola sem estourar a largura da página. */
 export const ComRolagemHorizontal: Story = {
   args: {
     headers: [
-      'Membro',
-      'Cargo',
-      'Curso',
-      'Carga semanal',
-      'Horas',
-      'Situação',
-      'Entrou em',
-      'E-mail',
-      'Telefone',
+      "Membro",
+      "Cargo",
+      "Curso",
+      "Carga semanal",
+      "Horas",
+      "Situação",
+      "Entrou em",
+      "E-mail",
+      "Telefone",
     ],
   },
   render: (args) => (
@@ -107,4 +107,4 @@ export const ComRolagemHorizontal: Story = {
       </Table>
     </div>
   ),
-}
+};

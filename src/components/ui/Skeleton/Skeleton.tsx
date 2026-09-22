@@ -1,6 +1,6 @@
-import { cn } from '@/lib/utils'
-import { SKELETON_BLOCK } from './constants'
-import type { SkeletonProps } from './types'
+import { cn } from "@/lib/utils";
+import { SKELETON_BLOCK } from "./constants";
+import type { SkeletonProps } from "./types";
 
 /**
  * A grey block standing in for content that has not arrived.
@@ -13,6 +13,8 @@ import type { SkeletonProps } from './types'
  * Hidden from screen readers — the composites below carry one `role="status"`
  * for the whole region instead of announcing a dozen empty boxes.
  */
-export function Skeleton({ className }: SkeletonProps) {
-  return <span aria-hidden className={cn(SKELETON_BLOCK, className)} />
-}
+const Skeleton: React.FC<SkeletonProps> = ({ className }) => {
+  return <span aria-hidden className={cn(SKELETON_BLOCK, className)} />;
+};
+
+export { Skeleton };

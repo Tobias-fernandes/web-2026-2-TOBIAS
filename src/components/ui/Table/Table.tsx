@@ -1,26 +1,14 @@
-import type { ReactNode } from 'react'
-import { cn } from '@/lib/utils'
-
-export interface TableProps {
-  headers: ReactNode[]
-  children: ReactNode
-  className?: string
-}
-
-export interface TableRowProps {
-  children: ReactNode
-}
-
-export interface TableCellProps {
-  children: ReactNode
-  className?: string
-}
+import type {} from "react";
+import { cn } from "@/lib/utils";
+import type { TableProps, TableRowProps, TableCellProps } from "./types";
 
 /** Wraps the table in a scrollable container so it never widens the page. */
-export function Table({ headers, children, className }: TableProps) {
+const Table: React.FC<TableProps> = ({ headers, children, className }) => {
   return (
     <div className="overflow-x-auto rounded-xl border border-linha bg-papel-alto">
-      <table className={cn('w-full border-collapse text-left text-sm', className)}>
+      <table
+        className={cn("w-full border-collapse text-left text-sm", className)}
+      >
         <thead>
           <tr className="border-b border-linha">
             {headers.map((header, index) => (
@@ -37,15 +25,23 @@ export function Table({ headers, children, className }: TableProps) {
         <tbody>{children}</tbody>
       </table>
     </div>
-  )
-}
+  );
+};
 
-export function TableRow({ children }: TableRowProps) {
+const TableRow: React.FC<TableRowProps> = ({ children }) => {
   return (
-    <tr className="border-b border-linha last:border-0 hover:bg-papel">{children}</tr>
-  )
-}
+    <tr className="border-b border-linha last:border-0 hover:bg-papel">
+      {children}
+    </tr>
+  );
+};
 
-export function TableCell({ children, className }: TableCellProps) {
-  return <td className={cn('px-4 py-3.5 align-middle', className)}>{children}</td>
-}
+const TableCell: React.FC<TableCellProps> = ({ children, className }) => {
+  return (
+    <td className={cn("px-4 py-3.5 align-middle", className)}>{children}</td>
+  );
+};
+
+export { Table };
+
+export { TableRow, TableCell };

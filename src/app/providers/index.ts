@@ -1,2 +1,2 @@
-export { AppProviders } from './AppProviders'
-export { queryClient } from './queryClient'
+export { AppProviders } from "./AppProviders";
+export { queryClient } from "./queryClient";

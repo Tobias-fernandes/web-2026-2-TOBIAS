@@ -1,19 +1,8 @@
-import type { ReactNode } from 'react'
-import { Button } from '@/components/ui/Button'
-import { Modal } from '@/components/ui/Modal'
-import { ErrorText } from '@/components/ui/ListState'
-
-interface FormDialogProps {
-  open: boolean
-  title: string
-  /** Label of the confirm button; it turns into "Salvando…" while submitting. */
-  submitLabel: string
-  error: string | null
-  submitting: boolean
-  onSubmit: () => void
-  onClose: () => void
-  children: ReactNode
-}
+import type {} from "react";
+import { Button } from "@/components/ui/Button";
+import { Modal } from "@/components/ui/Modal";
+import { ErrorText } from "@/components/ui/ListState";
+import type { FormDialogProps } from "./types";
 
 /**
  * "New record" dialog: a field set, the failure message and the two buttons.
@@ -21,7 +10,7 @@ interface FormDialogProps {
  * Pairs with `useFormDialog`, which owns the matching state. Together they
  * replace the copy of this markup that each register screen used to carry.
  */
-export function FormDialog({
+const FormDialog: React.FC<FormDialogProps> = ({
   open,
   title,
   submitLabel,
@@ -30,7 +19,7 @@ export function FormDialog({
   onSubmit,
   onClose,
   children,
-}: FormDialogProps) {
+}) => {
   return (
     <Modal open={open} title={title} onClose={onClose}>
       <div className="flex flex-col gap-4">
@@ -43,10 +32,12 @@ export function FormDialog({
             Cancelar
           </Button>
           <Button onClick={onSubmit} disabled={submitting}>
-            {submitting ? 'Salvando…' : submitLabel}
+            {submitting ? "Salvando…" : submitLabel}
           </Button>
         </div>
       </div>
     </Modal>
-  )
-}
+  );
+};
+
+export { FormDialog };

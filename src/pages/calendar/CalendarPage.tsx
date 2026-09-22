@@ -1,17 +1,16 @@
-import { PageHeader } from '@/components/layout'
-import { Button, FormDialog, QueryState } from '@/components/ui'
-import { CalendarSkeleton } from './CalendarSkeleton'
-import { CalendarToolbar } from './CalendarToolbar'
-import { DaySchedule } from './DaySchedule'
-import { EventForm } from './EventForm'
-import { MonthGrid } from './MonthGrid'
-import { UpcomingEvents } from './UpcomingEvents'
-import { useCalendarPage } from './hooks'
+import { PageHeader } from "@/components/layout";
+import { Button, FormDialog, QueryState } from "@/components/ui";
+import { CalendarSkeleton } from "./CalendarSkeleton";
+import { CalendarToolbar } from "./CalendarToolbar";
+import { DaySchedule } from "./DaySchedule";
+import { EventForm } from "./EventForm";
+import { MonthGrid } from "./MonthGrid";
+import { UpcomingEvents } from "./UpcomingEvents";
+import { useCalendarPage } from "./hooks";
 
-export function CalendarPage() {
-  const agenda = useCalendarPage()
-  const editing = agenda.dialog.editing !== null
-
+const CalendarPage: React.FC = () => {
+  const agenda = useCalendarPage();
+  const editing = agenda.dialog.editing !== null;
 
   return (
     <>
@@ -20,7 +19,9 @@ export function CalendarPage() {
         description="Reuniões, capacitações, processo seletivo e eventos da gestão em um lugar só — com as entregas dos projetos marcadas junto, para que a semana cheia apareça antes de acontecer."
         action={
           agenda.editable && (
-            <Button onClick={() => agenda.openDialog()}>Novo compromisso</Button>
+            <Button onClick={() => agenda.openDialog()}>
+              Novo compromisso
+            </Button>
           )
         }
       />
@@ -42,8 +43,8 @@ export function CalendarPage() {
 
       <FormDialog
         open={agenda.dialog.open}
-        title={editing ? 'Editar compromisso' : 'Novo compromisso'}
-        submitLabel={editing ? 'Salvar alterações' : 'Agendar'}
+        title={editing ? "Editar compromisso" : "Novo compromisso"}
+        submitLabel={editing ? "Salvar alterações" : "Agendar"}
         error={agenda.dialog.error}
         submitting={agenda.dialog.submitting}
         onSubmit={agenda.dialog.submit}
@@ -56,5 +57,7 @@ export function CalendarPage() {
         />
       </FormDialog>
     </>
-  )
-}
+  );
+};
+
+export { CalendarPage };

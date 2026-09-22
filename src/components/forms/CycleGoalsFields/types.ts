@@ -1,6 +1,8 @@
-import type { CycleGoalsFormState } from '@/lib/cycleGoals'
+import type { CycleGoalsFormState } from "@/lib/cycleGoals";
 
-export interface CycleGoalsFieldsProps {
-  value: CycleGoalsFormState
-  onChange: (next: CycleGoalsFormState) => void
+interface CycleGoalsFieldsProps {
+  value: CycleGoalsFormState;
+  onChange: (next: CycleGoalsFormState) => void;
 }
+
+export type { CycleGoalsFieldsProps };

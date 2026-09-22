@@ -1,22 +1,25 @@
-import { Card, CardTitle, Note } from '@/components/ui'
-import { CYCLE_STATUS_LABELS } from '@/domain/constants'
-import type { Cycle } from '@/domain/types'
-import { formatMoney, formatPeriod, formatScore } from '@/lib/format'
+import { Card, CardTitle, Note } from "@/components/ui";
+import { CYCLE_STATUS_LABELS } from "@/domain/constants";
+import type { Cycle } from "@/domain/types";
+import { formatMoney, formatPeriod, formatScore } from "@/lib/format";
 
 /** The four facts that define a management, in the order a board asks for them. */
 function factsOf(cycle: Cycle) {
   return [
     {
-      label: 'Período',
+      label: "Período",
       value: formatPeriod(cycle.startsAt, cycle.endsAt),
     },
-    { label: 'Situação', value: CYCLE_STATUS_LABELS[cycle.status] },
-    { label: 'Meta de faturamento', value: formatMoney(cycle.goals.revenueCents) },
-    { label: 'Meta de satisfação', value: formatScore(cycle.goals.npsScore) },
-  ]
+    { label: "Situação", value: CYCLE_STATUS_LABELS[cycle.status] },
+    {
+      label: "Meta de faturamento",
+      value: formatMoney(cycle.goals.revenueCents),
+    },
+    { label: "Meta de satisfação", value: formatScore(cycle.goals.npsScore) },
+  ];
 }
 
-export function CycleSheet({ cycle }: { cycle: Cycle }) {
+const CycleSheet: React.FC<{ cycle: Cycle }> = ({ cycle }) => {
   return (
     <Card>
       <CardTitle>Ficha da gestão</CardTitle>
@@ -37,9 +40,11 @@ export function CycleSheet({ cycle }: { cycle: Cycle }) {
 
       <Note>
         Encerrar a gestão não apaga nada: os projetos, as horas e os números
-        continuam ligados a ela, e é assim que uma diretoria compara o próprio ano
-        com o da diretoria anterior.
+        continuam ligados a ela, e é assim que uma diretoria compara o próprio
+        ano com o da diretoria anterior.
       </Note>
     </Card>
-  )
-}
+  );
+};
+
+export { CycleSheet };

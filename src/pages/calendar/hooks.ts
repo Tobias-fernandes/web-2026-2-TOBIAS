@@ -1,8 +1,8 @@
-import { useMemo, useState } from 'react'
-import { useFormDialog } from '@/components/ui'
-import { can } from '@/domain/access'
-import { isActiveProject, isScheduledEvent } from '@/domain/rules'
-import type { CalendarEvent, ID, IsoDate, Project } from '@/domain/types'
+import { useMemo, useState } from "react";
+import { useFormDialog } from "@/components/ui";
+import { can } from "@/domain/access";
+import { isActiveProject, isScheduledEvent } from "@/domain/rules";
+import type { CalendarEvent, ID, IsoDate, Project } from "@/domain/types";
 import {
   addMonths,
   endOfMonth,
@@ -11,10 +11,10 @@ import {
   overlapsPeriod,
   startOfMonth,
   todayIso,
-} from '@/lib/date'
-import { formatMonthYear } from '@/lib/format'
-import { useNameLookup } from '@/lib/hooks'
-import { zodValidate } from '@/lib/validation'
+} from "@/lib/date";
+import { formatMonthYear } from "@/lib/format";
+import { useNameLookup } from "@/lib/hooks";
+import { zodValidate } from "@/lib/validation";
 import {
   useActiveCycle,
   useCancelCalendarEvent,
@@ -23,9 +23,9 @@ import {
   useMembers,
   useRemoveCalendarEvent,
   useUpsertCalendarEvent,
-} from '@/queries'
-import { useCurrentUser } from '@/stores/auth'
-import { toast, toastMutationError } from '@/stores/toast'
+} from "@/queries";
+import { useCurrentUser } from "@/stores/auth";
+import { toast, toastMutationError } from "@/stores/toast";
 import {
   buildEmptyEventForm,
   DEFAULT_END_TIME,
@@ -33,14 +33,14 @@ import {
   DERIVED_ID_PREFIX,
   EMPTY_CALENDAR_FILTER,
   UPCOMING_LIMIT,
-} from './constants'
-import { eventFormSchema } from './schemas'
+} from "./constants";
+import { eventFormSchema } from "./schemas";
 import type {
   CalendarDay,
   CalendarFilterState,
   CalendarPageState,
   EventFormState,
-} from './types'
+} from "./types";
 
 /**
  * Reading order inside a day: what is already running, then the clock.
@@ -49,14 +49,14 @@ import type {
  * ones puts "Semana do processo seletivo" between the 18:30 and the 19:00.
  */
 function byStart(a: CalendarEvent, b: CalendarEvent): number {
-  if (a.startsAt !== b.startsAt) return a.startsAt.localeCompare(b.startsAt)
-  if (a.allDay !== b.allDay) return a.allDay ? -1 : 1
-  return (a.startTime ?? '').localeCompare(b.startTime ?? '')
+  if (a.startsAt !== b.startsAt) return a.startsAt.localeCompare(b.startsAt);
+  if (a.allDay !== b.allDay) return a.allDay ? -1 : 1;
+  return (a.startTime ?? "").localeCompare(b.startTime ?? "");
 }
 
 /** True on every day the commitment spans, not only the day it opens. */
 const coversDate = (event: CalendarEvent, date: IsoDate) =>
-  overlapsPeriod(event.startsAt, event.endsAt, date, date)
+  overlapsPeriod(event.startsAt, event.endsAt, date, date);
 
 /**
  * A project's delivery, written as a commitment.
@@ -73,22 +73,22 @@ function deadlineEvent(project: Project, cycleId: ID): CalendarEvent {
     id: DERIVED_ID_PREFIX + project.id,
     cycleId,
     title: `Entrega · ${project.name}`,
-    kind: 'deadline',
-    directorate: 'projects',
-    audience: 'enterprise',
+    kind: "deadline",
+    directorate: "projects",
+    audience: "enterprise",
     startsAt: project.dueAt,
     endsAt: project.dueAt,
     allDay: true,
     startTime: null,
     endTime: null,
-    location: '',
+    location: "",
     onlineUrl: null,
-    description: 'Prazo de entrega, vindo do quadro de projetos.',
+    description: "Prazo de entrega, vindo do quadro de projetos.",
     projectId: project.id,
-    status: 'scheduled',
+    status: "scheduled",
     createdBy: project.ownerId,
     createdAt: project.createdAt,
-  }
+  };
 }
 
 /** The record turned back into the form that edits it. */
@@ -106,10 +106,10 @@ function toForm(event: CalendarEvent): EventFormState {
     startTime: event.startTime ?? DEFAULT_START_TIME,
     endTime: event.endTime ?? DEFAULT_END_TIME,
     location: event.location,
-    onlineUrl: event.onlineUrl ?? '',
-    projectId: event.projectId ?? '',
+    onlineUrl: event.onlineUrl ?? "",
+    projectId: event.projectId ?? "",
     description: event.description,
-  }
+  };
 }
 
 /**
@@ -117,24 +117,30 @@ function toForm(event: CalendarEvent): EventFormState {
  * this member is allowed to change.
  */
 export function useCalendarPage(): CalendarPageState {
-  const user = useCurrentUser()
-  const { cycle } = useActiveCycle()
-  const today = todayIso()
+  const user = useCurrentUser();
+  const { cycle } = useActiveCycle();
+  const today = todayIso();
 
-  const [month, setMonth] = useState<IsoDate>(() => startOfMonth(today))
-  const [selectedDate, setSelectedDate] = useState<IsoDate>(today)
-  const [filter, setFilter] = useState<CalendarFilterState>(EMPTY_CALENDAR_FILTER)
+  const [month, setMonth] = useState<IsoDate>(() => startOfMonth(today));
+  const [selectedDate, setSelectedDate] = useState<IsoDate>(today);
+  const [filter, setFilter] = useState<CalendarFilterState>(
+    EMPTY_CALENDAR_FILTER,
+  );
 
-  const grid = useMemo(() => monthGrid(month), [month])
+  const grid = useMemo(() => monthGrid(month), [month]);
 
-  const events = useCycleCalendarEvents(cycle?.id, grid[0], grid[grid.length - 1])
-  const projects = useCycleProjects(cycle?.id)
-  const members = useMembers()
+  const events = useCycleCalendarEvents(
+    cycle?.id,
+    grid[0],
+    grid[grid.length - 1],
+  );
+  const projects = useCycleProjects(cycle?.id);
+  const members = useMembers();
 
-  const cancel = useCancelCalendarEvent()
-  const remove = useRemoveCalendarEvent()
+  const cancel = useCancelCalendarEvent();
+  const remove = useRemoveCalendarEvent();
 
-  const loaded = useMemo(() => events.data ?? [], [events.data])
+  const loaded = useMemo(() => events.data ?? [], [events.data]);
 
   /**
    * A delivery already scheduled as a real commitment — with a pauta, a room,
@@ -142,7 +148,7 @@ export function useCalendarPage(): CalendarPageState {
    * scheduled one says more.
    */
   const deadlines = useMemo(() => {
-    if (!cycle) return []
+    if (!cycle) return [];
 
     return (projects.data ?? [])
       .filter(isActiveProject)
@@ -150,11 +156,12 @@ export function useCalendarPage(): CalendarPageState {
         (project) =>
           !loaded.some(
             (event) =>
-              event.projectId === project.id && coversDate(event, project.dueAt),
+              event.projectId === project.id &&
+              coversDate(event, project.dueAt),
           ),
       )
-      .map((project) => deadlineEvent(project, cycle.id))
-  }, [projects.data, loaded, cycle])
+      .map((project) => deadlineEvent(project, cycle.id));
+  }, [projects.data, loaded, cycle]);
 
   const visible = useMemo(
     () =>
@@ -166,7 +173,7 @@ export function useCalendarPage(): CalendarPageState {
         )
         .sort(byStart),
     [loaded, deadlines, filter],
-  )
+  );
 
   const days = useMemo<CalendarDay[]>(
     () =>
@@ -178,24 +185,24 @@ export function useCalendarPage(): CalendarPageState {
         events: visible.filter((event) => coversDate(event, date)),
       })),
     [grid, month, today, selectedDate, visible],
-  )
+  );
 
   const byId = useMemo(
     () => new Map(loaded.map((event) => [event.id, event])),
     [loaded],
-  )
+  );
 
   const dialog = useFormDialog({
     initial: buildEmptyEventForm,
     mutation: useUpsertCalendarEvent(),
     validate: (form) => zodValidate(eventFormSchema, form),
     toInput: (form, editing) => {
-      const current = editing ? byId.get(editing) : undefined
+      const current = editing ? byId.get(editing) : undefined;
 
       return {
         id: editing,
         input: {
-          cycleId: cycle?.id ?? '',
+          cycleId: cycle?.id ?? "",
           title: form.title.trim(),
           kind: form.kind,
           directorate: form.directorate,
@@ -211,17 +218,17 @@ export function useCalendarPage(): CalendarPageState {
           projectId: form.projectId || null,
           // Correcting the room of a cancelled meeting must not quietly put it
           // back on, and whoever scheduled it stays the person to ask.
-          status: current?.status ?? 'scheduled',
-          createdBy: current?.createdBy ?? user?.memberId ?? '',
+          status: current?.status ?? "scheduled",
+          createdBy: current?.createdBy ?? user?.memberId ?? "",
         },
-      }
+      };
     },
     successMessage: (editing) =>
-      editing ? 'Compromisso atualizado.' : 'Compromisso agendado.',
-  })
+      editing ? "Compromisso atualizado." : "Compromisso agendado.",
+  });
 
   return {
-    editable: can(user, 'event:manage'),
+    editable: can(user, "event:manage"),
 
     month,
     monthLabel: formatMonthYear(month),
@@ -232,19 +239,19 @@ export function useCalendarPage(): CalendarPageState {
      * it is not.
      */
     goToMonth: (offset) => {
-      const next = startOfMonth(addMonths(month, offset))
-      setMonth(next)
-      setSelectedDate(isSameMonth(today, next) ? today : next)
+      const next = startOfMonth(addMonths(month, offset));
+      setMonth(next);
+      setSelectedDate(isSameMonth(today, next) ? today : next);
     },
     goToToday: () => {
-      setMonth(startOfMonth(today))
-      setSelectedDate(today)
+      setMonth(startOfMonth(today));
+      setSelectedDate(today);
     },
 
     filter,
     setFilter,
     clearFilter: () => setFilter(EMPTY_CALENDAR_FILTER),
-    filtering: filter.directorate !== '' || filter.kind !== '',
+    filtering: filter.directorate !== "" || filter.kind !== "",
 
     events,
     days,
@@ -269,30 +276,32 @@ export function useCalendarPage(): CalendarPageState {
         startsAt: date,
         endsAt: date,
         // The area the member leads is the one they schedule for most.
-        directorate: user?.directorate ?? 'presidency',
+        directorate: user?.directorate ?? "presidency",
       }),
     editEvent: (event) => dialog.openFor(event.id, toForm(event)),
     toggleCancelled: (event) => {
-      const cancelling = isScheduledEvent(event)
+      const cancelling = isScheduledEvent(event);
       cancel.mutate(
         { id: event.id, cancelled: cancelling },
         {
           onSuccess: () =>
             toast.success(
-              cancelling ? `${event.title}: cancelado.` : `${event.title}: reagendado.`,
+              cancelling
+                ? `${event.title}: cancelado.`
+                : `${event.title}: reagendado.`,
             ),
           onError: (cause) => toastMutationError(cause),
         },
-      )
+      );
     },
     removeEvent: (id) => {
-      const event = byId.get(id)
+      const event = byId.get(id);
       remove.mutate(id, {
         onSuccess: () =>
-          toast.success(`${event?.title ?? 'Compromisso'} removido.`),
+          toast.success(`${event?.title ?? "Compromisso"} removido.`),
         onError: (cause) => toastMutationError(cause),
-      })
+      });
     },
     saving: cancel.isPending || remove.isPending,
-  }
+  };
 }

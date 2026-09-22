@@ -1,10 +1,10 @@
-import { useState } from 'react'
-import { useFormDialog } from '@/components/ui'
-import { can } from '@/domain/access'
-import { todayIso } from '@/lib/date'
-import { useNameLookup } from '@/lib/hooks'
-import { parseMoneyInput } from '@/lib/money'
-import { zodValidate } from '@/lib/validation'
+import { useState } from "react";
+import { useFormDialog } from "@/components/ui";
+import { can } from "@/domain/access";
+import { todayIso } from "@/lib/date";
+import { useNameLookup } from "@/lib/hooks";
+import { parseMoneyInput } from "@/lib/money";
+import { zodValidate } from "@/lib/validation";
 import {
   useActiveCycle,
   useCashFlow,
@@ -14,36 +14,37 @@ import {
   useMembers,
   useProjects,
   useSettleFinanceEntry,
-} from '@/queries'
-import { useCurrentUser } from '@/stores/auth'
-import { toast, toastMutationError } from '@/stores/toast'
-import { buildEmptyFinanceForm, EMPTY_FINANCE_FILTER } from './constants'
-import { financeFormSchema } from './schemas'
-import type { FinanceFilterState, FinancePageState } from './types'
+} from "@/queries";
+import { useCurrentUser } from "@/stores/auth";
+import { toast, toastMutationError } from "@/stores/toast";
+import { buildEmptyFinanceForm, EMPTY_FINANCE_FILTER } from "./constants";
+import { financeFormSchema } from "./schemas";
+import type { FinanceFilterState, FinancePageState } from "./types";
 
 export function useFinancePage(): FinancePageState {
-  const user = useCurrentUser()
-  const { cycle } = useActiveCycle()
-  const today = todayIso()
+  const user = useCurrentUser();
+  const { cycle } = useActiveCycle();
+  const today = todayIso();
 
-  const [filter, setFilter] = useState<FinanceFilterState>(EMPTY_FINANCE_FILTER)
+  const [filter, setFilter] =
+    useState<FinanceFilterState>(EMPTY_FINANCE_FILTER);
 
-  const projects = useProjects()
-  const clients = useClients()
-  const members = useMembers()
-  const settle = useSettleFinanceEntry()
+  const projects = useProjects();
+  const clients = useClients();
+  const members = useMembers();
+  const settle = useSettleFinanceEntry();
 
   const entries = useFinanceEntries(cycle?.id, {
     kind: filter.kind || undefined,
     settlement: filter.settlement || undefined,
-  })
+  });
 
   const dialog = useFormDialog({
     initial: buildEmptyFinanceForm,
     mutation: useCreateFinanceEntry(),
     validate: (form) => zodValidate(financeFormSchema, form),
     toInput: (form) => ({
-      cycleId: cycle?.id ?? '',
+      cycleId: cycle?.id ?? "",
       kind: form.kind,
       category: form.category,
       description: form.description.trim(),
@@ -59,25 +60,27 @@ export function useFinancePage(): FinancePageState {
       directorate: form.directorate,
       createdBy: user?.memberId ?? null,
     }),
-    successMessage: () => 'Lançamento registrado.',
-  })
+    successMessage: () => "Lançamento registrado.",
+  });
 
   return {
-    editable: can(user, 'finance:manage'),
+    editable: can(user, "finance:manage"),
     today,
     filter,
     setFilter,
     clearFilter: () => setFilter(EMPTY_FINANCE_FILTER),
     cashFlow: useCashFlow({ cycleId: cycle?.id }),
     entries,
-    rows: [...(entries.data ?? [])].sort((a, b) => a.dueAt.localeCompare(b.dueAt)),
+    rows: [...(entries.data ?? [])].sort((a, b) =>
+      a.dueAt.localeCompare(b.dueAt),
+    ),
     projects: projects.data ?? [],
     clients: clients.data ?? [],
     members: members.data ?? [],
     memberName: useNameLookup(members.data),
     settling: settle.isPending,
     toggleSettlement: (entry) => {
-      const settling = !entry.paidAt
+      const settling = !entry.paidAt;
       settle.mutate(
         { id: entry.id, paidAt: settling ? today : null },
         {
@@ -89,8 +92,8 @@ export function useFinancePage(): FinancePageState {
             ),
           onError: (cause) => toastMutationError(cause),
         },
-      )
+      );
     },
     dialog,
-  }
+  };
 }

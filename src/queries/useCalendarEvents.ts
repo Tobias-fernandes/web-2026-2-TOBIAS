@@ -1,15 +1,15 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
-import type { CalendarEvent, CreateInput, ID, IsoDate } from '@/domain/types'
-import { dataLayer } from '@/services'
-import { createEntityQueries } from './createEntityQueries'
-import { queryKeys } from './queryKeys'
+import { useMutation, useQuery } from "@tanstack/react-query";
+import type { CalendarEvent, CreateInput, ID, IsoDate } from "@/domain/types";
+import { dataLayer } from "@/services";
+import { createEntityQueries } from "./createEntityQueries";
+import { queryKeys } from "./queryKeys";
 
 const calendarEvents = createEntityQueries(
   queryKeys.calendarEvents,
   dataLayer.calendarEvents,
-)
+);
 
-export const useRemoveCalendarEvent = calendarEvents.useRemove
+export const useRemoveCalendarEvent = calendarEvents.useRemove;
 
 /**
  * The commitments of one management inside a range — the month on screen.
@@ -27,14 +27,14 @@ export function useCycleCalendarEvents(
   from: IsoDate,
   to: IsoDate,
 ) {
-  const filter = { cycleId, from, to }
+  const filter = { cycleId, from, to };
 
   return useQuery({
     queryKey: queryKeys.calendarEvents.filtered(filter),
     queryFn: () => dataLayer.calendarEvents.listBy(filter),
     enabled: Boolean(cycleId),
     placeholderData: (previous) => previous,
-  })
+  });
 }
 
 /**
@@ -46,11 +46,17 @@ export function useCycleCalendarEvents(
  */
 export function useUpsertCalendarEvent() {
   return useMutation({
-    mutationFn: ({ id, input }: { id: ID | null; input: CreateInput<CalendarEvent> }) =>
+    mutationFn: ({
+      id,
+      input,
+    }: {
+      id: ID | null;
+      input: CreateInput<CalendarEvent>;
+    }) =>
       id
         ? dataLayer.calendarEvents.update(id, input)
         : dataLayer.calendarEvents.create(input),
-  })
+  });
 }
 
 /** Calls a commitment off, or puts it back on. Never deletes it. */
@@ -58,5 +64,5 @@ export function useCancelCalendarEvent() {
   return useMutation({
     mutationFn: ({ id, cancelled }: { id: ID; cancelled: boolean }) =>
       dataLayer.calendarEvents.cancel(id, cancelled),
-  })
+  });
 }

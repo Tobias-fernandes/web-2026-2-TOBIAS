@@ -1,17 +1,17 @@
-import type { ID, IsoDate } from './common'
+import type { ID, IsoDate } from "./common";
 
-export type CycleStatus = 'planned' | 'active' | 'closed'
+export type CycleStatus = "planned" | "active" | "closed";
 
 /**
  * Targets the board commits to at the start of the term. The dashboard measures
  * everything else against these four numbers.
  */
 export interface CycleGoals {
-  revenueCents: number
-  projects: number
-  members: number
+  revenueCents: number;
+  projects: number;
+  members: number;
   /** Average client satisfaction, 0-10, collected when a project is delivered. */
-  npsScore: number
+  npsScore: number;
 }
 
 /**
@@ -28,8 +28,8 @@ export interface CycleGoals {
  * the history is overwritten at every handover.
  */
 export interface Cycle {
-  id: ID
-  startsAt: IsoDate
+  id: ID;
+  startsAt: IsoDate;
   /**
    * Null while the management is open.
    *
@@ -41,8 +41,8 @@ export interface Cycle {
    * Nothing measures against a null. `cycleEnd` in `domain/rules` answers "what
    * period is this being read over" for the reports.
    */
-  endsAt: IsoDate | null
-  status: CycleStatus
-  goals: CycleGoals
-  createdAt: IsoDate
+  endsAt: IsoDate | null;
+  status: CycleStatus;
+  goals: CycleGoals;
+  createdAt: IsoDate;
 }

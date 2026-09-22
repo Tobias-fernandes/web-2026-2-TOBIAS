@@ -1,5 +1,9 @@
-import { DEMO_ENTERPRISE_ID, DEMO_STORAGE_PREFIX, readActiveEnterpriseId } from '@/config/storage'
-import type { ID } from '@/domain/types'
+import {
+  DEMO_ENTERPRISE_ID,
+  DEMO_STORAGE_PREFIX,
+  readActiveEnterpriseId,
+} from "@/config/storage";
+import type { ID } from "@/domain/types";
 
 /**
  * Tenant-scoped storage for the demo.
@@ -16,20 +20,20 @@ import type { ID } from '@/domain/types'
  */
 
 export function activeEnterpriseId(): ID {
-  return readActiveEnterpriseId() ?? DEMO_ENTERPRISE_ID
+  return readActiveEnterpriseId() ?? DEMO_ENTERPRISE_ID;
 }
 
 const scopedKey = (enterpriseId: ID, collection: string) =>
-  `${DEMO_STORAGE_PREFIX}${enterpriseId}:${collection}`
+  `${DEMO_STORAGE_PREFIX}${enterpriseId}:${collection}`;
 
 function readCollection<T>(collection: string, enterpriseId?: ID): T[] | null {
   try {
     const raw = localStorage.getItem(
       scopedKey(enterpriseId ?? activeEnterpriseId(), collection),
-    )
-    return raw ? (JSON.parse(raw) as T[]) : null
+    );
+    return raw ? (JSON.parse(raw) as T[]) : null;
   } catch {
-    return null
+    return null;
   }
 }
 
@@ -47,11 +51,11 @@ export function readCollectionOrSeed<T>(
   seed: T[],
   enterpriseId?: ID,
 ): T[] {
-  const id = enterpriseId ?? activeEnterpriseId()
-  const stored = readCollection<T>(collection, id)
-  if (stored) return stored
-  if (id !== DEMO_ENTERPRISE_ID) return []
-  return isMarkedEmpty(id) ? [] : seed
+  const id = enterpriseId ?? activeEnterpriseId();
+  const stored = readCollection<T>(collection, id);
+  if (stored) return stored;
+  if (id !== DEMO_ENTERPRISE_ID) return [];
+  return isMarkedEmpty(id) ? [] : seed;
 }
 
 export function writeCollection<T>(
@@ -63,7 +67,7 @@ export function writeCollection<T>(
     localStorage.setItem(
       scopedKey(enterpriseId ?? activeEnterpriseId(), collection),
       JSON.stringify(records),
-    )
+    );
   } catch {
     // No persistence available; records live for this session only.
   }
@@ -77,19 +81,24 @@ export function writeCollection<T>(
  * real enterprise must not resurrect the demo's seed inside it.
  */
 const emptyFlagKey = (enterpriseId: ID) =>
-  `${DEMO_STORAGE_PREFIX}${enterpriseId}:__vazio`
+  `${DEMO_STORAGE_PREFIX}${enterpriseId}:__vazio`;
 
 export function isMarkedEmpty(enterpriseId?: ID): boolean {
   try {
-    return Boolean(localStorage.getItem(emptyFlagKey(enterpriseId ?? activeEnterpriseId())))
+    return Boolean(
+      localStorage.getItem(emptyFlagKey(enterpriseId ?? activeEnterpriseId())),
+    );
   } catch {
-    return false
+    return false;
   }
 }
 
 export function markEmpty(enterpriseId?: ID): void {
   try {
-    localStorage.setItem(emptyFlagKey(enterpriseId ?? activeEnterpriseId()), '1')
+    localStorage.setItem(
+      emptyFlagKey(enterpriseId ?? activeEnterpriseId()),
+      "1",
+    );
   } catch {
     // Nothing was persisted to mark; the next load reads the seed either way.
   }
@@ -97,10 +106,10 @@ export function markEmpty(enterpriseId?: ID): void {
 
 /** Drops every collection of one enterprise, the empty mark included. */
 export function clearTenant(enterpriseId?: ID): void {
-  const scope = `${DEMO_STORAGE_PREFIX}${enterpriseId ?? activeEnterpriseId()}:`
+  const scope = `${DEMO_STORAGE_PREFIX}${enterpriseId ?? activeEnterpriseId()}:`;
   try {
     for (const key of Object.keys(localStorage)) {
-      if (key.startsWith(scope)) localStorage.removeItem(key)
+      if (key.startsWith(scope)) localStorage.removeItem(key);
     }
   } catch {
     // Private browsing or blocked storage: there was nothing stored to drop.
@@ -112,20 +121,20 @@ export function clearTenant(enterpriseId?: ID): void {
  * and the sign-in credentials, both of which are consulted before anyone is
  * signed in and therefore before a tenant is known.
  */
-const globalKey = (collection: string) => `${DEMO_STORAGE_PREFIX}${collection}`
+const globalKey = (collection: string) => `${DEMO_STORAGE_PREFIX}${collection}`;
 
 export function readGlobal<T>(collection: string): T[] {
   try {
-    const raw = localStorage.getItem(globalKey(collection))
-    return raw ? (JSON.parse(raw) as T[]) : []
+    const raw = localStorage.getItem(globalKey(collection));
+    return raw ? (JSON.parse(raw) as T[]) : [];
   } catch {
-    return []
+    return [];
   }
 }
 
 export function writeGlobal<T>(collection: string, records: T[]): void {
   try {
-    localStorage.setItem(globalKey(collection), JSON.stringify(records))
+    localStorage.setItem(globalKey(collection), JSON.stringify(records));
   } catch {
     // No persistence available.
   }

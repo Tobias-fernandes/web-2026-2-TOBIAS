@@ -1,5 +1,5 @@
-import type { Directorate } from './directorate'
-import type { ID, IsoDate } from './common'
+import type { Directorate } from "./directorate";
+import type { ID, IsoDate } from "./common";
 
 /**
  * An area of the enterprise, in the words that EJ uses for it.
@@ -15,11 +15,11 @@ import type { ID, IsoDate } from './common'
  * would collapse into the member's position alone.
  */
 export interface WorkArea {
-  id: ID
-  enterpriseId: ID
+  id: ID;
+  enterpriseId: ID;
   /** What this EJ calls the area. Shown everywhere a person's area is shown. */
-  name: string
+  name: string;
   /** The function it maps to. Fixed set: this is what grants permissions. */
-  directorate: Directorate
-  createdAt: IsoDate
+  directorate: Directorate;
+  createdAt: IsoDate;
 }

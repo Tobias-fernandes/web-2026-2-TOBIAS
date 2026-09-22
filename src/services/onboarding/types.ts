@@ -1,4 +1,9 @@
-import type { AcademicTerm, CycleGoals, Directorate, Session } from '@/domain/types'
+import type {
+  AcademicTerm,
+  CycleGoals,
+  Directorate,
+  Session,
+} from "@/domain/types";
 
 /**
  * Everything it takes to put a junior enterprise into the system, in one call.
@@ -14,31 +19,31 @@ import type { AcademicTerm, CycleGoals, Directorate, Session } from '@/domain/ty
  */
 export interface SignUpInput {
   enterprise: {
-    tradeName: string
+    tradeName: string;
     /** Digits only; the form strips the mask before sending. */
-    cnpj: string
-    email: string
-  }
+    cnpj: string;
+    email: string;
+  };
   /** Names of the degree courses this EJ admits from. At least one. */
-  courses: string[]
+  courses: string[];
   /** The EJ's own areas, each mapped to the function that grants permissions. */
-  workAreas: { name: string; directorate: Directorate }[]
+  workAreas: { name: string; directorate: Directorate }[];
   /** Targets for the first management, which opens the moment the EJ registers. */
-  cycleGoals: CycleGoals
+  cycleGoals: CycleGoals;
   president: {
-    name: string
-    email: string
-    phone: string
-    cpf: string
-    registration: string
-    entryTerm: AcademicTerm
-    avatarUrl: string | null
+    name: string;
+    email: string;
+    phone: string;
+    cpf: string;
+    registration: string;
+    entryTerm: AcademicTerm;
+    avatarUrl: string | null;
     /** One of `courses`. */
-    course: string
+    course: string;
     /** One of `workAreas`. */
-    workArea: string
-    password: string
-  }
+    workArea: string;
+    password: string;
+  };
 }
 
 /**
@@ -57,8 +62,8 @@ export interface OnboardingService {
    * has to confirm its e-mail first — so the screen treats the session as
    * optional and falls back to sending the president to the login page.
    */
-  signUp(input: SignUpInput): Promise<Session | null>
+  signUp(input: SignUpInput): Promise<Session | null>;
 
   /** Whether a CNPJ is already registered. Asked while the form is filled. */
-  isCnpjTaken(cnpj: string): Promise<boolean>
+  isCnpjTaken(cnpj: string): Promise<boolean>;
 }

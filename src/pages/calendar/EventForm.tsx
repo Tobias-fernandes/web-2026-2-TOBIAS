@@ -4,31 +4,25 @@ import {
   SelectField,
   TextAreaField,
   TextField,
-} from '@/components/ui'
+} from "@/components/ui";
 import {
   DIRECTORATE_LABELS,
   EVENT_AUDIENCE_LABELS,
   EVENT_KIND_LABELS,
   EVENT_KIND_ORDER,
-} from '@/domain/constants'
-import type { Directorate, EventAudience, EventKind, Project } from '@/domain/types'
-import { setField } from '@/lib/utils'
-import type { EventFormState } from './types'
-
-interface EventFormProps {
-  value: EventFormState
-  projects: Project[]
-  onChange: (value: EventFormState) => void
-}
+} from "@/domain/constants";
+import type { Directorate, EventAudience, EventKind } from "@/domain/types";
+import { setField } from "@/lib/utils";
+import type { EventFormProps } from "./types";
 
 /** Offered in the order an EJ schedules them, not alphabetically. */
 const KIND_OPTIONS = EVENT_KIND_ORDER.map((kind) => ({
   value: kind,
   label: EVENT_KIND_LABELS[kind],
-}))
+}));
 
-const DIRECTORATE_OPTIONS = labelOptions(DIRECTORATE_LABELS)
-const AUDIENCE_OPTIONS = labelOptions(EVENT_AUDIENCE_LABELS)
+const DIRECTORATE_OPTIONS = labelOptions(DIRECTORATE_LABELS);
+const AUDIENCE_OPTIONS = labelOptions(EVENT_AUDIENCE_LABELS);
 
 /**
  * All-day as a two-option picker rather than a checkbox.
@@ -38,19 +32,19 @@ const AUDIENCE_OPTIONS = labelOptions(EVENT_AUDIENCE_LABELS)
  * skips — then wonders why the hours will not save.
  */
 const DURATION_OPTIONS = [
-  { value: 'timed', label: 'Com horário' },
-  { value: 'allDay', label: 'Dia todo' },
-]
+  { value: "timed", label: "Com horário" },
+  { value: "allDay", label: "Dia todo" },
+];
 
-export function EventForm({ value, projects, onChange }: EventFormProps) {
-  const set = setField(value, onChange)
+const EventForm: React.FC<EventFormProps> = ({ value, projects, onChange }) => {
+  const set = setField(value, onChange);
 
   return (
     <>
       <TextField
         label="Título"
         value={value.title}
-        onChange={(event) => set('title', event.target.value)}
+        onChange={(event) => set("title", event.target.value)}
         placeholder="Reunião de diretoria executiva"
       />
 
@@ -58,14 +52,14 @@ export function EventForm({ value, projects, onChange }: EventFormProps) {
         <SelectField
           label="Tipo"
           value={value.kind}
-          onChange={(event) => set('kind', event.target.value as EventKind)}
+          onChange={(event) => set("kind", event.target.value as EventKind)}
           options={KIND_OPTIONS}
         />
         <SelectField
           label="Diretoria responsável"
           value={value.directorate}
           onChange={(event) =>
-            set('directorate', event.target.value as Directorate)
+            set("directorate", event.target.value as Directorate)
           }
           options={DIRECTORATE_OPTIONS}
         />
@@ -75,14 +69,16 @@ export function EventForm({ value, projects, onChange }: EventFormProps) {
         label="Quem participa"
         hint="Marcar como da diretoria não esconde o compromisso: sinaliza de quem é a presença esperada."
         value={value.audience}
-        onChange={(event) => set('audience', event.target.value as EventAudience)}
+        onChange={(event) =>
+          set("audience", event.target.value as EventAudience)
+        }
         options={AUDIENCE_OPTIONS}
       />
 
       <SelectField
         label="Duração"
-        value={value.allDay ? 'allDay' : 'timed'}
-        onChange={(event) => set('allDay', event.target.value === 'allDay')}
+        value={value.allDay ? "allDay" : "timed"}
+        onChange={(event) => set("allDay", event.target.value === "allDay")}
         options={DURATION_OPTIONS}
       />
 
@@ -99,7 +95,9 @@ export function EventForm({ value, projects, onChange }: EventFormProps) {
               // it; a term that ends before it begins is not worth making the
               // member fix by hand.
               endsAt:
-                value.endsAt < event.target.value ? event.target.value : value.endsAt,
+                value.endsAt < event.target.value
+                  ? event.target.value
+                  : value.endsAt,
             })
           }
         />
@@ -109,7 +107,7 @@ export function EventForm({ value, projects, onChange }: EventFormProps) {
           type="date"
           min={value.startsAt}
           value={value.endsAt}
-          onChange={(event) => set('endsAt', event.target.value)}
+          onChange={(event) => set("endsAt", event.target.value)}
         />
       </div>
 
@@ -119,13 +117,13 @@ export function EventForm({ value, projects, onChange }: EventFormProps) {
             label="Começa às"
             type="time"
             value={value.startTime}
-            onChange={(event) => set('startTime', event.target.value)}
+            onChange={(event) => set("startTime", event.target.value)}
           />
           <TextField
             label="Termina às"
             type="time"
             value={value.endTime}
-            onChange={(event) => set('endTime', event.target.value)}
+            onChange={(event) => set("endTime", event.target.value)}
           />
         </div>
       )}
@@ -133,7 +131,7 @@ export function EventForm({ value, projects, onChange }: EventFormProps) {
       <TextField
         label="Local"
         value={value.location}
-        onChange={(event) => set('location', event.target.value)}
+        onChange={(event) => set("location", event.target.value)}
         placeholder="Sala da EJ, sede do cliente, remoto…"
       />
 
@@ -142,7 +140,7 @@ export function EventForm({ value, projects, onChange }: EventFormProps) {
         hint="Opcional. Para o que acontece on-line."
         type="url"
         value={value.onlineUrl}
-        onChange={(event) => set('onlineUrl', event.target.value)}
+        onChange={(event) => set("onlineUrl", event.target.value)}
         placeholder="https://meet.google.com/…"
       />
 
@@ -150,16 +148,18 @@ export function EventForm({ value, projects, onChange }: EventFormProps) {
         label="Projeto relacionado"
         hint="Opcional. Liga a reunião ao projeto — kickoff, checkpoint, entrega."
         value={value.projectId}
-        onChange={(event) => set('projectId', event.target.value)}
-        options={[{ value: '', label: 'Nenhum' }, ...nameOptions(projects)]}
+        onChange={(event) => set("projectId", event.target.value)}
+        options={[{ value: "", label: "Nenhum" }, ...nameOptions(projects)]}
       />
 
       <TextAreaField
         label="Descrição"
         value={value.description}
-        onChange={(event) => set('description', event.target.value)}
+        onChange={(event) => set("description", event.target.value)}
         placeholder="Pauta, o que levar, o que precisa estar pronto antes."
       />
     </>
-  )
-}
+  );
+};
+
+export { EventForm };

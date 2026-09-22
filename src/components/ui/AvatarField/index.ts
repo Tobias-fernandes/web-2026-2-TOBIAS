@@ -1,2 +1,2 @@
-export { AvatarField } from './AvatarField'
-export type { AvatarFieldProps } from './types'
+export { AvatarField } from "./AvatarField";
+export type { AvatarFieldProps } from "./types";

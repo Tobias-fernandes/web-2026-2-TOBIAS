@@ -1,8 +1,2 @@
-export {
-  Card,
-  CardTitle,
-  CardLink,
-  type CardProps,
-  type CardTitleProps,
-  type CardLinkProps,
-} from './Card'
+export { Card, CardTitle, CardLink } from "./Card";
+export type { CardLinkProps, CardProps, CardTitleProps } from "./types";

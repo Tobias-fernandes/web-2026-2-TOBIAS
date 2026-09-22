@@ -1,16 +1,16 @@
-import { Card } from '@/components/ui'
-import type { MemberWorkload } from '@/domain/types'
+import { Card } from "@/components/ui";
+import type { MemberWorkload } from "@/domain/types";
+import type { CapacityAlertsProps } from "./types";
 
-interface CapacityAlertsProps {
-  overloaded: MemberWorkload[]
-  idle: MemberWorkload[]
-}
-
-const names = (rows: MemberWorkload[]) => rows.map((row) => row.name).join(', ')
+const names = (rows: MemberWorkload[]) =>
+  rows.map((row) => row.name).join(", ");
 
 /** The two warnings a people director should read before the table. */
-export function CapacityAlerts({ overloaded, idle }: CapacityAlertsProps) {
-  if (overloaded.length === 0 && idle.length === 0) return null
+const CapacityAlerts: React.FC<CapacityAlertsProps> = ({
+  overloaded,
+  idle,
+}) => {
+  if (overloaded.length === 0 && idle.length === 0) return null;
 
   return (
     <div className="mb-6 grid gap-4 sm:grid-cols-2">
@@ -19,7 +19,7 @@ export function CapacityAlerts({ overloaded, idle }: CapacityAlertsProps) {
           <p className="m-0 text-base leading-relaxed text-ambar">
             <strong className="font-semibold">
               {overloaded.length} membro(s) sobrecarregado(s):
-            </strong>{' '}
+            </strong>{" "}
             {names(overloaded)}. A soma das alocações passa da carga que essas
             pessoas pactuaram.
           </p>
@@ -31,11 +31,13 @@ export function CapacityAlerts({ overloaded, idle }: CapacityAlertsProps) {
           <p className="m-0 text-base leading-relaxed text-tinta-suave">
             <strong className="font-semibold text-tinta">
               {idle.length} membro(s) sem projeto:
-            </strong>{' '}
+            </strong>{" "}
             {names(idle)}. Ficar de fora é o que antecede um desligamento.
           </p>
         </Card>
       )}
     </div>
-  )
-}
+  );
+};
+
+export { CapacityAlerts };

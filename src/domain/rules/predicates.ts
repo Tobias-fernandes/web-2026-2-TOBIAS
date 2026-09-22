@@ -1,5 +1,14 @@
-import { ACTIVE_PROJECT_STATUSES, DEAL_FUNNEL_COLUMNS } from '@/domain/constants'
-import type { CalendarEvent, Cycle, Deal, IsoDate, Project } from '@/domain/types'
+import {
+  ACTIVE_PROJECT_STATUSES,
+  DEAL_FUNNEL_COLUMNS,
+} from "@/domain/constants";
+import type {
+  CalendarEvent,
+  Cycle,
+  Deal,
+  IsoDate,
+  Project,
+} from "@/domain/types";
 
 /**
  * Questions the whole system asks about a record.
@@ -12,7 +21,7 @@ import type { CalendarEvent, Cycle, Deal, IsoDate, Project } from '@/domain/type
 
 /** Still moving through the funnel: neither won nor lost. */
 export const isOpenDeal = (deal: Deal): boolean =>
-  DEAL_FUNNEL_COLUMNS.includes(deal.stage)
+  DEAL_FUNNEL_COLUMNS.includes(deal.stage);
 
 /**
  * Counts towards the management's figures.
@@ -21,15 +30,15 @@ export const isOpenDeal = (deal: Deal): boolean =>
  * or margin — reporting it would inflate a term with work nobody did.
  */
 export const isCountableProject = (project: Project): boolean =>
-  project.status !== 'cancelled'
+  project.status !== "cancelled";
 
 /** Consuming the team's time right now, as opposed to closed or cancelled. */
 export const isActiveProject = (project: Project): boolean =>
-  ACTIVE_PROJECT_STATUSES.includes(project.status)
+  ACTIVE_PROJECT_STATUSES.includes(project.status);
 
 /** Still on: a cancelled commitment stays on the calendar, struck through. */
 export const isScheduledEvent = (event: CalendarEvent): boolean =>
-  event.status === 'scheduled'
+  event.status === "scheduled";
 
 /**
  * The day a management is measured against.
@@ -43,4 +52,4 @@ export const isScheduledEvent = (event: CalendarEvent): boolean =>
  * tells a board it is ahead when it is not.
  */
 export const cycleEnd = (cycle: Cycle): IsoDate =>
-  cycle.endsAt ?? `${cycle.startsAt.slice(0, 4)}-12-31`
+  cycle.endsAt ?? `${cycle.startsAt.slice(0, 4)}-12-31`;

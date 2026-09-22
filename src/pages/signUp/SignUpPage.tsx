@@ -1,15 +1,15 @@
-import { Link } from 'react-router-dom'
-import { Brand } from '@/components/layout'
-import { Button, ErrorText } from '@/components/ui'
-import { CloseIcon } from '@/components/ui/icons'
-import { ROUTES } from '@/config/routes'
-import { cn } from '@/lib/utils'
-import { useSignUpPage } from './hooks'
-import { AreasStep } from './steps/AreasStep'
-import { CoursesStep } from './steps/CoursesStep'
-import { EnterpriseStep } from './steps/EnterpriseStep'
-import { GoalsStep } from './steps/GoalsStep'
-import { PresidentStep } from './steps/PresidentStep'
+import { Link } from "react-router-dom";
+import { Brand } from "@/components/layout";
+import { Button, ErrorText } from "@/components/ui";
+import { CloseIcon } from "@/components/ui/icons";
+import { ROUTES } from "@/config/routes";
+import { cn } from "@/lib/utils";
+import { useSignUpPage } from "./hooks";
+import { AreasStep } from "./steps/AreasStep";
+import { CoursesStep } from "./steps/CoursesStep";
+import { EnterpriseStep } from "./steps/EnterpriseStep";
+import { GoalsStep } from "./steps/GoalsStep";
+import { PresidentStep } from "./steps/PresidentStep";
 
 /**
  * Registering a junior enterprise.
@@ -22,8 +22,8 @@ import { PresidentStep } from './steps/PresidentStep'
  * Nothing is written until the last step is submitted: the enterprise, the
  * president and the first management are created together or not at all.
  */
-export function SignUpPage() {
-  const page = useSignUpPage()
+const SignUpPage: React.FC = () => {
+  const page = useSignUpPage();
 
   return (
     <div className="min-h-dvh bg-papel px-6 py-12">
@@ -35,7 +35,7 @@ export function SignUpPage() {
         <CloseIcon size={20} />
       </Link>
 
-      <div className="mx-auto w-full max-w-[640px]">
+      <div className="mx-auto w-full max-w-160">
         <Brand to={ROUTES.landing} className="justify-center" />
 
         <ol className="mt-9 mb-8 flex list-none gap-2 p-0">
@@ -43,16 +43,16 @@ export function SignUpPage() {
             <li key={step.id} className="flex-1">
               <span
                 className={cn(
-                  'block h-1 rounded-full',
-                  index <= page.stepIndex ? 'bg-violeta' : 'bg-linha',
+                  "block h-1 rounded-full",
+                  index <= page.stepIndex ? "bg-violeta" : "bg-linha",
                 )}
               />
               <span
                 className={cn(
-                  'mt-2 block text-2xs',
+                  "mt-2 block text-2xs",
                   index === page.stepIndex
-                    ? 'font-semibold text-tinta'
-                    : 'text-tinta-suave',
+                    ? "font-semibold text-tinta"
+                    : "text-tinta-suave",
                 )}
               >
                 {step.title}
@@ -70,26 +70,26 @@ export function SignUpPage() {
 
         <form
           onSubmit={(event) => {
-            event.preventDefault()
-            if (page.isLastStep) void page.submit()
-            else page.goNext()
+            event.preventDefault();
+            if (page.isLastStep) void page.submit();
+            else page.goNext();
           }}
           noValidate
           className="flex flex-col gap-4"
         >
-          {page.step.id === 'enterprise' && (
+          {page.step.id === "enterprise" && (
             <EnterpriseStep value={page.form} onChange={page.update} />
           )}
-          {page.step.id === 'courses' && (
+          {page.step.id === "courses" && (
             <CoursesStep value={page.form} onChange={page.update} />
           )}
-          {page.step.id === 'areas' && (
+          {page.step.id === "areas" && (
             <AreasStep value={page.form} onChange={page.update} />
           )}
-          {page.step.id === 'goals' && (
+          {page.step.id === "goals" && (
             <GoalsStep value={page.form} onChange={page.update} />
           )}
-          {page.step.id === 'president' && (
+          {page.step.id === "president" && (
             <PresidentStep value={page.form} onChange={page.update} />
           )}
 
@@ -107,20 +107,22 @@ export function SignUpPage() {
             <Button type="submit" disabled={page.submitting}>
               {page.isLastStep
                 ? page.submitting
-                  ? 'Cadastrando…'
-                  : 'Concluir cadastro'
-                : 'Continuar'}
+                  ? "Cadastrando…"
+                  : "Concluir cadastro"
+                : "Continuar"}
             </Button>
           </div>
         </form>
 
         <p className="mt-8 text-center text-sm text-tinta-suave">
-          Sua EJ já usa o sistema?{' '}
+          Sua EJ já usa o sistema?{" "}
           <Link to={ROUTES.login} className="font-semibold text-violeta">
             Entrar
           </Link>
         </p>
       </div>
     </div>
-  )
-}
+  );
+};
+
+export { SignUpPage };

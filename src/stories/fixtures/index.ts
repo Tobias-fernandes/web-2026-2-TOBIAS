@@ -3,8 +3,8 @@ export {
   leadClient,
   negotiatingClient,
   clientList,
-} from './clients'
-export { activeCycle } from './cycles'
+} from "./clients";
+export { activeCycle } from "./cycles";
 export {
   courseList,
   workAreaList,
@@ -15,7 +15,7 @@ export {
   presidentMembership,
   consultantMembership,
   membershipList,
-} from './members'
+} from "./members";
 export {
   inProgressProject,
   overdueProject,
@@ -24,10 +24,10 @@ export {
   projectList,
   healthyMargin,
   burningMargin,
-} from './projects'
+} from "./projects";
 export {
   presidentUser,
   financeDirectorUser,
   traineeUser,
   buildSession,
-} from './users'
+} from "./users";

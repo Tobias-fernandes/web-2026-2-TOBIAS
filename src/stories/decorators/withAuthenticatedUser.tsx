@@ -1,7 +1,7 @@
-import type { Decorator } from '@storybook/react-vite'
-import type { User } from '@/domain/types'
-import { useAuthStore } from '@/stores/auth'
-import { buildSession, presidentUser } from '@/stories/fixtures'
+import type { Decorator } from "@storybook/react-vite";
+import type { User } from "@/domain/types";
+import { useAuthStore } from "@/stores/auth";
+import { buildSession, presidentUser } from "@/stories/fixtures";
 
 /**
  * Seeds the Zustand auth store so components that read the signed-in user render
@@ -15,8 +15,8 @@ export const withAuthenticatedUser =
   (Story) => {
     useAuthStore.setState({
       session: buildSession(user),
-      status: 'authenticated',
-    })
+      status: "authenticated",
+    });
 
-    return <Story />
-  }
+    return <Story />;
+  };

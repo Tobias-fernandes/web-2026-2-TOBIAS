@@ -1,8 +1,8 @@
-import { useState } from 'react'
-import type { ID } from '@/domain/types'
-import { toast } from '@/stores/toast'
+import { useState } from "react";
+import type { ID } from "@/domain/types";
+import { toast } from "@/stores/toast";
 
-const FALLBACK_ERROR = 'Não foi possível salvar.'
+const FALLBACK_ERROR = "Não foi possível salvar.";
 
 /**
  * The slice of a mutation this hook needs.
@@ -11,14 +11,14 @@ const FALLBACK_ERROR = 'Não foi possível salvar.'
  * layer keeps knowing nothing about the data layer.
  */
 interface Submitter<TInput> {
-  mutateAsync: (input: TInput) => Promise<unknown>
-  isPending: boolean
+  mutateAsync: (input: TInput) => Promise<unknown>;
+  isPending: boolean;
 }
 
 interface FormDialogOptions<TForm, TInput> {
   /** Called on every open, so the dialog always starts from a clean form. */
-  initial: () => TForm
-  mutation: Submitter<TInput>
+  initial: () => TForm;
+  mutation: Submitter<TInput>;
   /**
    * Message to show instead of submitting, or null when the form is valid.
    * Gets `editing` for the same reason `toInput` does: a rule that checks the
@@ -26,31 +26,31 @@ interface FormDialogOptions<TForm, TInput> {
    * know which one, if any, is the record being changed, so it does not flag
    * a record against itself.
    */
-  validate?: (form: TForm, editing: ID | null) => string | null
+  validate?: (form: TForm, editing: ID | null) => string | null;
   /** `editing` is the record's id when the dialog was opened to change one. */
-  toInput: (form: TForm, editing: ID | null) => TInput
+  toInput: (form: TForm, editing: ID | null) => TInput;
   /**
    * Toast shown after a successful save. Told apart by `editing` because
    * "cadastrado" and "atualizado" are different claims — closing the dialog
    * is the only feedback a save otherwise gets. Omit to stay silent.
    */
-  successMessage?: (editing: ID | null) => string
+  successMessage?: (editing: ID | null) => string;
 }
 
 export interface FormDialogState<TForm> {
-  open: boolean
-  form: TForm
-  error: string | null
-  submitting: boolean
+  open: boolean;
+  form: TForm;
+  error: string | null;
+  submitting: boolean;
   /** The record being changed, or null while the dialog is creating one. */
-  editing: ID | null
-  setForm: (form: TForm) => void
+  editing: ID | null;
+  setForm: (form: TForm) => void;
   /** Opens on a fresh form, with `overrides` applied — defaults picked at click time. */
-  openWith: (overrides?: Partial<TForm>) => void
+  openWith: (overrides?: Partial<TForm>) => void;
   /** Opens on an existing record, so submitting updates instead of creating. */
-  openFor: (id: ID, form: TForm) => void
-  close: () => void
-  submit: () => void
+  openFor: (id: ID, form: TForm) => void;
+  close: () => void;
+  submit: () => void;
 }
 
 /**
@@ -71,17 +71,17 @@ export function useFormDialog<TForm extends object, TInput>({
   toInput,
   successMessage,
 }: FormDialogOptions<TForm, TInput>): FormDialogState<TForm> {
-  const [open, setOpen] = useState(false)
-  const [form, setForm] = useState<TForm>(initial)
-  const [error, setError] = useState<string | null>(null)
-  const [editing, setEditing] = useState<ID | null>(null)
+  const [open, setOpen] = useState(false);
+  const [form, setForm] = useState<TForm>(initial);
+  const [error, setError] = useState<string | null>(null);
+  const [editing, setEditing] = useState<ID | null>(null);
 
   const start = (next: TForm, record: ID | null) => {
-    setForm(next)
-    setEditing(record)
-    setError(null)
-    setOpen(true)
-  }
+    setForm(next);
+    setEditing(record);
+    setError(null);
+    setOpen(true);
+  };
 
   return {
     open,
@@ -92,33 +92,33 @@ export function useFormDialog<TForm extends object, TInput>({
     setForm,
 
     openWith(overrides) {
-      start({ ...initial(), ...overrides }, null)
+      start({ ...initial(), ...overrides }, null);
     },
 
     openFor(id, next) {
-      start(next, id)
+      start(next, id);
     },
 
     close() {
-      setOpen(false)
+      setOpen(false);
     },
 
     async submit() {
-      const invalid = validate?.(form, editing)
+      const invalid = validate?.(form, editing);
       if (invalid) {
-        setError(invalid)
-        return
+        setError(invalid);
+        return;
       }
 
-      setError(null)
+      setError(null);
 
       try {
-        await mutation.mutateAsync(toInput(form, editing))
-        if (successMessage) toast.success(successMessage(editing))
-        setOpen(false)
+        await mutation.mutateAsync(toInput(form, editing));
+        if (successMessage) toast.success(successMessage(editing));
+        setOpen(false);
       } catch (cause) {
-        setError(cause instanceof Error ? cause.message : FALLBACK_ERROR)
+        setError(cause instanceof Error ? cause.message : FALLBACK_ERROR);
       }
     },
-  }
+  };
 }

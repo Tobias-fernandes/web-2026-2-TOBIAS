@@ -1,1 +1,2 @@
-export { Sheet, type SheetProps } from './Sheet'
+export { Sheet } from "./Sheet";
+export type { SheetProps } from "./types";

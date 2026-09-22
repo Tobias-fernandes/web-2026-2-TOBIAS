@@ -1,7 +1,7 @@
-import { isUsingMockAuth } from './authSource'
-import { cognitoAuthService } from './cognitoAuthService'
-import { mockAuthService } from './mockAuthService'
-import type { AuthService } from './types'
+import { isUsingMockAuth } from "./authSource";
+import { cognitoAuthService } from "./cognitoAuthService";
+import { mockAuthService } from "./mockAuthService";
+import type { AuthService } from "./types";
 
 /**
  * Its own switch, apart from the data layer's: signing in talks to Cognito
@@ -11,6 +11,8 @@ import type { AuthService } from './types'
  * `isUsingMockAuth` already folds in the local dev toggle on top of
  * `VITE_AUTH_SOURCE` — see `authSource.ts`.
  */
-export const authService: AuthService = isUsingMockAuth
+const authService: AuthService = isUsingMockAuth
   ? mockAuthService
-  : cognitoAuthService
+  : cognitoAuthService;
+
+export { authService };

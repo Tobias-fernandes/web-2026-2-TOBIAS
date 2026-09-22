@@ -1,4 +1,4 @@
-export { useAuthStore } from './authStore'
+export { useAuthStore } from "./authStore";
 export {
   useCurrentUser,
   useIsRestoringSession,
@@ -6,5 +6,5 @@ export {
   useCompleteNewPassword,
   useAdoptSession,
   useSignOut,
-} from './hooks'
-export type { AuthState, AuthStatus } from './types'
+} from "./hooks";
+export type { AuthState, AuthStatus } from "./types";

@@ -1,26 +1,26 @@
-import { env } from '@/config/env'
-import type { AuthSource } from '@/config/env'
+import { env } from "@/config/env";
+import type { AuthSource } from "@/config/env";
 
-const DEV_AUTH_OVERRIDE_KEY = 'altotech:dev-auth-override'
+const DEV_AUTH_OVERRIDE_KEY = "altotech:dev-auth-override";
 
-function readDevOverride(): AuthSource | null {
+const readDevOverride: () => AuthSource | null = () => {
   try {
-    const value = localStorage.getItem(DEV_AUTH_OVERRIDE_KEY)
-    return value === 'mock' || value === 'cognito' ? value : null
+    const value = localStorage.getItem(DEV_AUTH_OVERRIDE_KEY);
+    return value === "mock" || value === "cognito" ? value : null;
   } catch {
-    return null
+    return null;
   }
-}
+};
 
 /** Sets or clears the manual override. Dev-only — see `activeAuthSource`. */
-export function writeDevAuthOverride(source: AuthSource | null): void {
+const writeDevAuthOverride: (source: AuthSource | null) => void = (source) => {
   try {
-    if (source) localStorage.setItem(DEV_AUTH_OVERRIDE_KEY, source)
-    else localStorage.removeItem(DEV_AUTH_OVERRIDE_KEY)
+    if (source) localStorage.setItem(DEV_AUTH_OVERRIDE_KEY, source);
+    else localStorage.removeItem(DEV_AUTH_OVERRIDE_KEY);
   } catch {
     // No persistence; the toggle only lasts until the tab closes anyway.
   }
-}
+};
 
 /**
  * Which auth source is actually active, resolved once per page load.
@@ -33,9 +33,11 @@ export function writeDevAuthOverride(source: AuthSource | null): void {
  * override storage are dead code there: there is no way for a shipped build
  * to run with the wrong auth source because of a stray `localStorage` value.
  */
-export const activeAuthSource: AuthSource = import.meta.env.DEV
+const activeAuthSource: AuthSource = import.meta.env.DEV
   ? (readDevOverride() ?? env.authSource)
-  : env.authSource
+  : env.authSource;
 
 /** `true` while sign-in runs against the fixed demo users instead of Cognito. */
-export const isUsingMockAuth = activeAuthSource !== 'cognito'
+const isUsingMockAuth = activeAuthSource !== "cognito";
+
+export { activeAuthSource, isUsingMockAuth, writeDevAuthOverride };

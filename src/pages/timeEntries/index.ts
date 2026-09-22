@@ -1,1 +1,1 @@
-export { TimeEntriesPage } from './TimeEntriesPage'
+export { TimeEntriesPage } from "./TimeEntriesPage";

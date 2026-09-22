@@ -29,7 +29,7 @@ import {
  * system and requires a session. Amplify needs the `/<*>` → `/index.html` (200)
  * rewrite rule so reloading on an inner route does not return a 404.
  */
-export function AppRoutes() {
+const AppRoutes = () => {
   return (
     <Routes>
       <Route path={ROUTES.landing} element={<LandingPage />} />
@@ -59,4 +59,6 @@ export function AppRoutes() {
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
-}
+};
+
+export { AppRoutes };

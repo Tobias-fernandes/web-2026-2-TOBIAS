@@ -1,16 +1,14 @@
-import { CycleGoalsFields } from '@/components/forms'
-import type { SignUpFormState } from '../types'
+import { CycleGoalsFields } from "@/components/forms";
+import type {} from "../types";
+import type { StepProps } from "./types";
 
-interface StepProps {
-  value: SignUpFormState
-  onChange: (value: SignUpFormState) => void
-}
-
-export function GoalsStep({ value, onChange }: StepProps) {
+const GoalsStep: React.FC<StepProps> = ({ value, onChange }) => {
   return (
     <CycleGoalsFields
       value={value.goals}
       onChange={(goals) => onChange({ ...value, goals })}
     />
-  )
-}
+  );
+};
+
+export { GoalsStep };

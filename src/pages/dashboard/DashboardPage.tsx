@@ -14,9 +14,8 @@ import { useDashboardPage } from "./hooks";
  * six reads, and each card below knows how to draw one of them. What is left
  * here is the arrangement, which is the only thing this file should be about.
  */
-export function DashboardPage() {
+const DashboardPage: React.FC = () => {
   const panel = useDashboardPage();
-
 
   return (
     <>
@@ -36,4 +35,6 @@ export function DashboardPage() {
       </div>
     </>
   );
-}
+};
+
+export { DashboardPage };

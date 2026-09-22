@@ -1,1 +1,1 @@
-export { AllocationPage } from './AllocationPage'
+export { AllocationPage } from "./AllocationPage";

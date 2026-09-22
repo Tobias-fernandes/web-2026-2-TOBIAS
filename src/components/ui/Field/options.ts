@@ -8,10 +8,13 @@
 export const labelOptions = <K extends string>(
   labels: Record<K, string>,
 ): { value: K; label: string }[] =>
-  (Object.keys(labels) as K[]).map((value) => ({ value, label: labels[value] }))
+  (Object.keys(labels) as K[]).map((value) => ({
+    value,
+    label: labels[value],
+  }));
 
 /** Options for picking a record: its id as the value, its name as the label. */
 export const nameOptions = (
   items: readonly { id: string; name: string }[],
 ): { value: string; label: string }[] =>
-  items.map(({ id, name }) => ({ value: id, label: name }))
+  items.map(({ id, name }) => ({ value: id, label: name }));

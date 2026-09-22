@@ -1,4 +1,4 @@
-import type { ICognitoStorage } from 'amazon-cognito-identity-js'
+import type { ICognitoStorage } from "amazon-cognito-identity-js";
 
 /**
  * Where the Cognito SDK keeps its own session cache — the refresh, access and
@@ -15,17 +15,17 @@ import type { ICognitoStorage } from 'amazon-cognito-identity-js'
  * backend's `POST /session` minting an `httpOnly` cookie once it exists. Until
  * then, this is what stands in for it.
  */
-export const cognitoStorage: ICognitoStorage = {
+const cognitoStorage: ICognitoStorage = {
   getItem(key) {
     try {
-      return sessionStorage.getItem(key)
+      return sessionStorage.getItem(key);
     } catch {
-      return null
+      return null;
     }
   },
   setItem(key, value) {
     try {
-      sessionStorage.setItem(key, value)
+      sessionStorage.setItem(key, value);
     } catch {
       // Private browsing or blocked storage: the session lives for this call
       // only and will not survive a reload — the same shape of fallback the
@@ -34,16 +34,18 @@ export const cognitoStorage: ICognitoStorage = {
   },
   removeItem(key) {
     try {
-      sessionStorage.removeItem(key)
+      sessionStorage.removeItem(key);
     } catch {
       // Nothing to clean up if it was never stored.
     }
   },
   clear() {
     try {
-      sessionStorage.clear()
+      sessionStorage.clear();
     } catch {
       // Nothing to clean up if nothing was stored.
     }
   },
-}
+};
+
+export { cognitoStorage };

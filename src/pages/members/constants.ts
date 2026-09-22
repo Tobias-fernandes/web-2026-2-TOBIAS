@@ -1,5 +1,5 @@
-import { todayIso } from '@/lib/date'
-import type { MemberFormState } from './types'
+import { todayIso } from "@/lib/date";
+import type { MemberFormState } from "./types";
 
 /**
  * Opens as an invitation, not as an active member.
@@ -9,27 +9,27 @@ import type { MemberFormState } from './types'
  * registering someone and them having joined.
  */
 export const buildEmptyMemberForm = (): MemberFormState => ({
-  name: '',
-  email: '',
-  phone: '',
-  cpf: '',
-  registration: '',
-  entryTerm: '',
-  courseId: '',
+  name: "",
+  email: "",
+  phone: "",
+  cpf: "",
+  registration: "",
+  entryTerm: "",
+  courseId: "",
   avatarUrl: null,
-  status: 'invited',
+  status: "invited",
   joinedAt: todayIso(),
-  role: 'trainee',
-  workAreaId: '',
-  weeklyHours: '8',
-})
+  role: "trainee",
+  workAreaId: "",
+  weeklyHours: "8",
+});
 
 export const MEMBERS_TABLE_HEADERS = [
-  'Membro',
-  'Cargo na gestão',
-  'Área',
-  'Curso',
-  'Pactuado',
-  'Horas lançadas',
-  'Situação',
-]
+  "Membro",
+  "Cargo na gestão",
+  "Área",
+  "Curso",
+  "Pactuado",
+  "Horas lançadas",
+  "Situação",
+];

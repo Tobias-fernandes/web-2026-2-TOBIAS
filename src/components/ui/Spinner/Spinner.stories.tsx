@@ -1,28 +1,28 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Spinner } from './Spinner'
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Spinner } from "./Spinner";
 
 const meta = {
-  title: 'UI/Spinner',
+  title: "UI/Spinner",
   component: Spinner,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
     docs: {
       description: {
         component:
           'Indicador de carregamento com `role="status"`, para que leitores de tela ' +
-          'anunciem a espera. É o que as páginas mostram enquanto `isPending` do TanStack Query é verdadeiro.',
+          "anunciem a espera. É o que as páginas mostram enquanto `isPending` do TanStack Query é verdadeiro.",
       },
     },
   },
-  argTypes: { label: { control: 'text' } },
+  argTypes: { label: { control: "text" } },
   args: {},
-} satisfies Meta<typeof Spinner>
+} satisfies Meta<typeof Spinner>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
-export const Padrao: Story = {}
+export const Padrao: Story = {};
 
 export const ComRotulo: Story = {
-  args: { label: 'Carregando projetos…' },
-}
+  args: { label: "Carregando projetos…" },
+};

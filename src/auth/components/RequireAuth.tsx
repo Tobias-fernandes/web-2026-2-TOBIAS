@@ -1,25 +1,29 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import { Spinner } from '@/components/ui'
-import { ROUTES } from '@/config/routes'
-import { useCurrentUser, useIsRestoringSession } from '@/stores/auth'
+import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Spinner } from "@/components/ui";
+import { ROUTES } from "@/config/routes";
+import { useCurrentUser, useIsRestoringSession } from "@/stores/auth";
 
 /** Guards the `/app` routes, returning the user to their destination after login. */
-export function RequireAuth() {
-  const user = useCurrentUser()
-  const isRestoring = useIsRestoringSession()
-  const location = useLocation()
+const RequireAuth = () => {
+  const user = useCurrentUser();
+  const isRestoring = useIsRestoringSession();
+  const location = useLocation();
 
   if (isRestoring) {
     return (
       <div className="grid min-h-dvh place-items-center bg-papel">
         <Spinner label="Restaurando sessão…" />
       </div>
-    )
+    );
   }
 
   if (!user) {
-    return <Navigate to={ROUTES.login} state={{ from: location.pathname }} replace />
+    return (
+      <Navigate to={ROUTES.login} state={{ from: location.pathname }} replace />
+    );
   }
 
-  return <Outlet />
-}
+  return <Outlet />;
+};
+
+export { RequireAuth };

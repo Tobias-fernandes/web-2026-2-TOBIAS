@@ -1,1 +1,1 @@
-export { CyclePage } from './CyclePage'
+export { CyclePage } from "./CyclePage";

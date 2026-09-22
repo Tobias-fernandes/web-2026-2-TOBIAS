@@ -16,7 +16,7 @@ import { CapacityTable } from "./CapacityTable";
 import { useAllocationPage } from "./hooks";
 import { ALLOCATION_TABLE_HEADERS } from "./constants";
 
-export function AllocationPage() {
+const AllocationPage: React.FC = () => {
   const capacity = useAllocationPage();
 
   return (
@@ -106,4 +106,6 @@ export function AllocationPage() {
       </FormDialog>
     </>
   );
-}
+};
+
+export { AllocationPage };

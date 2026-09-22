@@ -1,38 +1,29 @@
-import type { ReactNode } from 'react'
-import { Link } from 'react-router-dom'
-import { cn } from '@/lib/utils'
+import type {} from "react";
+import { Link } from "react-router-dom";
+import { cn } from "@/lib/utils";
+import type { CardProps, CardTitleProps, CardLinkProps } from "./types";
 
-export interface CardProps {
-  children: ReactNode
-  className?: string
-}
-
-export interface CardTitleProps {
-  children: ReactNode
-  action?: ReactNode
-}
-
-export function Card({ children, className }: CardProps) {
+const Card: React.FC<CardProps> = ({ children, className }) => {
   return (
-    <div className={cn('rounded-xl border border-linha bg-papel-alto p-6', className)}>
+    <div
+      className={cn(
+        "rounded-xl border border-linha bg-papel-alto p-6",
+        className,
+      )}
+    >
       {children}
     </div>
-  )
-}
+  );
+};
 
-export function CardTitle({ children, action }: CardTitleProps) {
+const CardTitle: React.FC<CardTitleProps> = ({ children, action }) => {
   return (
     <div className="mb-5 flex items-baseline justify-between gap-4">
       <h2 className="font-display text-md font-bold">{children}</h2>
       {action}
     </div>
-  )
-}
-
-export interface CardLinkProps {
-  to: string
-  children: ReactNode
-}
+  );
+};
 
 /**
  * "See the whole thing" link in a card's header.
@@ -40,10 +31,14 @@ export interface CardLinkProps {
  * A card that summarises a screen always offers a way into it, and the four
  * that did were each carrying the same class string.
  */
-export function CardLink({ to, children }: CardLinkProps) {
+const CardLink: React.FC<CardLinkProps> = ({ to, children }) => {
   return (
     <Link to={to} className="text-sm text-violeta no-underline">
       {children}
     </Link>
-  )
-}
+  );
+};
+
+export { Card };
+
+export { CardTitle, CardLink };

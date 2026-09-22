@@ -1,10 +1,10 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
-import type { CreateInput, ID } from '@/domain/types'
-import type { CrudRepository } from '@/services'
+import { useMutation, useQuery } from "@tanstack/react-query";
+import type { CreateInput, ID } from "@/domain/types";
+import type { CrudRepository } from "@/services";
 
 interface EntityKeys {
-  all: readonly string[]
-  detail: (id: string) => readonly string[]
+  all: readonly string[];
+  detail: (id: string) => readonly string[];
 }
 
 /**
@@ -41,6 +41,7 @@ export function createEntityQueries<T extends { id: ID }>(
           repository.update(id, input),
       }),
 
-    useRemove: () => useMutation({ mutationFn: (id: ID) => repository.remove(id) }),
-  }
+    useRemove: () =>
+      useMutation({ mutationFn: (id: ID) => repository.remove(id) }),
+  };
 }

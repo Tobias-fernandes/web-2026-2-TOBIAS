@@ -1,21 +1,21 @@
-import { addDays, todayIso } from '@/lib/date'
-import type { DealFormState } from './types'
+import { addDays, todayIso } from "@/lib/date";
+import type { DealFormState } from "./types";
 
 export const buildEmptyDealForm = (): DealFormState => ({
-  title: '',
-  clientId: '',
-  ownerId: '',
-  stage: 'qualification',
-  source: 'inbound',
-  value: '',
+  title: "",
+  clientId: "",
+  ownerId: "",
+  stage: "qualification",
+  source: "inbound",
+  value: "",
   expectedCloseAt: addDays(todayIso(), 30),
-  notes: '',
-})
+  notes: "",
+});
 
 export const SOURCE_TABLE_HEADERS = [
-  'Origem',
-  'Oportunidades',
-  'Ganhas',
-  'Conversão',
-  'Valor ganho',
-]
+  "Origem",
+  "Oportunidades",
+  "Ganhas",
+  "Conversão",
+  "Valor ganho",
+];

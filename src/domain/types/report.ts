@@ -1,42 +1,42 @@
-import type { DealSource, DealStage, LossReason } from './deal'
-import type { ID, IsoDate } from './common'
-import type { MemberRole } from './membership'
-import type { MemberStatus } from './member'
-import type { TimeEntryCategory } from './timeEntry'
+import type { DealSource, DealStage, LossReason } from "./deal";
+import type { ID, IsoDate } from "./common";
+import type { MemberRole } from "./membership";
+import type { MemberStatus } from "./member";
+import type { TimeEntryCategory } from "./timeEntry";
 
 /** Consolidated figures behind the dashboard and the end-of-term report. */
 export interface DashboardMetrics {
-  projectsInProgress: number
-  projectsDelivered: number
-  projectsPlanning: number
-  activeMembers: number
-  activeClients: number
+  projectsInProgress: number;
+  projectsDelivered: number;
+  projectsPlanning: number;
+  activeMembers: number;
+  activeClients: number;
   /** Every hour logged in the term. The timesheet is a guide, not a gate. */
-  loggedHours: number
-  contractedRevenueCents: number
-  receivedRevenueCents: number
-  openPipelineCents: number
-  averageNps: number | null
+  loggedHours: number;
+  contractedRevenueCents: number;
+  receivedRevenueCents: number;
+  openPipelineCents: number;
+  averageNps: number | null;
 }
 
 /** One goal of the term, with what has been achieved so far. */
 export interface GoalProgress {
-  label: string
-  target: number
-  current: number
+  label: string;
+  target: number;
+  current: number;
   /** `current / target`, capped at nothing — over 1 means the goal was beaten. */
-  ratio: number
-  format: 'money' | 'count' | 'score'
+  ratio: number;
+  format: "money" | "count" | "score";
 }
 
 export interface CycleProgress {
-  cycleId: ID
-  cycleName: string
-  startsAt: IsoDate
-  endsAt: IsoDate
+  cycleId: ID;
+  cycleName: string;
+  startsAt: IsoDate;
+  endsAt: IsoDate;
   /** How much of the term has elapsed, 0-1. The pace to compare goals against. */
-  elapsed: number
-  goals: GoalProgress[]
+  elapsed: number;
+  goals: GoalProgress[];
 }
 
 /**
@@ -44,21 +44,21 @@ export interface CycleProgress {
  * for, and what they actually logged.
  */
 export interface MemberWorkload {
-  memberId: ID
-  name: string
-  role: MemberRole
+  memberId: ID;
+  name: string;
+  role: MemberRole;
   /** Someone on leave is not idle, and the capacity screen must not say so. */
-  status: MemberStatus
+  status: MemberStatus;
   /** Weekly hours agreed in the membership. */
-  committedWeeklyHours: number
+  committedWeeklyHours: number;
   /** Sum of the weekly hours of every allocation open today. */
-  allocatedWeeklyHours: number
-  loggedHours: number
+  allocatedWeeklyHours: number;
+  loggedHours: number;
   /** Logged over the hours expected across the period. */
-  utilization: number
+  utilization: number;
   /** Allocated over committed. Above 1 means the member is over-booked. */
-  overload: number
-  activeProjects: number
+  overload: number;
+  activeProjects: number;
 }
 
 /**
@@ -68,56 +68,56 @@ export interface MemberWorkload {
  * prices: the contract divided by the hours it actually took.
  */
 export interface ProjectMargin {
-  projectId: ID
-  name: string
-  clientName: string
-  contractValueCents: number
-  estimatedHours: number
-  loggedHours: number
+  projectId: ID;
+  name: string;
+  clientName: string;
+  contractValueCents: number;
+  estimatedHours: number;
+  loggedHours: number;
   /** Logged over estimated. Above 1 means the budget was blown. */
-  hoursUsage: number
-  estimatedHourlyRateCents: number
-  realizedHourlyRateCents: number | null
+  hoursUsage: number;
+  estimatedHourlyRateCents: number;
+  realizedHourlyRateCents: number | null;
 }
 
 export interface HoursByCategory {
-  category: TimeEntryCategory
-  hours: number
+  category: TimeEntryCategory;
+  hours: number;
   /** Share of the period's total, 0-1. */
-  share: number
+  share: number;
 }
 
 export interface FunnelStageSummary {
-  stage: DealStage
-  count: number
-  valueCents: number
+  stage: DealStage;
+  count: number;
+  valueCents: number;
 }
 
 export interface SourceSummary {
-  source: DealSource
-  deals: number
-  won: number
-  conversion: number
-  wonValueCents: number
+  source: DealSource;
+  deals: number;
+  won: number;
+  conversion: number;
+  wonValueCents: number;
 }
 
 export interface FunnelSummary {
-  stages: FunnelStageSummary[]
+  stages: FunnelStageSummary[];
   /** Won over (won + lost) — open deals are not counted either way. */
-  conversion: number
-  averageDaysToClose: number | null
-  openValueCents: number
-  wonValueCents: number
-  bySource: SourceSummary[]
-  lossReasons: { reason: LossReason; count: number }[]
+  conversion: number;
+  averageDaysToClose: number | null;
+  openValueCents: number;
+  wonValueCents: number;
+  bySource: SourceSummary[];
+  lossReasons: { reason: LossReason; count: number }[];
 }
 
 export interface CashFlowSummary {
-  receivedCents: number
-  toReceiveCents: number
-  overdueCents: number
-  paidCents: number
-  toPayCents: number
+  receivedCents: number;
+  toReceiveCents: number;
+  overdueCents: number;
+  paidCents: number;
+  toPayCents: number;
   /** Received minus paid: what actually moved through the account. */
-  balanceCents: number
+  balanceCents: number;
 }

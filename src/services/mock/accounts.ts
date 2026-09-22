@@ -1,5 +1,5 @@
-import type { ID } from '@/domain/types'
-import { readGlobal, writeGlobal } from './tenantStorage'
+import type { ID } from "@/domain/types";
+import { readGlobal, writeGlobal } from "./tenantStorage";
 
 /**
  * Sign-in credentials for enterprises registered through the demo.
@@ -10,23 +10,27 @@ import { readGlobal, writeGlobal } from './tenantStorage'
  * exactly why this module dies the day the pool exists.
  */
 export interface DemoAccount {
-  id: ID
-  enterpriseId: ID
-  memberId: ID
-  name: string
-  email: string
-  password: string
+  id: ID;
+  enterpriseId: ID;
+  memberId: ID;
+  name: string;
+  email: string;
+  password: string;
 }
 
-const COLLECTION = 'accounts'
+const COLLECTION = "accounts";
 
-export const listAccounts = (): DemoAccount[] => readGlobal<DemoAccount>(COLLECTION)
+export const listAccounts = (): DemoAccount[] =>
+  readGlobal<DemoAccount>(COLLECTION);
 
 export function findAccount(email: string): DemoAccount | null {
-  const wanted = email.trim().toLowerCase()
-  return listAccounts().find((account) => account.email.toLowerCase() === wanted) ?? null
+  const wanted = email.trim().toLowerCase();
+  return (
+    listAccounts().find((account) => account.email.toLowerCase() === wanted) ??
+    null
+  );
 }
 
 export function saveAccount(account: DemoAccount): void {
-  writeGlobal(COLLECTION, [account, ...listAccounts()])
+  writeGlobal(COLLECTION, [account, ...listAccounts()]);
 }

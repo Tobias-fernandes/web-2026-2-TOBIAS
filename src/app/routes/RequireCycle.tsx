@@ -21,8 +21,10 @@ import { useActiveCycle } from "@/queries";
  * skeleton. "Loading" and "there is none" are different states and only the
  * second one belongs here.
  */
-export function RequireCycle() {
+const RequireCycle: React.FC = () => {
   const { missing } = useActiveCycle();
 
   return missing ? <NoCycle /> : <Outlet />;
-}
+};
+
+export { RequireCycle };

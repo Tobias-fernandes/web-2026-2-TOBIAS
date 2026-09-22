@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom'
-import { ArrowRightIcon } from '@/components/ui/icons'
-import { ZERO_FLOW } from './constants'
+import { Link } from "react-router-dom";
+import { ArrowRightIcon } from "@/components/ui/icons";
+import { ZERO_FLOW } from "./constants";
 
 /**
  * The walkthrough of an empty system, in dependency order.
@@ -10,7 +10,7 @@ import { ZERO_FLOW } from './constants'
  * like this is to hit the wall — try to open a project before there is a
  * gestão to put it in.
  */
-export function ZeroFlow() {
+const ZeroFlow: React.FC = () => {
   return (
     <ol className="m-0 mb-8 flex list-none flex-col gap-2.5 p-0">
       {ZERO_FLOW.map((step, index) => (
@@ -40,5 +40,7 @@ export function ZeroFlow() {
         </li>
       ))}
     </ol>
-  )
-}
+  );
+};
+
+export { ZeroFlow };

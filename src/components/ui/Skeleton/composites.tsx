@@ -1,14 +1,14 @@
-import { Skeleton } from './Skeleton'
-import { SkeletonRegion } from './SkeletonRegion'
-import type { SkeletonCountProps, SkeletonTableProps } from './types'
+import { Skeleton } from "./Skeleton";
+import { SkeletonRegion } from "./SkeletonRegion";
+import type { SkeletonCountProps, SkeletonTableProps } from "./types";
 
 /** The shell of a table: the border, a header rule and the rows. */
-export function SkeletonTable({
+const SkeletonTable: React.FC<SkeletonTableProps> = ({
   rows = 5,
   columns = 4,
-  label = 'Carregando a tabela…',
+  label = "Carregando a tabela…",
   className,
-}: SkeletonTableProps) {
+}) => {
   return (
     <SkeletonRegion label={label} className={className}>
       <div className="overflow-hidden rounded-xl border border-linha bg-papel-alto">
@@ -16,7 +16,7 @@ export function SkeletonTable({
           {Array.from({ length: columns }, (_, index) => (
             <Skeleton
               key={index}
-              className={index === 0 ? 'h-3 flex-[2]' : 'h-3 flex-1'}
+              className={index === 0 ? "h-3 flex-[2]" : "h-3 flex-1"}
             />
           ))}
         </div>
@@ -29,44 +29,47 @@ export function SkeletonTable({
             {Array.from({ length: columns }, (_, index) => (
               <Skeleton
                 key={index}
-                className={index === 0 ? 'h-4 flex-[2]' : 'h-4 flex-1'}
+                className={index === 0 ? "h-4 flex-[2]" : "h-4 flex-1"}
               />
             ))}
           </div>
         ))}
       </div>
     </SkeletonRegion>
-  )
-}
+  );
+};
 
 /** The row of headline figures at the top of a screen. */
-export function SkeletonMetrics({
+const SkeletonMetrics: React.FC<SkeletonCountProps> = ({
   count = 4,
-  label = 'Somando os indicadores…',
+  label = "Somando os indicadores…",
   className,
-}: SkeletonCountProps) {
+}) => {
   return (
     <SkeletonRegion
       label={label}
-      className={className ?? 'mb-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4'}
+      className={className ?? "mb-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4"}
     >
       {Array.from({ length: count }, (_, index) => (
-        <div key={index} className="rounded-xl border border-linha bg-papel-alto p-5">
+        <div
+          key={index}
+          className="rounded-xl border border-linha bg-papel-alto p-5"
+        >
           <Skeleton className="h-3 w-2/5" />
           <Skeleton className="mt-3.5 h-7 w-3/5" />
           <Skeleton className="mt-3 h-3 w-4/5" />
         </div>
       ))}
     </SkeletonRegion>
-  )
-}
+  );
+};
 
 /** A list of labelled progress bars: goals, workload, hours by category. */
-export function SkeletonBars({
+const SkeletonBars: React.FC<SkeletonCountProps> = ({
   count = 4,
-  label = 'Calculando…',
+  label = "Calculando…",
   className,
-}: SkeletonCountProps) {
+}) => {
   return (
     <SkeletonRegion label={label} className={className}>
       <div className="flex flex-col gap-4">
@@ -81,15 +84,15 @@ export function SkeletonBars({
         ))}
       </div>
     </SkeletonRegion>
-  )
-}
+  );
+};
 
 /** Stacked cards, as on the project board or a list of deadlines. */
-export function SkeletonList({
+const SkeletonList: React.FC<SkeletonCountProps> = ({
   count = 4,
-  label = 'Carregando…',
+  label = "Carregando…",
   className,
-}: SkeletonCountProps) {
+}) => {
   return (
     <SkeletonRegion label={label} className={className}>
       <div className="flex flex-col gap-2.5">
@@ -107,29 +110,35 @@ export function SkeletonList({
         ))}
       </div>
     </SkeletonRegion>
-  )
-}
+  );
+};
 
 /** Columns of cards, as on the project board and the commercial funnel. */
-export function SkeletonBoard({
+const SkeletonBoard: React.FC<SkeletonCountProps> = ({
   count = 4,
-  label = 'Carregando o quadro…',
+  label = "Carregando o quadro…",
   className,
-}: SkeletonCountProps) {
+}) => {
   return (
     <SkeletonRegion
       label={label}
-      className={className ?? 'grid gap-5 md:grid-cols-2 xl:grid-cols-4'}
+      className={className ?? "grid gap-5 md:grid-cols-2 xl:grid-cols-4"}
     >
       {Array.from({ length: count }, (_, column) => (
-        <div key={column} className="rounded-xl border border-linha bg-papel-alto p-3">
+        <div
+          key={column}
+          className="rounded-xl border border-linha bg-papel-alto p-3"
+        >
           <div className="mb-3 flex items-baseline justify-between border-b border-linha px-1 pb-2">
             <Skeleton className="h-3 w-1/2" />
             <Skeleton className="h-3 w-10" />
           </div>
           <div className="flex flex-col gap-2.5">
             {Array.from({ length: column === 0 ? 2 : 1 }, (_, card) => (
-              <div key={card} className="rounded-lg border border-linha bg-papel p-3">
+              <div
+                key={card}
+                className="rounded-lg border border-linha bg-papel p-3"
+              >
                 <Skeleton className="h-3.5 w-3/4" />
                 <Skeleton className="mt-2 h-3 w-1/2" />
                 <Skeleton className="mt-3.5 h-5 w-2/5" />
@@ -139,15 +148,15 @@ export function SkeletonBoard({
         </div>
       ))}
     </SkeletonRegion>
-  )
-}
+  );
+};
 
 /** Label on the left, figure on the right: the cash-flow and term-sheet lists. */
-export function SkeletonRows({
+const SkeletonRows: React.FC<SkeletonCountProps> = ({
   count = 4,
-  label = 'Carregando…',
+  label = "Carregando…",
   className,
-}: SkeletonCountProps) {
+}) => {
   return (
     <SkeletonRegion label={label} className={className}>
       <div className="flex flex-col gap-3">
@@ -162,15 +171,15 @@ export function SkeletonRows({
         ))}
       </div>
     </SkeletonRegion>
-  )
-}
+  );
+};
 
 /** A row of pill-shaped filters, as the term picker. */
-export function SkeletonChips({
+const SkeletonChips: React.FC<SkeletonCountProps> = ({
   count = 3,
-  label = 'Carregando…',
+  label = "Carregando…",
   className,
-}: SkeletonCountProps) {
+}) => {
   return (
     <SkeletonRegion label={label} className={className}>
       <div className="flex flex-wrap gap-2">
@@ -179,5 +188,16 @@ export function SkeletonChips({
         ))}
       </div>
     </SkeletonRegion>
-  )
-}
+  );
+};
+
+export { SkeletonTable };
+
+export {
+  SkeletonMetrics,
+  SkeletonBars,
+  SkeletonList,
+  SkeletonBoard,
+  SkeletonRows,
+  SkeletonChips,
+};

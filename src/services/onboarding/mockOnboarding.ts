@@ -1,5 +1,5 @@
-import { SESSION_DURATION_MS } from '@/auth/services'
-import { writeStoredSession } from '@/config/storage'
+import { SESSION_DURATION_MS } from "@/auth/services";
+import { writeStoredSession } from "@/config/storage";
 import type {
   Course,
   Cycle,
@@ -9,17 +9,17 @@ import type {
   Session,
   User,
   WorkArea,
-} from '@/domain/types'
-import { todayIso } from '@/lib/date'
-import { isValidCnpj, isValidCpf, onlyDigits } from '@/lib/document'
-import { generateId } from '@/lib/utils'
-import { findAccount, saveAccount } from '@/services/mock/accounts'
-import { isCnpjRegistered, saveEnterprise } from '@/services/mock/enterprises'
-import { writeCollection } from '@/services/mock/tenantStorage'
-import { SignUpError } from './SignUpError'
-import type { OnboardingService, SignUpInput } from './types'
+} from "@/domain/types";
+import { todayIso } from "@/lib/date";
+import { isValidCnpj, isValidCpf, onlyDigits } from "@/lib/document";
+import { generateId } from "@/lib/utils";
+import { findAccount, saveAccount } from "@/services/mock/accounts";
+import { isCnpjRegistered, saveEnterprise } from "@/services/mock/enterprises";
+import { writeCollection } from "@/services/mock/tenantStorage";
+import { SignUpError } from "./SignUpError";
+import type { OnboardingService, SignUpInput } from "./types";
 
-const delay = (ms = 420) => new Promise((resolve) => setTimeout(resolve, ms))
+const delay = (ms = 420) => new Promise((resolve) => setTimeout(resolve, ms));
 
 /**
  * Registering an enterprise, in the browser.
@@ -33,33 +33,33 @@ const delay = (ms = 420) => new Promise((resolve) => setTimeout(resolve, ms))
  */
 export const mockOnboarding: OnboardingService = {
   async isCnpjTaken(cnpj: string) {
-    await delay(200)
-    return isCnpjRegistered(cnpj)
+    await delay(200);
+    return isCnpjRegistered(cnpj);
   },
 
   async signUp(input: SignUpInput): Promise<Session> {
-    await delay()
+    await delay();
 
-    const cnpj = onlyDigits(input.enterprise.cnpj)
-    const cpf = onlyDigits(input.president.cpf)
+    const cnpj = onlyDigits(input.enterprise.cnpj);
+    const cpf = onlyDigits(input.president.cpf);
 
-    if (!isValidCnpj(cnpj)) throw new SignUpError('CNPJ inválido.')
-    if (!isValidCpf(cpf)) throw new SignUpError('CPF inválido.')
+    if (!isValidCnpj(cnpj)) throw new SignUpError("CNPJ inválido.");
+    if (!isValidCpf(cpf)) throw new SignUpError("CPF inválido.");
     if (isCnpjRegistered(cnpj)) {
-      throw new SignUpError('Este CNPJ já tem uma empresa júnior cadastrada.')
+      throw new SignUpError("Este CNPJ já tem uma empresa júnior cadastrada.");
     }
     if (findAccount(input.president.email)) {
-      throw new SignUpError('Este e-mail já está em uso.')
+      throw new SignUpError("Este e-mail já está em uso.");
     }
     if (input.courses.length === 0) {
-      throw new SignUpError('Cadastre ao menos um curso.')
+      throw new SignUpError("Cadastre ao menos um curso.");
     }
     if (input.workAreas.length === 0) {
-      throw new SignUpError('Cadastre ao menos uma área de atuação.')
+      throw new SignUpError("Cadastre ao menos uma área de atuação.");
     }
 
-    const today = todayIso()
-    const enterpriseId = generateId('ej')
+    const today = todayIso();
+    const enterpriseId = generateId("ej");
 
     const enterprise: JuniorEnterprise = {
       id: enterpriseId,
@@ -67,29 +67,32 @@ export const mockOnboarding: OnboardingService = {
       cnpj,
       email: input.enterprise.email.trim(),
       createdAt: today,
-    }
+    };
 
     const courses: Course[] = input.courses.map((name) => ({
-      id: generateId('crs'),
+      id: generateId("crs"),
       enterpriseId,
       name: name.trim(),
       createdAt: today,
-    }))
+    }));
 
     const workAreas: WorkArea[] = input.workAreas.map((area) => ({
-      id: generateId('wka'),
+      id: generateId("wka"),
       enterpriseId,
       name: area.name.trim(),
       directorate: area.directorate,
       createdAt: today,
-    }))
+    }));
 
-    const course = courses.find((item) => item.name === input.president.course.trim())
+    const course = courses.find(
+      (item) => item.name === input.president.course.trim(),
+    );
     const workArea = workAreas.find(
       (item) => item.name === input.president.workArea.trim(),
-    )
-    if (!course) throw new SignUpError('Escolha o curso do presidente.')
-    if (!workArea) throw new SignUpError('Escolha a área de atuação do presidente.')
+    );
+    if (!course) throw new SignUpError("Escolha o curso do presidente.");
+    if (!workArea)
+      throw new SignUpError("Escolha a área de atuação do presidente.");
 
     /**
      * The term the enterprise opens in. It exists from the first minute because
@@ -97,16 +100,16 @@ export const mockOnboarding: OnboardingService = {
      * cargo in a term that does not exist, and every report would skip them.
      */
     const cycle: Cycle = {
-      id: generateId('cyc'),
+      id: generateId("cyc"),
       startsAt: today,
       endsAt: null,
-      status: 'active',
+      status: "active",
       goals: input.cycleGoals,
       createdAt: today,
-    }
+    };
 
     const president: Member = {
-      id: generateId('mem'),
+      id: generateId("mem"),
       enterpriseId,
       name: input.president.name.trim(),
       email: input.president.email.trim(),
@@ -117,40 +120,40 @@ export const mockOnboarding: OnboardingService = {
       courseId: course.id,
       avatarUrl: input.president.avatarUrl,
       // Active, not invited: nobody has to accept their own registration.
-      status: 'active',
+      status: "active",
       joinedAt: today,
       leftAt: null,
       createdAt: today,
-    }
+    };
 
     const membership: Membership = {
-      id: generateId('msh'),
+      id: generateId("msh"),
       memberId: president.id,
       cycleId: cycle.id,
-      role: 'president',
+      role: "president",
       workAreaId: workArea.id,
       weeklyHours: 12,
       startsAt: today,
       endsAt: null,
       createdAt: today,
-    }
+    };
 
-    writeCollection('courses', courses, enterpriseId)
-    writeCollection('work-areas', workAreas, enterpriseId)
-    writeCollection('cycles', [cycle], enterpriseId)
-    writeCollection('members', [president], enterpriseId)
-    writeCollection('memberships', [membership], enterpriseId)
+    writeCollection("courses", courses, enterpriseId);
+    writeCollection("work-areas", workAreas, enterpriseId);
+    writeCollection("cycles", [cycle], enterpriseId);
+    writeCollection("members", [president], enterpriseId);
+    writeCollection("memberships", [membership], enterpriseId);
 
     const user: User = {
-      id: generateId('usr'),
+      id: generateId("usr"),
       enterpriseId,
       name: president.name,
       email: president.email,
-      role: 'president',
+      role: "president",
       directorate: workArea.directorate,
       avatarUrl: president.avatarUrl,
       memberId: president.id,
-    }
+    };
 
     saveAccount({
       id: user.id,
@@ -159,22 +162,22 @@ export const mockOnboarding: OnboardingService = {
       name: user.name,
       email: user.email,
       password: input.president.password,
-    })
+    });
 
     // Written last, and in this order: `isCnpjTaken` reads the enterprise
     // register, so committing it before the credential exists would mark the
     // CNPJ as taken even if writing the account failed right after — locking
     // the EJ out of retrying its own registration. Everything up to here can
     // fail and leave nothing anybody could reach anyway.
-    saveEnterprise(enterprise)
+    saveEnterprise(enterprise);
 
     const session: Session = {
       user,
       accessToken: `demo.${user.id}`,
       expiresAt: Date.now() + SESSION_DURATION_MS,
-    }
-    writeStoredSession(session)
+    };
+    writeStoredSession(session);
 
-    return session
+    return session;
   },
-}
+};

@@ -15,5 +15,5 @@ export {
   isWithinPeriod,
   overlapsPeriod,
   elapsedShare,
-} from './date'
-export { MS_PER_DAY, DAYS_IN_WEEK, WEEK_START_DAY } from './constants'
+} from "./date";
+export { MS_PER_DAY, DAYS_IN_WEEK, WEEK_START_DAY } from "./constants";

@@ -1,12 +1,14 @@
-import { Link } from 'react-router-dom'
-import { MetricCard, QueryState, SkeletonMetrics } from '@/components/ui'
-import type { Loadable } from '@/components/ui'
-import { ROUTES } from '@/config/routes'
-import type { DashboardMetrics } from '@/domain/types'
-import { formatHours, formatMoney, formatScore } from '@/lib/format'
+import { Link } from "react-router-dom";
+import { MetricCard, QueryState, SkeletonMetrics } from "@/components/ui";
+import type { Loadable } from "@/components/ui";
+import { ROUTES } from "@/config/routes";
+import type { DashboardMetrics } from "@/domain/types";
+import { formatHours, formatMoney, formatScore } from "@/lib/format";
 
 /** The four headline figures of the management. */
-export function MetricsRow({ metrics }: { metrics: Loadable<DashboardMetrics> }) {
+const MetricsRow: React.FC<{
+  metrics: Loadable<DashboardMetrics>;
+}> = ({ metrics }) => {
   return (
     <QueryState query={metrics} skeleton={<SkeletonMetrics />}>
       {(data) => (
@@ -34,11 +36,13 @@ export function MetricsRow({ metrics }: { metrics: Loadable<DashboardMetrics> })
             hint={
               data.averageNps !== null
                 ? `Satisfação média ${formatScore(data.averageNps)}`
-                : 'Sem avaliação de cliente ainda'
+                : "Sem avaliação de cliente ainda"
             }
           />
         </div>
       )}
     </QueryState>
-  )
-}
+  );
+};
+
+export { MetricsRow };

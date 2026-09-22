@@ -1,22 +1,22 @@
-import { PageHeader } from '@/components/layout'
+import { PageHeader } from "@/components/layout";
 import {
   Button,
   EmptyState,
   FormDialog,
   QueryState,
   SkeletonTable,
-} from '@/components/ui'
-import { TimeEntryForm } from './TimeEntryForm'
-import { WeekEntriesTable } from './WeekEntriesTable'
-import { WeekGrid } from './WeekGrid'
-import { WeekToolbar } from './WeekToolbar'
-import { useTimesheetPage } from './hooks'
+} from "@/components/ui";
+import { TimeEntryForm } from "./TimeEntryForm";
+import { WeekEntriesTable } from "./WeekEntriesTable";
+import { WeekGrid } from "./WeekGrid";
+import { WeekToolbar } from "./WeekToolbar";
+import { useTimesheetPage } from "./hooks";
 
 const DESCRIPTION =
-  'A semana em uma grade: clique no dia e lance. É um guia para a EJ se enxergar, não um ponto — toda hora lançada já conta.'
+  "A semana em uma grade: clique no dia e lance. É um guia para a EJ se enxergar, não um ponto — toda hora lançada já conta.";
 
-export function TimeEntriesPage() {
-  const sheet = useTimesheetPage()
+const TimeEntriesPage: React.FC = () => {
+  const sheet = useTimesheetPage();
 
   // A timesheet belongs to a member, not to a login. Showing the grid to an
   // account that matches nobody would let it log hours against an id no report
@@ -30,14 +30,16 @@ export function TimeEntriesPage() {
           description="A folha de horas pertence ao membro, não ao login. Peça à gestão de pessoas para cadastrar você como membro desta gestão — a partir daí a sua semana aparece aqui."
         />
       </>
-    )
+    );
 
   return (
     <>
       <PageHeader
         title="Minhas horas"
         description={DESCRIPTION}
-        action={<Button onClick={() => sheet.openDialog()}>Lançar horas</Button>}
+        action={
+          <Button onClick={() => sheet.openDialog()}>Lançar horas</Button>
+        }
       />
 
       <WeekToolbar {...sheet} />
@@ -69,8 +71,8 @@ export function TimeEntriesPage() {
                   Nenhuma hora nesta semana
                 </p>
                 <p className="mx-auto mt-2 mb-6 max-w-[52ch] text-base leading-relaxed text-tinta-suave">
-                  Lance a primeira e a grade passa a mostrar os dias em que faltou
-                  registro.
+                  Lance a primeira e a grade passa a mostrar os dias em que
+                  faltou registro.
                 </p>
                 <Button onClick={() => sheet.openDialog()}>Lançar horas</Button>
               </div>
@@ -101,5 +103,7 @@ export function TimeEntriesPage() {
         />
       </FormDialog>
     </>
-  )
-}
+  );
+};
+
+export { TimeEntriesPage };

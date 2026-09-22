@@ -1,4 +1,4 @@
-import { PageHeader } from '@/components/layout'
+import { PageHeader } from "@/components/layout";
 import {
   Badge,
   Button,
@@ -11,22 +11,21 @@ import {
   TableCell,
   TableRow,
   labelOptions,
-} from '@/components/ui'
+} from "@/components/ui";
 import {
   MEMBER_ROLE_LABELS,
   MEMBER_STATUS_LABELS,
   MEMBER_STATUS_TONES,
-} from '@/domain/constants'
-import { formatDate, formatHours, getInitials } from '@/lib/format'
-import { MEMBERS_TABLE_HEADERS } from './constants'
-import { MemberForm } from './MemberForm'
-import { useMembersPage } from './hooks'
+} from "@/domain/constants";
+import { formatDate, formatHours, getInitials } from "@/lib/format";
+import { MEMBERS_TABLE_HEADERS } from "./constants";
+import { MemberForm } from "./MemberForm";
+import { useMembersPage } from "./hooks";
 
-const STATUS_OPTIONS = labelOptions(MEMBER_STATUS_LABELS)
+const STATUS_OPTIONS = labelOptions(MEMBER_STATUS_LABELS);
 
-export function MembersPage() {
-  const roster = useMembersPage()
-
+const MembersPage: React.FC = () => {
+  const roster = useMembersPage();
 
   return (
     <>
@@ -34,7 +33,11 @@ export function MembersPage() {
         title="Membros"
         description={roster.description}
         action={
-          roster.editable && <Button onClick={() => roster.dialog.openWith()}>Novo membro</Button>
+          roster.editable && (
+            <Button onClick={() => roster.dialog.openWith()}>
+              Novo membro
+            </Button>
+          )
         }
       />
 
@@ -48,7 +51,11 @@ export function MembersPage() {
             title="Nenhum membro cadastrado"
             description="Registre a equipe para começar a acompanhar horas, alocação e responsabilidades."
             action={
-              roster.editable && <Button onClick={() => roster.dialog.openWith()}>Novo membro</Button>
+              roster.editable && (
+                <Button onClick={() => roster.dialog.openWith()}>
+                  Novo membro
+                </Button>
+              )
             }
           />
         }
@@ -56,7 +63,7 @@ export function MembersPage() {
         {(list) => (
           <Table headers={MEMBERS_TABLE_HEADERS}>
             {list.map((member) => {
-              const membership = roster.membershipOf(member.id)
+              const membership = roster.membershipOf(member.id);
 
               return (
                 <TableRow key={member.id}>
@@ -90,7 +97,9 @@ export function MembersPage() {
                   </TableCell>
 
                   <TableCell className="text-tinta-suave">
-                    {membership ? roster.workAreaName(membership.workAreaId) : '—'}
+                    {membership
+                      ? roster.workAreaName(membership.workAreaId)
+                      : "—"}
                   </TableCell>
 
                   <TableCell className="text-tinta-suave">
@@ -98,7 +107,9 @@ export function MembersPage() {
                   </TableCell>
 
                   <TableCell className="whitespace-nowrap">
-                    {membership ? `${formatHours(membership.weeklyHours)}/sem` : '—'}
+                    {membership
+                      ? `${formatHours(membership.weeklyHours)}/sem`
+                      : "—"}
                   </TableCell>
 
                   <TableCell className="whitespace-nowrap font-display font-bold">
@@ -119,7 +130,7 @@ export function MembersPage() {
                     </span>
                   </TableCell>
                 </TableRow>
-              )
+              );
             })}
           </Table>
         )}
@@ -143,5 +154,7 @@ export function MembersPage() {
         />
       </FormDialog>
     </>
-  )
-}
+  );
+};
+
+export { MembersPage };

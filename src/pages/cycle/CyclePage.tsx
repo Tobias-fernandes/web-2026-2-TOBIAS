@@ -19,8 +19,8 @@ import { useCyclePage } from "./hooks";
  * The board's own screen: which term is open, what it committed to and how far
  * along it is. Everything else in the system is scoped to what is chosen here.
  */
-export function CyclePage() {
-  const term = useCyclePage()
+const CyclePage: React.FC = () => {
+  const term = useCyclePage();
 
   return (
     <>
@@ -64,10 +64,7 @@ export function CyclePage() {
             <CardTitle
               action={
                 term.editable && (
-                  <Button
-                    variant="subtle"
-                    onClick={term.editSelected}
-                  >
+                  <Button variant="subtle" onClick={term.editSelected}>
                     Editar metas
                   </Button>
                 )
@@ -113,4 +110,6 @@ export function CyclePage() {
       </FormDialog>
     </>
   );
-}
+};
+
+export { CyclePage };

@@ -1,10 +1,11 @@
-import type { CreateInput, ID } from '@/domain/types'
-import { generateId } from '@/lib/utils'
-import type { CrudRepository } from '@/services/types'
-import { MOCK_LATENCY_MS } from './constants'
-import { readCollectionOrSeed, writeCollection } from './tenantStorage'
+import type { CreateInput, ID } from "@/domain/types";
+import { generateId } from "@/lib/utils";
+import type { CrudRepository } from "@/services/types";
+import { MOCK_LATENCY_MS } from "./constants";
+import { readCollectionOrSeed, writeCollection } from "./tenantStorage";
 
-const delay = () => new Promise((resolve) => setTimeout(resolve, MOCK_LATENCY_MS))
+const delay = () =>
+  new Promise((resolve) => setTimeout(resolve, MOCK_LATENCY_MS));
 
 /**
  * Records of the active enterprise, falling back to the seed for the demo one.
@@ -14,20 +15,20 @@ const delay = () => new Promise((resolve) => setTimeout(resolve, MOCK_LATENCY_MS
  * projects. `readCollectionOrSeed` is what tells the two cases apart.
  */
 function load<T>(collection: string, seed: T[]): T[] {
-  return readCollectionOrSeed(collection, seed)
+  return readCollectionOrSeed(collection, seed);
 }
 
 interface MockRepositoryOptions<T> {
-  key: string
-  seed: T[]
-  idPrefix: string
+  key: string;
+  seed: T[];
+  idPrefix: string;
   /**
    * Fields the real API would assign on insert, for the entities that have them.
    *
    * Only some entities carry a `createdAt`; others date themselves with their
    * own fields. Stamping unconditionally wrote a property none of those declare.
    */
-  stamp?: () => Partial<T>
+  stamp?: () => Partial<T>;
 }
 
 /**
@@ -49,50 +50,50 @@ export function createMockRepository<T extends { id: ID }>({
 }: MockRepositoryOptions<T>): CrudRepository<T> {
   return {
     async list() {
-      await delay()
-      return structuredClone(load(key, seed))
+      await delay();
+      return structuredClone(load(key, seed));
     },
 
     async get(id) {
-      await delay()
-      const records = load(key, seed)
-      return structuredClone(records.find((item) => item.id === id) ?? null)
+      await delay();
+      const records = load(key, seed);
+      return structuredClone(records.find((item) => item.id === id) ?? null);
     },
 
     async create(input: CreateInput<T>) {
-      await delay()
-      const records = load(key, seed)
+      await delay();
+      const records = load(key, seed);
       // `CreateInput<T>` plus a generated id is a complete `T`, but TypeScript
       // cannot verify that through the spread of an unresolved generic.
       const created = {
         ...stamp?.(),
         ...input,
         id: input.id ?? generateId(idPrefix),
-      } as T
-      writeCollection(key, [created, ...records])
-      return structuredClone(created)
+      } as T;
+      writeCollection(key, [created, ...records]);
+      return structuredClone(created);
     },
 
     async update(id, input) {
-      await delay()
-      const records = load(key, seed)
-      const current = records.find((item) => item.id === id)
-      if (!current) throw new Error(`Record ${id} not found.`)
-      const updated = { ...current, ...input, id }
+      await delay();
+      const records = load(key, seed);
+      const current = records.find((item) => item.id === id);
+      if (!current) throw new Error(`Record ${id} not found.`);
+      const updated = { ...current, ...input, id };
       writeCollection(
         key,
         records.map((item) => (item.id === id ? updated : item)),
-      )
-      return structuredClone(updated)
+      );
+      return structuredClone(updated);
     },
 
     async remove(id) {
-      await delay()
-      const records = load(key, seed)
+      await delay();
+      const records = load(key, seed);
       writeCollection(
         key,
         records.filter((item) => item.id !== id),
-      )
+      );
     },
-  }
+  };
 }

@@ -1,12 +1,7 @@
-import { useEffect, useRef, type ReactNode } from 'react'
-import { CloseIcon } from '@/components/ui/icons'
-
-export interface SheetProps {
-  open: boolean
-  title: string
-  onClose: () => void
-  children: ReactNode
-}
+import type {} from "react";
+import { useSheet } from "./hooks";
+import { CloseIcon } from "@/components/ui/icons";
+import type { SheetProps } from "./types";
 
 /**
  * Panel that slides in over the page from the left edge.
@@ -17,29 +12,15 @@ export interface SheetProps {
  * because this is the navigation: tabbing out of an open menu into the page
  * underneath is how a phone user gets lost.
  */
-export function Sheet({ open, title, onClose, children }: SheetProps) {
-  const ref = useRef<HTMLDialogElement>(null)
-
-  useEffect(() => {
-    const dialog = ref.current
-    if (!dialog) return
-
-    if (open && !dialog.open) dialog.showModal()
-    if (!open && dialog.open) dialog.close()
-  }, [open])
+const Sheet: React.FC<SheetProps> = ({ open, title, onClose, children }) => {
+  const { ref, handleCancel, handleBackdropClick } = useSheet(open, onClose);
 
   return (
     <dialog
       ref={ref}
-      onCancel={(event) => {
-        event.preventDefault()
-        onClose()
-      }}
+      onCancel={handleCancel}
       onClose={onClose}
-      // A click on the backdrop lands on the dialog itself, never on a child.
-      onClick={(event) => {
-        if (event.target === ref.current) onClose()
-      }}
+      onClick={handleBackdropClick}
       aria-label={title}
       className="gaveta fixed inset-y-0 left-0 m-0 h-dvh max-h-none w-[min(320px,86vw)] max-w-none border-r border-linha bg-papel-alto p-0 text-tinta backdrop:bg-veu"
     >
@@ -55,5 +36,7 @@ export function Sheet({ open, title, onClose, children }: SheetProps) {
         {children}
       </div>
     </dialog>
-  )
-}
+  );
+};
+
+export { Sheet };

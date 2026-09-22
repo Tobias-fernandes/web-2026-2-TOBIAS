@@ -1,5 +1,5 @@
 /** `mock` serves the local demo data; `aws` calls the real API. */
-export type DataSource = 'mock' | 'aws'
+export type DataSource = "mock" | "aws";
 
 /**
  * `mock` signs in against the fixed demo users; `cognito` performs a real SRP
@@ -11,18 +11,18 @@ export type DataSource = 'mock' | 'aws'
  * only be tested once the API was live — this way it can be tested the day the
  * User Pool exists.
  */
-export type AuthSource = 'mock' | 'cognito'
+export type AuthSource = "mock" | "cognito";
 
 export interface CognitoConfig {
-  userPoolId: string
-  clientId: string
-  domain: string
+  userPoolId: string;
+  clientId: string;
+  domain: string;
 }
 
 export interface AppEnv {
-  dataSource: DataSource
-  authSource: AuthSource
-  apiUrl: string
-  region: string
-  cognito: CognitoConfig
+  dataSource: DataSource;
+  authSource: AuthSource;
+  apiUrl: string;
+  region: string;
+  cognito: CognitoConfig;
 }

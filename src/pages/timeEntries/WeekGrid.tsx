@@ -3,15 +3,7 @@ import { TIME_ENTRY_CATEGORY_TONES } from "@/domain/constants";
 import type { IsoDate } from "@/domain/types";
 import { formatDayMonth, formatHours, formatWeekday } from "@/lib/format";
 import { cn } from "@/lib/utils";
-import type { TimesheetRow } from "./types";
-
-interface WeekGridProps {
-  days: IsoDate[];
-  rows: TimesheetRow[];
-  today: IsoDate;
-  /** Opens the dialog already filled with this row's project and this day. */
-  onCell: (row: TimesheetRow, date: IsoDate) => void;
-}
+import type { WeekGridProps } from "./types";
 
 /**
  * The week at a glance, one row per project.
@@ -21,7 +13,7 @@ interface WeekGridProps {
  * week is a grid — the member sees the gaps and fills a cell by clicking it,
  * instead of opening a form and re-picking the project seven times.
  */
-export function WeekGrid({ days, rows, today, onCell }: WeekGridProps) {
+const WeekGrid: React.FC<WeekGridProps> = ({ days, rows, today, onCell }) => {
   const dayTotal = (date: IsoDate) =>
     rows.reduce((total, row) => total + (row.hoursByDate[date] ?? 0), 0);
 
@@ -129,4 +121,6 @@ export function WeekGrid({ days, rows, today, onCell }: WeekGridProps) {
       </table>
     </div>
   );
-}
+};
+
+export { WeekGrid };

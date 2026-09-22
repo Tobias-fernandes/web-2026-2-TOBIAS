@@ -3,37 +3,34 @@ import type {
   ReactNode,
   SelectHTMLAttributes,
   TextareaHTMLAttributes,
-} from 'react'
+} from "react";
 
 export interface FieldShellProps {
-  id: string
-  label: string
-  hint?: string
-  error?: string
-  children: ReactNode
+  id: string;
+  label: string;
+  hint?: string;
+  error?: string;
+  children: ReactNode;
 }
 
 interface BaseFieldProps {
-  label: string
-  hint?: string
-  error?: string
+  label: string;
+  hint?: string;
+  error?: string;
 }
 
 export interface TextFieldProps
-  extends BaseFieldProps,
-    InputHTMLAttributes<HTMLInputElement> {}
+  extends BaseFieldProps, InputHTMLAttributes<HTMLInputElement> {}
 
 export interface TextAreaFieldProps
-  extends BaseFieldProps,
-    TextareaHTMLAttributes<HTMLTextAreaElement> {}
+  extends BaseFieldProps, TextareaHTMLAttributes<HTMLTextAreaElement> {}
 
 export interface SelectOption {
-  value: string
-  label: string
+  value: string;
+  label: string;
 }
 
 export interface SelectFieldProps
-  extends BaseFieldProps,
-    SelectHTMLAttributes<HTMLSelectElement> {
-  options: SelectOption[]
+  extends BaseFieldProps, SelectHTMLAttributes<HTMLSelectElement> {
+  options: SelectOption[];
 }

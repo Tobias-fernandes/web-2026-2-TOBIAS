@@ -1,1 +1,2 @@
-export { GoalProgressList, type GoalProgressListProps } from './GoalProgressList'
+export { GoalProgressList } from "./GoalProgressList";
+export type { GoalProgressListProps } from "./types";

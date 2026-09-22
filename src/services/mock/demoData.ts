@@ -1,4 +1,4 @@
-import { clearTenant, markEmpty } from './tenantStorage'
+import { clearTenant, markEmpty } from "./tenantStorage";
 
 /**
  * Emptying the demo, and putting it back.
@@ -22,11 +22,11 @@ import { clearTenant, markEmpty } from './tenantStorage'
 
 /** Wipes what this enterprise stored and marks the emptiness as deliberate. */
 export function clearDemoData(): void {
-  clearTenant()
-  markEmpty()
+  clearTenant();
+  markEmpty();
 }
 
 /** Drops the stored copy and the mark, so each register falls back to its seed. */
 export function restoreDemoData(): void {
-  clearTenant()
+  clearTenant();
 }

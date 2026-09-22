@@ -1,20 +1,11 @@
-import { useMemo } from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { isUsingMockData } from '@/config/env'
-import { ROUTES } from '@/config/routes'
-import { can } from '@/domain/access'
-import { describePosition } from '@/domain/constants'
-import { cn } from '@/lib/utils'
-import { useEnterprise } from '@/queries'
-import { useCurrentUser, useSignOut } from '@/stores/auth'
-import { toast } from '@/stores/toast'
-import { Avatar, Button, ThemeToggle } from '@/components/ui'
-import { APP_NAV_GROUPS } from './constants'
-
-interface SidebarContentProps {
-  /** Closes the mobile sheet once a destination is picked. */
-  onNavigate?: () => void
-}
+import { Link, NavLink } from "react-router-dom";
+import { isUsingMockData } from "@/config/env";
+import { ROUTES } from "@/config/routes";
+import { describePosition } from "@/domain/constants";
+import { cn } from "@/lib/utils";
+import { Avatar, Button, ThemeToggle } from "@/components/ui";
+import { useSidebarContent } from "./hooks";
+import type { SidebarContentProps } from "./types";
 
 /**
  * Navigation and identity, written once.
@@ -23,29 +14,8 @@ interface SidebarContentProps {
  * sheet on a phone — two copies of a menu drift apart, and the one nobody is
  * looking at is the one that keeps the removed link.
  */
-export function SidebarContent({ onNavigate }: SidebarContentProps) {
-  const user = useCurrentUser()
-  const enterprise = useEnterprise()
-  const signOut = useSignOut()
-  const navigate = useNavigate()
-
-  /** A link the member cannot open is noise, not a discovery. */
-  const groups = useMemo(
-    () =>
-      APP_NAV_GROUPS.map((group) => ({
-        ...group,
-        items: group.items.filter(
-          (item) => !item.permission || can(user, item.permission),
-        ),
-      })).filter((group) => group.items.length > 0),
-    [user],
-  )
-
-  async function handleSignOut() {
-    await signOut()
-    toast.info('Você saiu da conta.')
-    navigate(ROUTES.login, { replace: true })
-  }
+const SidebarContent: React.FC<SidebarContentProps> = ({ onNavigate }) => {
+  const { user, enterprise, groups, handleSignOut } = useSidebarContent();
 
   return (
     <>
@@ -66,7 +36,7 @@ export function SidebarContent({ onNavigate }: SidebarContentProps) {
         {groups.map((group, index) => (
           <div
             key={group.label}
-            className={cn('py-3', index > 0 && 'border-t border-linha')}
+            className={cn("py-3", index > 0 && "border-t border-linha")}
           >
             {/*
               The group heading is deliberately the quietest thing in the
@@ -86,10 +56,10 @@ export function SidebarContent({ onNavigate }: SidebarContentProps) {
                     onClick={onNavigate}
                     className={({ isActive }) =>
                       cn(
-                        'block rounded-md px-3 py-2 text-base no-underline transition-colors',
+                        "block rounded-md px-3 py-2 text-base no-underline transition-colors",
                         isActive
-                          ? 'bg-violeta-lav font-semibold text-violeta'
-                          : 'font-medium text-tinta hover:bg-papel',
+                          ? "bg-violeta-lav font-semibold text-violeta"
+                          : "font-medium text-tinta hover:bg-papel",
                       )
                     }
                   >
@@ -106,9 +76,12 @@ export function SidebarContent({ onNavigate }: SidebarContentProps) {
             <p className="m-0">
               <strong className="font-semibold text-tinta">
                 Dados de demonstração.
-              </strong>{' '}
-              A API na AWS entra com{' '}
-              <code className="rounded bg-papel-alto px-1">VITE_DATA_SOURCE</code>.
+              </strong>{" "}
+              A API na AWS entra com{" "}
+              <code className="rounded bg-papel-alto px-1">
+                VITE_DATA_SOURCE
+              </code>
+              .
             </p>
             <Link
               to={ROUTES.app.guide}
@@ -123,11 +96,11 @@ export function SidebarContent({ onNavigate }: SidebarContentProps) {
 
       <div className="border-t border-linha p-3">
         <div className="mb-3 flex items-center gap-2.5 px-1">
-          <Avatar name={user?.name ?? ''} src={user?.avatarUrl} />
+          <Avatar name={user?.name ?? ""} src={user?.avatarUrl} />
           <div className="min-w-0">
             <p className="m-0 truncate text-sm font-semibold">{user?.name}</p>
             <p className="m-0 truncate text-2xs text-tinta-suave">
-              {user ? describePosition(user.role, user.directorate) : ''}
+              {user ? describePosition(user.role, user.directorate) : ""}
             </p>
           </div>
         </div>
@@ -143,5 +116,7 @@ export function SidebarContent({ onNavigate }: SidebarContentProps) {
         </Button>
       </div>
     </>
-  )
-}
+  );
+};
+
+export { SidebarContent };

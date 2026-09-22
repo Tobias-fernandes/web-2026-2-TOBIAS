@@ -1,30 +1,16 @@
-import type { ReactNode } from 'react'
-import { SkeletonTable } from '@/components/ui/Skeleton'
-import type { Loadable } from '@/components/ui/QueryState'
+import type { ReactNode } from "react";
+import { SkeletonTable } from "@/components/ui/Skeleton";
+import type {} from "@/components/ui/QueryState";
+import type { ListStateProps } from "./types";
 
 /** Failure message, styled the same wherever a request or a form can fail. */
-export function ErrorText({ children }: { children: ReactNode }) {
+const ErrorText: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <p role="alert" className="m-0 text-sm text-ambar">
       {children}
     </p>
-  )
-}
-
-interface ListStateProps<T, TData> {
-  /** The read this list came from; `isPending` and `error` travel together. */
-  query: Loadable<TData>
-  /** Already filtered and sorted by the page — the state machine only counts them. */
-  rows: T[]
-  loadingLabel?: string
-  /**
-   * Placeholder shaped like what is coming. Defaults to a table, which is what
-   * most screens render; a board or a list of bars passes its own.
-   */
-  skeleton?: ReactNode
-  empty: ReactNode
-  children: (rows: T[]) => ReactNode
-}
+  );
+};
 
 /**
  * The loading → error → empty → content decision, made in one place.
@@ -41,16 +27,19 @@ interface ListStateProps<T, TData> {
  * Loading is a skeleton rather than a spinner: it holds the shape of the table
  * or board that is coming, so the page does not jump when the rows land.
  */
-export function ListState<T, TData>({
+const ListState = <T, TData>({
   query,
   rows,
   loadingLabel,
   skeleton,
   empty,
   children,
-}: ListStateProps<T, TData>) {
-  if (query.isPending) return <>{skeleton ?? <SkeletonTable label={loadingLabel} />}</>
-  if (query.error) return <ErrorText>{query.error.message}</ErrorText>
-  if (rows.length === 0) return <>{empty}</>
-  return <>{children(rows)}</>
-}
+}: ListStateProps<T, TData>) => {
+  if (query.isPending)
+    return <>{skeleton ?? <SkeletonTable label={loadingLabel} />}</>;
+  if (query.error) return <ErrorText>{query.error.message}</ErrorText>;
+  if (rows.length === 0) return <>{empty}</>;
+  return <>{children(rows)}</>;
+};
+
+export { ErrorText, ListState };

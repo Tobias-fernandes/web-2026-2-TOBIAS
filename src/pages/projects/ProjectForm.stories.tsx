@@ -1,21 +1,21 @@
-import { useState } from 'react'
-import type { Meta, StoryObj } from '@storybook/react-vite'
-import { fn } from 'storybook/test'
-import { clientList, memberList } from '@/stories/fixtures'
-import { buildEmptyProjectForm } from './constants'
-import { ProjectForm } from './ProjectForm'
-import type { ProjectFormState } from './types'
+import { useState } from "react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { fn } from "storybook/test";
+import { clientList, memberList } from "@/stories/fixtures";
+import { buildEmptyProjectForm } from "./constants";
+import { ProjectForm } from "./ProjectForm";
+import type { ProjectFormState } from "./types";
 
 const meta = {
-  title: 'Páginas/Projetos/ProjectForm',
+  title: "Páginas/Projetos/ProjectForm",
   component: ProjectForm,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
     docs: {
       description: {
         component:
           'Conjunto de campos do diálogo "novo projeto". É controlado: recebe o estado e ' +
-          'devolve o próximo por `onChange`, sem guardar nada por conta própria.',
+          "devolve o próximo por `onChange`, sem guardar nada por conta própria.",
       },
     },
   },
@@ -36,35 +36,35 @@ const meta = {
     clients: clientList,
     members: memberList,
   },
-} satisfies Meta<typeof ProjectForm>
+} satisfies Meta<typeof ProjectForm>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
-export const Vazio: Story = {}
+export const Vazio: Story = {};
 
 export const Preenchido: Story = {
   args: {
     value: {
-      name: 'Site institucional',
+      name: "Site institucional",
       clientId: clientList[0].id,
       ownerId: memberList[0].id,
       scope:
-        'Site de cinco páginas com catálogo de produtos e formulário de encomenda.',
-      stage: 'Sprint 1 de 4',
-      status: 'inProgress',
-      contractValue: '4800',
-      estimatedHours: '120',
-      startedAt: '2026-08-10',
-      dueAt: '2026-10-09',
+        "Site de cinco páginas com catálogo de produtos e formulário de encomenda.",
+      stage: "Sprint 1 de 4",
+      status: "inProgress",
+      contractValue: "4800",
+      estimatedHours: "120",
+      startedAt: "2026-08-10",
+      dueAt: "2026-10-09",
     },
   },
-}
+};
 
 /** Editável de verdade, para testar o fluxo de digitação. */
 export const Interativo: Story = {
   render: (args) => {
-    const [value, setValue] = useState<ProjectFormState>(args.value)
-    return <ProjectForm {...args} value={value} onChange={setValue} />
+    const [value, setValue] = useState<ProjectFormState>(args.value);
+    return <ProjectForm {...args} value={value} onChange={setValue} />;
   },
-}
+};

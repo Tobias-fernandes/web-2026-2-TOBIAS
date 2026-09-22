@@ -1,18 +1,18 @@
-import { PageHeader } from '@/components/layout'
-import { CategoryBreakdown } from '@/components/reports'
+import { PageHeader } from "@/components/layout";
+import { CategoryBreakdown } from "@/components/reports";
 import {
   Button,
   Card,
   CardTitle,
   ListState,
   SkeletonBars,
-} from '@/components/ui'
-import { NO_ENTRIES } from './constants'
-import { MarginTable } from './MarginTable'
-import { PeriodFilter } from './PeriodFilter'
-import { SummaryCard } from './SummaryCard'
-import { WorkloadTable } from './WorkloadTable'
-import { useReportsPage } from './hooks'
+} from "@/components/ui";
+import { NO_ENTRIES } from "./constants";
+import { MarginTable } from "./MarginTable";
+import { PeriodFilter } from "./PeriodFilter";
+import { SummaryCard } from "./SummaryCard";
+import { WorkloadTable } from "./WorkloadTable";
+import { useReportsPage } from "./hooks";
 
 /**
  * The end-of-term report, on screen.
@@ -21,9 +21,8 @@ import { useReportsPage } from './hooks'
  * a management is exactly this — what was sold, what was delivered, how many
  * hours it cost and who gave them.
  */
-export function ReportsPage() {
-  const report = useReportsPage()
-
+const ReportsPage: React.FC = () => {
+  const report = useReportsPage();
 
   return (
     <>
@@ -69,5 +68,7 @@ export function ReportsPage() {
         </Card>
       </div>
     </>
-  )
-}
+  );
+};
+
+export { ReportsPage };

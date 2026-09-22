@@ -55,7 +55,7 @@ export interface ActiveCycle {
  * that filters by cycle would briefly show nothing and tell the reader to go
  * create a management that already exists.
  */
-export function useActiveCycle(): ActiveCycle {
+export const useActiveCycle = (): ActiveCycle => {
   const { data, isPending } = useCycles();
 
   const cycle = useMemo(() => {
@@ -68,4 +68,4 @@ export function useActiveCycle(): ActiveCycle {
   }, [data]);
 
   return { cycle, isPending, missing: !isPending && cycle === null };
-}
+};

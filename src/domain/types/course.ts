@@ -1,4 +1,4 @@
-import type { ID, IsoDate } from './common'
+import type { ID, IsoDate } from "./common";
 
 /**
  * A degree course whose students may join the enterprise.
@@ -13,8 +13,8 @@ import type { ID, IsoDate } from './common'
  * the screen that maintains it later is a CRUD like any other.
  */
 export interface Course {
-  id: ID
-  enterpriseId: ID
-  name: string
-  createdAt: IsoDate
+  id: ID;
+  enterpriseId: ID;
+  name: string;
+  createdAt: IsoDate;
 }

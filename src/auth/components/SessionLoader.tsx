@@ -1,5 +1,5 @@
-import { useEffect, type ReactNode } from 'react'
-import { useAuthStore } from '@/stores/auth'
+import { useCallback, useEffect, type ReactNode } from "react";
+import { useAuthStore } from "@/stores/auth";
 
 /**
  * Reads the persisted session once, on app start-up.
@@ -8,10 +8,16 @@ import { useAuthStore } from '@/stores/auth'
  * React's lifecycle and Strict Mode's double effect is harmless — `restore` is
  * idempotent.
  */
-export function SessionLoader({ children }: { children: ReactNode }) {
-  useEffect(() => {
-    void useAuthStore.getState().restore()
-  }, [])
+const SessionLoader: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const restoreSession = useCallback(() => {
+    void useAuthStore.getState().restore();
+  }, []);
 
-  return <>{children}</>
-}
+  useEffect(() => {
+    restoreSession();
+  }, [restoreSession]);
+
+  return <>{children}</>;
+};
+
+export { SessionLoader };

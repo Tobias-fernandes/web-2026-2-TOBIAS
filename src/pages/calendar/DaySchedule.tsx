@@ -1,20 +1,20 @@
-import { Button, Card } from '@/components/ui'
-import { formatDayMonthLong, formatWeekdayLong } from '@/lib/format'
-import { EventCard } from './EventCard'
-import type { CalendarPageState } from './types'
+import { Button, Card } from "@/components/ui";
+import { formatDayMonthLong, formatWeekdayLong } from "@/lib/format";
+import { EventCard } from "./EventCard";
+import type { CalendarPageState } from "./types";
 
 type DayScheduleProps = Pick<
   CalendarPageState,
-  | 'selectedDay'
-  | 'editable'
-  | 'openDialog'
-  | 'editEvent'
-  | 'toggleCancelled'
-  | 'removeEvent'
-  | 'saving'
-  | 'projectName'
-  | 'memberName'
->
+  | "selectedDay"
+  | "editable"
+  | "openDialog"
+  | "editEvent"
+  | "toggleCancelled"
+  | "removeEvent"
+  | "saving"
+  | "projectName"
+  | "memberName"
+>;
 
 /**
  * The day picked on the grid, in full.
@@ -23,7 +23,7 @@ type DayScheduleProps = Pick<
  * actionable — where it is, what the pauta is, who to ask — lives here, beside
  * it, instead of behind a second click into a dialog.
  */
-export function DaySchedule({
+const DaySchedule: React.FC<DayScheduleProps> = ({
   selectedDay: day,
   editable,
   openDialog,
@@ -33,8 +33,8 @@ export function DaySchedule({
   saving,
   projectName,
   memberName,
-}: DayScheduleProps) {
-  if (!day) return null
+}) => {
+  if (!day) return null;
 
   return (
     <Card>
@@ -45,7 +45,7 @@ export function DaySchedule({
           </h2>
           <p className="m-0 text-xs text-tinta-suave">
             {formatWeekdayLong(day.date)}
-            {day.isToday && ' · hoje'}
+            {day.isToday && " · hoje"}
           </p>
         </div>
 
@@ -83,5 +83,7 @@ export function DaySchedule({
         </div>
       )}
     </Card>
-  )
-}
+  );
+};
+
+export { DaySchedule };

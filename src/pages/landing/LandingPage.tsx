@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom'
-import { Brand } from '@/components/layout'
-import { ThemeToggle } from '@/components/ui'
-import { ROUTES } from '@/config/routes'
-import { MENU_LINKS } from './constants'
+import { Link } from "react-router-dom";
+import { Brand } from "@/components/layout";
+import { ThemeToggle } from "@/components/ui";
+import { ROUTES } from "@/config/routes";
+import { MENU_LINKS } from "./constants";
 import {
   CallToAction,
   Directorates,
@@ -12,7 +12,7 @@ import {
   HowItWorks,
   KeyQuestions,
   PainPoints,
-} from './sections'
+} from "./sections";
 
 /**
  * The public page, as a table of contents.
@@ -21,14 +21,17 @@ import {
  * makes is eight separate pieces of copy and markup, and reading one of them
  * should not mean scrolling past the other seven.
  */
-export function LandingPage() {
+const LandingPage: React.FC = () => {
   return (
     <>
       <header className="sticky top-0 z-40 border-b border-linha bg-papel-alto">
         <div className="env flex h-(--altura-cabecalho) items-center justify-between gap-4">
           <Brand to="/" className="shrink-0 [&_svg]:h-9 sm:[&_svg]:h-12" />
 
-          <nav aria-label="Seções da página" className="hidden shrink-0 items-center gap-5 lg:flex xl:gap-7">
+          <nav
+            aria-label="Seções da página"
+            className="hidden shrink-0 items-center gap-5 lg:flex xl:gap-7"
+          >
             {MENU_LINKS.map((link) => (
               <a
                 key={link.href}
@@ -80,20 +83,30 @@ export function LandingPage() {
           <div>
             <Brand to="/" />
             <p className="mt-3 mb-0 max-w-[52ch] text-sm leading-relaxed text-tinta-suave">
-              Sistema de gestão para empresas juniores. Nascido dentro de uma EJ, na
-              UFERSA, Campus Pau dos Ferros.
+              Sistema de gestão para empresas juniores. Nascido dentro de uma
+              EJ, na UFERSA, Campus Pau dos Ferros.
             </p>
           </div>
           <div className="flex flex-col gap-4 sm:items-end">
             <nav aria-label="Links do rodapé" className="flex flex-wrap gap-5">
               {MENU_LINKS.map((link) => (
-                <a key={link.href} href={link.href} className="text-sm text-tinta-suave no-underline hover:text-violeta">{link.label}</a>
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="text-sm text-tinta-suave no-underline hover:text-violeta"
+                >
+                  {link.label}
+                </a>
               ))}
             </nav>
-            <p className="m-0 text-xs text-tinta-suave">Desenvolvido por Tobias Fernandes</p>
+            <p className="m-0 text-xs text-tinta-suave">
+              Desenvolvido por Tobias Fernandes
+            </p>
           </div>
         </div>
       </footer>
     </>
-  )
-}
+  );
+};
+
+export { LandingPage };

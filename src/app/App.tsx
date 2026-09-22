@@ -1,9 +1,9 @@
-import { BrowserRouter } from 'react-router-dom'
-import { Toaster } from '@/components/ui'
-import { AppProviders } from './providers'
-import { AppRoutes } from './routes'
+import { BrowserRouter } from "react-router-dom";
+import { Toaster } from "@/components/ui";
+import { AppProviders } from "./providers";
+import { AppRoutes } from "./routes";
 
-export function App() {
+const App = () => {
   return (
     <BrowserRouter>
       <AppProviders>
@@ -11,5 +11,7 @@ export function App() {
         <Toaster />
       </AppProviders>
     </BrowserRouter>
-  )
-}
+  );
+};
+
+export { App };

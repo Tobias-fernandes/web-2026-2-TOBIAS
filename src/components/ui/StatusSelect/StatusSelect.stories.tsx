@@ -1,54 +1,54 @@
-import { useState } from 'react'
-import type { Meta, StoryObj } from '@storybook/react-vite'
-import { fn } from 'storybook/test'
+import { useState } from "react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { fn } from "storybook/test";
 import {
   CLIENT_STATUS_LABELS,
   CLIENT_STATUS_TONES,
   MEMBER_STATUS_LABELS,
   MEMBER_STATUS_TONES,
-} from '@/domain/constants'
-import type { ClientStatus, MemberStatus } from '@/domain/types'
-import { StatusSelect } from './StatusSelect'
+} from "@/domain/constants";
+import type { ClientStatus, MemberStatus } from "@/domain/types";
+import { StatusSelect } from "./StatusSelect";
 
-const CLIENT_OPTIONS = (Object.keys(CLIENT_STATUS_LABELS) as ClientStatus[]).map(
-  (status) => ({ value: status, label: CLIENT_STATUS_LABELS[status] }),
-)
+const CLIENT_OPTIONS = (
+  Object.keys(CLIENT_STATUS_LABELS) as ClientStatus[]
+).map((status) => ({ value: status, label: CLIENT_STATUS_LABELS[status] }));
 
 const meta = {
-  title: 'UI/StatusSelect',
+  title: "UI/StatusSelect",
   component: StatusSelect,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
     docs: {
       description: {
         component:
-          'Situação editável direto na linha da tabela. O próprio select carrega a cor do ' +
-          'estado, então não é preciso repetir a informação em um selo ao lado.',
+          "Situação editável direto na linha da tabela. O próprio select carrega a cor do " +
+          "estado, então não é preciso repetir a informação em um selo ao lado.",
       },
     },
   },
   args: {
-    value: 'active',
-    tone: 'green',
-    accessibleLabel: 'Situação de Padaria Pão de Ouro',
+    value: "active",
+    tone: "green",
+    accessibleLabel: "Situação de Padaria Pão de Ouro",
     options: CLIENT_OPTIONS,
     onChange: fn(),
   },
-} satisfies Meta<typeof StatusSelect<ClientStatus>>
+} satisfies Meta<typeof StatusSelect<ClientStatus>>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
-export const Padrao: Story = {}
+export const Padrao: Story = {};
 
 export const Desabilitado: Story = {
   args: { disabled: true },
-}
+};
 
 /** Troca de verdade: o tom acompanha o valor escolhido. */
 export const Interativo: Story = {
   render: (args) => {
-    const [status, setStatus] = useState<ClientStatus>('lead')
+    const [status, setStatus] = useState<ClientStatus>("lead");
 
     return (
       <StatusSelect<ClientStatus>
@@ -58,9 +58,9 @@ export const Interativo: Story = {
         tone={CLIENT_STATUS_TONES[status]}
         onChange={setStatus}
       />
-    )
+    );
   },
-}
+};
 
 /** Todas as situações de cliente, para comparar as cores. */
 export const SituacoesDeCliente: Story = {
@@ -77,7 +77,7 @@ export const SituacoesDeCliente: Story = {
       ))}
     </div>
   ),
-}
+};
 
 /** As situações de membro usam o mesmo componente. */
 export const SituacoesDeMembro: Story = {
@@ -90,11 +90,14 @@ export const SituacoesDeMembro: Story = {
           tone={MEMBER_STATUS_TONES[status]}
           accessibleLabel={`Situação de Tobias Fernandes`}
           options={(Object.keys(MEMBER_STATUS_LABELS) as MemberStatus[]).map(
-            (option) => ({ value: option, label: MEMBER_STATUS_LABELS[option] }),
+            (option) => ({
+              value: option,
+              label: MEMBER_STATUS_LABELS[option],
+            }),
           )}
           onChange={fn()}
         />
       ))}
     </div>
   ),
-}
+};

@@ -8,5 +8,5 @@ export {
   zPositiveCount,
   zPositiveMoney,
   zRequiredText,
-} from './schemas'
-export { zodValidate } from './zodValidate'
+} from "./schemas";
+export { zodValidate } from "./zodValidate";

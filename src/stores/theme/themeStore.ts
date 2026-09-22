@@ -1,6 +1,6 @@
-import { create } from 'zustand'
-import { applyPreference, readPreference, writePreference } from './theme'
-import type { ThemeState } from './types'
+import { create } from "zustand";
+import { applyPreference, readPreference, writePreference } from "./theme";
+import type { ThemeState } from "./types";
 
 /**
  * Light or dark, as the reader asked for it.
@@ -10,11 +10,11 @@ import type { ThemeState } from './types'
  * so the store never disagrees with what is on screen.
  */
 export const useThemeStore = create<ThemeState>()((set) => ({
-  preference: typeof window === 'undefined' ? 'system' : readPreference(),
+  preference: typeof window === "undefined" ? "system" : readPreference(),
 
   setPreference(preference) {
-    applyPreference(preference)
-    writePreference(preference)
-    set({ preference })
+    applyPreference(preference);
+    writePreference(preference);
+    set({ preference });
   },
-}))
+}));

@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
-import { COLOR_TOKENS, FONT_TOKENS, TEXT_TOKENS } from './constants'
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { COLOR_TOKENS, FONT_TOKENS, TEXT_TOKENS } from "./constants";
 
 /**
  * Reference sheet for the design tokens, so a new screen reaches for an existing
@@ -20,7 +20,10 @@ function Palette() {
               className="flex size-10 shrink-0 overflow-hidden rounded-md border border-linha"
             >
               <span className="w-1/2" style={{ backgroundColor: token.hex }} />
-              <span className="w-1/2" style={{ backgroundColor: token.darkHex }} />
+              <span
+                className="w-1/2"
+                style={{ backgroundColor: token.darkHex }}
+              />
             </span>
             <div className="min-w-0">
               <p className="m-0 font-display text-sm font-bold">{token.name}</p>
@@ -35,7 +38,7 @@ function Palette() {
         </div>
       ))}
     </div>
-  )
+  );
 }
 
 function Typography() {
@@ -50,7 +53,7 @@ function Typography() {
             {token.className} · {token.stack}
           </p>
           <p
-            className={`m-0 mt-2 text-2xl ${token.bold ? 'font-bold' : 'font-normal'} ${token.className}`}
+            className={`m-0 mt-2 text-2xl ${token.bold ? "font-bold" : "font-normal"} ${token.className}`}
           >
             A gestão da sua empresa júnior
           </p>
@@ -61,7 +64,7 @@ function Typography() {
         </div>
       ))}
     </div>
-  )
+  );
 }
 
 function Scale() {
@@ -83,36 +86,36 @@ function Scale() {
         </div>
       ))}
     </div>
-  )
+  );
 }
 
 const meta = {
-  title: 'Documentação/Design tokens',
+  title: "Documentação/Design tokens",
   parameters: {
     docs: {
       description: {
         component:
-          'Paleta, tipografia e escala tipográfica definidas em `src/index.css`. Os nomes dos ' +
-          'tokens ficam em português porque espelham a identidade da página original já publicada. ' +
-          'Cada cor é um papel, não um tom: as duas metades do quadrado mostram o valor que aquele ' +
-          'papel assume no tema claro e no escuro, e é por isso que nenhuma tela precisa de classes `dark:`.',
+          "Paleta, tipografia e escala tipográfica definidas em `src/index.css`. Os nomes dos " +
+          "tokens ficam em português porque espelham a identidade da página original já publicada. " +
+          "Cada cor é um papel, não um tom: as duas metades do quadrado mostram o valor que aquele " +
+          "papel assume no tema claro e no escuro, e é por isso que nenhuma tela precisa de classes `dark:`.",
       },
     },
   },
-} satisfies Meta
+} satisfies Meta;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Cores: Story = {
   render: () => <Palette />,
-}
+};
 
 export const Tipografia: Story = {
   render: () => <Typography />,
-}
+};
 
 /** Nove degraus, e nada entre eles. */
 export const EscalaTipografica: Story = {
   render: () => <Scale />,
-}
+};

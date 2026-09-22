@@ -1,17 +1,17 @@
-import type { Session } from '@/domain/types'
-import type { Credentials, NewPasswordChallenge } from '@/auth/services'
+import type { Session } from "@/domain/types";
+import type { Credentials, NewPasswordChallenge } from "@/auth/services";
 
 /** `restoring` covers the first paint, before the persisted session is read. */
-export type AuthStatus = 'restoring' | 'authenticated' | 'anonymous'
+export type AuthStatus = "restoring" | "authenticated" | "anonymous";
 
 export interface AuthState {
-  session: Session | null
-  status: AuthStatus
-  signIn: (credentials: Credentials) => Promise<void>
+  session: Session | null;
+  status: AuthStatus;
+  signIn: (credentials: Credentials) => Promise<void>;
   completeNewPassword: (
     challenge: NewPasswordChallenge,
     newPassword: string,
-  ) => Promise<void>
+  ) => Promise<void>;
   /**
    * Authenticates with a `Session` the caller already holds, rather than
    * asking `authService` to go find one.
@@ -22,7 +22,7 @@ export interface AuthState {
    * currently points at, which is not necessarily the one sign-up used, and
    * would silently fail to find it.
    */
-  adopt: (session: Session) => void
-  signOut: () => Promise<void>
-  restore: () => Promise<void>
+  adopt: (session: Session) => void;
+  signOut: () => Promise<void>;
+  restore: () => Promise<void>;
 }

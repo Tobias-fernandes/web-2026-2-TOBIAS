@@ -1,5 +1,5 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import type { Decorator } from '@storybook/react-vite'
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import type { Decorator } from "@storybook/react-vite";
 
 /**
  * Fresh QueryClient per story, with retries off so an error state shows up
@@ -11,11 +11,11 @@ export const withQueryClient: Decorator = (Story) => {
       queries: { retry: false, refetchOnWindowFocus: false },
       mutations: { retry: false },
     },
-  })
+  });
 
   return (
     <QueryClientProvider client={queryClient}>
       <Story />
     </QueryClientProvider>
-  )
-}
+  );
+};

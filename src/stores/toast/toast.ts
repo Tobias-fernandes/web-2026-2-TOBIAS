@@ -1,4 +1,4 @@
-import { useToastStore } from './toastStore'
+import { useToastStore } from "./toastStore";
 
 /**
  * The everyday way to raise a toast: three plain functions, not a hook.
@@ -9,10 +9,11 @@ import { useToastStore } from './toastStore'
  * `useToastStore()`.
  */
 export const toast = {
-  success: (message: string) => useToastStore.getState().push('success', message),
-  error: (message: string) => useToastStore.getState().push('error', message),
-  info: (message: string) => useToastStore.getState().push('info', message),
-}
+  success: (message: string) =>
+    useToastStore.getState().push("success", message),
+  error: (message: string) => useToastStore.getState().push("error", message),
+  info: (message: string) => useToastStore.getState().push("info", message),
+};
 
 /**
  * A mutation's `onError`, in one line instead of the same ternary at every
@@ -21,7 +22,7 @@ export const toast = {
  */
 export function toastMutationError(
   cause: unknown,
-  fallback = 'Não foi possível concluir a ação.',
+  fallback = "Não foi possível concluir a ação.",
 ): void {
-  toast.error(cause instanceof Error ? cause.message : fallback)
+  toast.error(cause instanceof Error ? cause.message : fallback);
 }

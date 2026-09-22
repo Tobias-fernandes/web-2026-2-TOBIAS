@@ -1,25 +1,25 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
-import { AppPreview } from './AppPreview'
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { AppPreview } from "./AppPreview";
 
 const meta = {
-  title: 'Páginas/Landing/AppPreview',
+  title: "Páginas/Landing/AppPreview",
   component: AppPreview,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
-    layout: 'padded',
+    layout: "padded",
     docs: {
       description: {
         component:
-          'Retrato do sistema exibido na capa da landing. Carrega a própria cópia dos dados: ' +
-          'a página pública não é autenticada, não deve chamar a API e não pode mudar de forma ' +
-          'toda vez que alguém edita os dados de demonstração.',
+          "Retrato do sistema exibido na capa da landing. Carrega a própria cópia dos dados: " +
+          "a página pública não é autenticada, não deve chamar a API e não pode mudar de forma " +
+          "toda vez que alguém edita os dados de demonstração.",
       },
     },
   },
-} satisfies Meta<typeof AppPreview>
+} satisfies Meta<typeof AppPreview>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Padrao: Story = {
   decorators: [
@@ -29,9 +29,9 @@ export const Padrao: Story = {
       </div>
     ),
   ],
-}
+};
 
 /** Em telas estreitas as três colunas viram uma. */
 export const Mobile: Story = {
-  globals: { viewport: { value: 'mobile1', isRotated: false } },
-}
+  globals: { viewport: { value: "mobile1", isRotated: false } },
+};

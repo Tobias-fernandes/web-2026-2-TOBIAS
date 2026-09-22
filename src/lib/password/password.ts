@@ -1,5 +1,5 @@
-import { z } from 'zod'
-import { zodValidate } from '@/lib/validation'
+import { z } from "zod";
+import { zodValidate } from "@/lib/validation";
 
 /**
  * Client-side password rules, shared by every form that sets one — the
@@ -13,21 +13,27 @@ import { zodValidate } from '@/lib/validation'
  * copy of the mirror is what keeps it a single, findable drift risk instead
  * of two independent ones.
  */
-export const MIN_PASSWORD_LENGTH = 8
+export const MIN_PASSWORD_LENGTH = 8;
 
 const newPasswordSchema = z
   .object({
     password: z
       .string()
-      .min(MIN_PASSWORD_LENGTH, `A senha precisa de ao menos ${MIN_PASSWORD_LENGTH} caracteres.`),
+      .min(
+        MIN_PASSWORD_LENGTH,
+        `A senha precisa de ao menos ${MIN_PASSWORD_LENGTH} caracteres.`,
+      ),
     confirmation: z.string(),
   })
   .refine((form) => form.password === form.confirmation, {
-    message: 'As senhas não conferem.',
-    path: ['confirmation'],
-  })
+    message: "As senhas não conferem.",
+    path: ["confirmation"],
+  });
 
 /** `null` when the password is acceptable; otherwise the reason to show. */
-export function validateNewPassword(password: string, confirmation: string): string | null {
-  return zodValidate(newPasswordSchema, { password, confirmation })
+export function validateNewPassword(
+  password: string,
+  confirmation: string,
+): string | null {
+  return zodValidate(newPasswordSchema, { password, confirmation });
 }

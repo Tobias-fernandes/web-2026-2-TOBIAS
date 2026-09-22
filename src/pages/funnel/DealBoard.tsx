@@ -1,20 +1,11 @@
-import { DEAL_FUNNEL_COLUMNS, DEAL_STAGE_LABELS } from '@/domain/constants'
-import type { Deal, DealStage } from '@/domain/types'
-import { formatMoney } from '@/lib/format'
-import { DealCard } from './DealCard'
-
-interface DealBoardProps {
-  deals: Deal[]
-  clientName: (id: string) => string
-  memberName: (id: string) => string
-  editable: boolean
-  moving: boolean
-  onAdvance: (deal: Deal, stage: DealStage) => void
-  onLose: (deal: Deal) => void
-}
+import { DEAL_FUNNEL_COLUMNS, DEAL_STAGE_LABELS } from "@/domain/constants";
+import type {} from "@/domain/types";
+import { formatMoney } from "@/lib/format";
+import { DealCard } from "./DealCard";
+import type { DealBoardProps } from "./types";
 
 /** The open stages, each column headed by what it is worth. */
-export function DealBoard({
+const DealBoard: React.FC<DealBoardProps> = ({
   deals,
   clientName,
   memberName,
@@ -22,12 +13,12 @@ export function DealBoard({
   moving,
   onAdvance,
   onLose,
-}: DealBoardProps) {
+}) => {
   return (
     <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
       {DEAL_FUNNEL_COLUMNS.map((stage) => {
-        const column = deals.filter((deal) => deal.stage === stage)
-        const total = column.reduce((sum, deal) => sum + deal.valueCents, 0)
+        const column = deals.filter((deal) => deal.stage === stage);
+        const total = column.reduce((sum, deal) => sum + deal.valueCents, 0);
 
         return (
           <section
@@ -39,7 +30,9 @@ export function DealBoard({
               <h2 className="font-sans text-xs font-semibold text-tinta-suave">
                 {DEAL_STAGE_LABELS[stage]}
               </h2>
-              <span className="text-xs text-tinta-suave">{formatMoney(total)}</span>
+              <span className="text-xs text-tinta-suave">
+                {formatMoney(total)}
+              </span>
             </div>
 
             <ul className="m-0 flex list-none flex-col gap-2.5 p-0">
@@ -63,8 +56,10 @@ export function DealBoard({
               )}
             </ul>
           </section>
-        )
+        );
       })}
     </div>
-  )
-}
+  );
+};
+
+export { DealBoard };

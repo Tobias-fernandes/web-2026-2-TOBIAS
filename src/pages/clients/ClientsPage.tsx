@@ -1,4 +1,4 @@
-import { PageHeader } from '@/components/layout'
+import { PageHeader } from "@/components/layout";
 import {
   Button,
   EmptyState,
@@ -11,25 +11,27 @@ import {
   TableRow,
   TextField,
   labelOptions,
-} from '@/components/ui'
-import { CLIENT_STATUS_LABELS, CLIENT_STATUS_TONES } from '@/domain/constants'
-import { formatCnpj } from '@/lib/document'
-import { formatDate } from '@/lib/format'
-import { ClientForm } from './ClientForm'
-import { useClientsPage } from './hooks'
-import { CLIENTS_TABLE_HEADERS } from './constants'
+} from "@/components/ui";
+import { CLIENT_STATUS_LABELS, CLIENT_STATUS_TONES } from "@/domain/constants";
+import { formatCnpj } from "@/lib/document";
+import { formatDate } from "@/lib/format";
+import { ClientForm } from "./ClientForm";
+import { useClientsPage } from "./hooks";
+import { CLIENTS_TABLE_HEADERS } from "./constants";
 
-const STATUS_OPTIONS = labelOptions(CLIENT_STATUS_LABELS)
+const STATUS_OPTIONS = labelOptions(CLIENT_STATUS_LABELS);
 
-export function ClientsPage() {
-  const list = useClientsPage()
+const ClientsPage: React.FC = () => {
+  const list = useClientsPage();
 
   return (
     <>
       <PageHeader
         title="Clientes"
         description="Cadastro único de contatos, propostas e status de negociação — que continua na EJ quando a diretoria muda."
-        action={<Button onClick={() => list.dialog.openWith()}>Novo cliente</Button>}
+        action={
+          <Button onClick={() => list.dialog.openWith()}>Novo cliente</Button>
+        }
       />
 
       <div className="mb-5 max-w-md">
@@ -49,15 +51,21 @@ export function ClientsPage() {
         skeleton={<SkeletonTable columns={6} />}
         empty={
           <EmptyState
-            title={list.searching ? 'Nenhum cliente encontrado' : 'Nenhum cliente cadastrado'}
+            title={
+              list.searching
+                ? "Nenhum cliente encontrado"
+                : "Nenhum cliente cadastrado"
+            }
             description={
               list.searching
-                ? 'Tente outro termo de busca.'
-                : 'Cadastre o primeiro contato para começar a acompanhar a prospecção.'
+                ? "Tente outro termo de busca."
+                : "Cadastre o primeiro contato para começar a acompanhar a prospecção."
             }
             action={
               list.searching ? undefined : (
-                <Button onClick={() => list.dialog.openWith()}>Novo cliente</Button>
+                <Button onClick={() => list.dialog.openWith()}>
+                  Novo cliente
+                </Button>
               )
             }
           />
@@ -70,14 +78,18 @@ export function ClientsPage() {
                 <TableCell>
                   <p className="m-0 font-semibold">{client.name}</p>
                   <p className="m-0 text-xs text-tinta-suave">
-                    {client.taxId ? formatCnpj(client.taxId) : 'Sem CNPJ cadastrado'}
+                    {client.taxId
+                      ? formatCnpj(client.taxId)
+                      : "Sem CNPJ cadastrado"}
                   </p>
                 </TableCell>
                 <TableCell>
                   <p className="m-0">{client.contactName}</p>
                   <p className="m-0 text-xs text-tinta-suave">{client.email}</p>
                 </TableCell>
-                <TableCell className="text-tinta-suave">{client.segment}</TableCell>
+                <TableCell className="text-tinta-suave">
+                  {client.segment}
+                </TableCell>
                 <TableCell className="text-center font-display font-bold">
                   {list.projectCount(client.id)}
                 </TableCell>
@@ -112,5 +124,7 @@ export function ClientsPage() {
         <ClientForm value={list.dialog.form} onChange={list.dialog.setForm} />
       </FormDialog>
     </>
-  )
-}
+  );
+};
+
+export { ClientsPage };

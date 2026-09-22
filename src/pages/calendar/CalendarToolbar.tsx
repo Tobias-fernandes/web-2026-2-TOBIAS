@@ -1,41 +1,41 @@
-import { Button, Card, SelectField, labelOptions } from '@/components/ui'
-import { ChevronLeftIcon, ChevronRightIcon } from '@/components/ui/icons'
+import { Button, Card, SelectField, labelOptions } from "@/components/ui";
+import { ChevronLeftIcon, ChevronRightIcon } from "@/components/ui/icons";
 import {
   DIRECTORATE_LABELS,
   EVENT_KIND_LABELS,
   EVENT_KIND_ORDER,
-} from '@/domain/constants'
-import type { Directorate, EventKind } from '@/domain/types'
-import type { CalendarPageState } from './types'
+} from "@/domain/constants";
+import type { Directorate, EventKind } from "@/domain/types";
+import type { CalendarPageState } from "./types";
 
 type CalendarToolbarProps = Pick<
   CalendarPageState,
-  | 'monthLabel'
-  | 'isCurrentMonth'
-  | 'goToMonth'
-  | 'goToToday'
-  | 'monthTotal'
-  | 'filter'
-  | 'setFilter'
-  | 'clearFilter'
-  | 'filtering'
->
+  | "monthLabel"
+  | "isCurrentMonth"
+  | "goToMonth"
+  | "goToToday"
+  | "monthTotal"
+  | "filter"
+  | "setFilter"
+  | "clearFilter"
+  | "filtering"
+>;
 
 const DIRECTORATE_FILTER_OPTIONS = [
-  { value: '', label: 'Todas as diretorias' },
+  { value: "", label: "Todas as diretorias" },
   ...labelOptions(DIRECTORATE_LABELS),
-]
+];
 
 const KIND_FILTER_OPTIONS = [
-  { value: '', label: 'Todos os tipos' },
+  { value: "", label: "Todos os tipos" },
   ...EVENT_KIND_ORDER.map((kind) => ({
     value: kind,
     label: EVENT_KIND_LABELS[kind],
   })),
-]
+];
 
 /** Which month is on screen, how cheia it is, and what is being hidden. */
-export function CalendarToolbar(props: CalendarToolbarProps) {
+const CalendarToolbar: React.FC<CalendarToolbarProps> = (props) => {
   return (
     <Card className="mb-5 p-4">
       <div className="flex flex-wrap items-end justify-between gap-4">
@@ -53,11 +53,11 @@ export function CalendarToolbar(props: CalendarToolbarProps) {
               {props.monthLabel}
             </p>
             <p className="m-0 text-xs text-tinta-suave">
-              {props.isCurrentMonth ? 'Mês atual' : 'Outro mês'} ·{' '}
+              {props.isCurrentMonth ? "Mês atual" : "Outro mês"} ·{" "}
               {props.monthTotal === 1
-                ? '1 compromisso'
+                ? "1 compromisso"
                 : `${props.monthTotal} compromissos`}
-              {props.filtering && ' com os filtros aplicados'}
+              {props.filtering && " com os filtros aplicados"}
             </p>
           </div>
 
@@ -85,7 +85,7 @@ export function CalendarToolbar(props: CalendarToolbarProps) {
               onChange={(event) =>
                 props.setFilter({
                   ...props.filter,
-                  directorate: event.target.value as '' | Directorate,
+                  directorate: event.target.value as "" | Directorate,
                 })
               }
             />
@@ -99,7 +99,7 @@ export function CalendarToolbar(props: CalendarToolbarProps) {
               onChange={(event) =>
                 props.setFilter({
                   ...props.filter,
-                  kind: event.target.value as '' | EventKind,
+                  kind: event.target.value as "" | EventKind,
                 })
               }
             />
@@ -113,5 +113,7 @@ export function CalendarToolbar(props: CalendarToolbarProps) {
         </div>
       </div>
     </Card>
-  )
-}
+  );
+};
+
+export { CalendarToolbar };

@@ -1,5 +1,5 @@
-import { useMutation } from '@tanstack/react-query'
-import { onboardingService, type SignUpInput } from '@/services'
+import { useMutation } from "@tanstack/react-query";
+import { onboardingService, type SignUpInput } from "@/services";
 
 /**
  * Registering a junior enterprise.
@@ -11,5 +11,5 @@ import { onboardingService, type SignUpInput } from '@/services'
 export function useSignUp() {
   return useMutation({
     mutationFn: (input: SignUpInput) => onboardingService.signUp(input),
-  })
+  });
 }

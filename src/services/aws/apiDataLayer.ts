@@ -1,4 +1,4 @@
-import { api } from '@/lib/http'
+import { api } from "@/lib/http";
 import type {
   Allocation,
   CalendarEvent,
@@ -22,7 +22,7 @@ import type {
   ProjectMargin,
   TimeEntry,
   WorkArea,
-} from '@/domain/types'
+} from "@/domain/types";
 import type {
   AllocationFilter,
   CalendarEventFilter,
@@ -35,7 +35,7 @@ import type {
   ProjectFilter,
   ReportScope,
   TimeEntryFilter,
-} from '@/services/types'
+} from "@/services/types";
 
 /**
  * Data contracts implemented against the AWS API.
@@ -81,87 +81,95 @@ function crudResource<T extends { id: ID }>(path: string): CrudRepository<T> {
     create: (input: CreateInput<T>) => api.post<T>(path, input),
     update: (id, input) => api.put<T>(`${path}/${id}`, input),
     remove: (id) => api.delete<void>(`${path}/${id}`),
-  }
+  };
 }
 
 export const apiDataLayer: DataLayer = {
   // No id in the path: the enterprise served is the one in the token.
-  enterprise: { current: () => api.get<JuniorEnterprise | null>('/enterprise') },
-  courses: crudResource<Course>('/courses'),
-  workAreas: crudResource<WorkArea>('/work-areas'),
-  cycles: crudResource<Cycle>('/cycles'),
-  clients: crudResource<Client>('/clients'),
+  enterprise: {
+    current: () => api.get<JuniorEnterprise | null>("/enterprise"),
+  },
+  courses: crudResource<Course>("/courses"),
+  workAreas: crudResource<WorkArea>("/work-areas"),
+  cycles: crudResource<Cycle>("/cycles"),
+  clients: crudResource<Client>("/clients"),
 
   members: {
-    ...crudResource<Member>('/members'),
+    ...crudResource<Member>("/members"),
     // One request, so a person is never created without the position that makes
     // them visible to the reports.
     admit: (admission: MemberAdmission) =>
-      api.post<Member>('/members/admissions', admission),
+      api.post<Member>("/members/admissions", admission),
   },
 
   memberships: {
-    ...crudResource<Membership>('/memberships'),
+    ...crudResource<Membership>("/memberships"),
     listBy: (filter: MembershipFilter) =>
-      api.get<Membership[]>('/memberships', { ...filter }),
+      api.get<Membership[]>("/memberships", { ...filter }),
   },
 
   deals: {
-    ...crudResource<Deal>('/deals'),
-    listBy: (filter: DealFilter) => api.get<Deal[]>('/deals', { ...filter }),
+    ...crudResource<Deal>("/deals"),
+    listBy: (filter: DealFilter) => api.get<Deal[]>("/deals", { ...filter }),
     changeStage: (id, stage, lossReason) =>
-      api.patch<Deal>(`/deals/${id}/stage`, { stage, lossReason: lossReason ?? null }),
+      api.patch<Deal>(`/deals/${id}/stage`, {
+        stage,
+        lossReason: lossReason ?? null,
+      }),
   },
 
   projects: {
-    ...crudResource<Project>('/projects'),
-    listBy: (filter: ProjectFilter) => api.get<Project[]>('/projects', { ...filter }),
+    ...crudResource<Project>("/projects"),
+    listBy: (filter: ProjectFilter) =>
+      api.get<Project[]>("/projects", { ...filter }),
     changeStatus: (id, status) =>
       api.patch<Project>(`/projects/${id}/status`, { status }),
   },
 
   allocations: {
-    ...crudResource<Allocation>('/allocations'),
+    ...crudResource<Allocation>("/allocations"),
     listBy: (filter: AllocationFilter) =>
-      api.get<Allocation[]>('/allocations', { ...filter }),
+      api.get<Allocation[]>("/allocations", { ...filter }),
   },
 
   timeEntries: {
-    ...crudResource<TimeEntry>('/time-entries'),
+    ...crudResource<TimeEntry>("/time-entries"),
     listBy: (filter: TimeEntryFilter) =>
-      api.get<TimeEntry[]>('/time-entries', { ...filter }),
+      api.get<TimeEntry[]>("/time-entries", { ...filter }),
   },
 
   finance: {
-    ...crudResource<FinanceEntry>('/finance'),
+    ...crudResource<FinanceEntry>("/finance"),
     listBy: (filter: FinanceFilter) =>
-      api.get<FinanceEntry[]>('/finance', { ...filter }),
+      api.get<FinanceEntry[]>("/finance", { ...filter }),
     settle: (id, paidAt) =>
       api.patch<FinanceEntry>(`/finance/${id}/settlement`, { paidAt }),
   },
 
   calendarEvents: {
-    ...crudResource<CalendarEvent>('/calendar-events'),
+    ...crudResource<CalendarEvent>("/calendar-events"),
     listBy: (filter: CalendarEventFilter) =>
-      api.get<CalendarEvent[]>('/calendar-events', { ...filter }),
+      api.get<CalendarEvent[]>("/calendar-events", { ...filter }),
     cancel: (id, cancelled) =>
-      api.patch<CalendarEvent>(`/calendar-events/${id}/cancellation`, { cancelled }),
+      api.patch<CalendarEvent>(`/calendar-events/${id}/cancellation`, {
+        cancelled,
+      }),
   },
 
   reports: {
     dashboardMetrics: (scope: ReportScope = {}) =>
-      api.get<DashboardMetrics>('/reports/dashboard', { ...scope }),
+      api.get<DashboardMetrics>("/reports/dashboard", { ...scope }),
     cycleProgress: (cycleId) =>
       api.get<CycleProgress | null>(`/reports/cycles/${cycleId}/progress`),
     workloadByMember: (scope: ReportScope = {}) =>
-      api.get<MemberWorkload[]>('/reports/workload', { ...scope }),
+      api.get<MemberWorkload[]>("/reports/workload", { ...scope }),
     projectMargins: (cycleId?: ID) =>
-      api.get<ProjectMargin[]>('/reports/project-margins', { cycleId }),
+      api.get<ProjectMargin[]>("/reports/project-margins", { cycleId }),
     hoursByCategory: (scope: ReportScope = {}) =>
-      api.get<HoursByCategory[]>('/reports/hours-by-category', { ...scope }),
+      api.get<HoursByCategory[]>("/reports/hours-by-category", { ...scope }),
     funnel: (scope: ReportScope = {}) =>
-      api.get<FunnelSummary>('/reports/funnel', { ...scope }),
+      api.get<FunnelSummary>("/reports/funnel", { ...scope }),
     cashFlow: (scope: ReportScope = {}) =>
-      api.get<CashFlowSummary>('/reports/cash-flow', { ...scope }),
+      api.get<CashFlowSummary>("/reports/cash-flow", { ...scope }),
   },
-}
+};

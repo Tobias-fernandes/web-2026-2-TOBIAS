@@ -1,6 +1,6 @@
-import type { Session } from '@/domain/types'
-import { api } from '@/lib/http'
-import type { OnboardingService, SignUpInput } from './types'
+import type { Session } from "@/domain/types";
+import { api } from "@/lib/http";
+import type { OnboardingService, SignUpInput } from "./types";
 
 /**
  * Registering an enterprise against the API.
@@ -20,11 +20,11 @@ import type { OnboardingService, SignUpInput } from './types'
  */
 export const apiOnboarding: OnboardingService = {
   async signUp(input: SignUpInput): Promise<Session | null> {
-    await api.post<void>('/signup', input)
-    return null
+    await api.post<void>("/signup", input);
+    return null;
   },
 
   isCnpjTaken(cnpj: string) {
-    return api.get<boolean>('/signup/cnpj-taken', { cnpj })
+    return api.get<boolean>("/signup/cnpj-taken", { cnpj });
   },
-}
+};

@@ -1,1 +1,1 @@
-export { useNameLookup } from './useNameLookup'
+export { useNameLookup } from "./useNameLookup";

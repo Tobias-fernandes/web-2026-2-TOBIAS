@@ -1,13 +1,11 @@
-import type { ReactNode } from 'react'
-
-export interface PageHeaderProps {
-  title: string
-  description?: string
-  action?: ReactNode
-}
+import type { PageHeaderProps } from "./types";
 
 /** Title and actions at the top of every page inside the system. */
-export function PageHeader({ title, description, action }: PageHeaderProps) {
+const PageHeader: React.FC<PageHeaderProps> = ({
+  title,
+  description,
+  action,
+}) => {
   return (
     <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
       <div>
@@ -20,5 +18,7 @@ export function PageHeader({ title, description, action }: PageHeaderProps) {
       </div>
       {action}
     </div>
-  )
-}
+  );
+};
+
+export { PageHeader };

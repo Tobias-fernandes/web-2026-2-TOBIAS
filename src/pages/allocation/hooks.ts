@@ -1,10 +1,10 @@
-import { useFormDialog } from '@/components/ui'
-import { can } from '@/domain/access'
-import { OVERLOAD_THRESHOLD } from '@/domain/constants'
-import { isActiveProject } from '@/domain/rules'
-import { todayIso } from '@/lib/date'
-import { useNameLookup } from '@/lib/hooks'
-import { zodValidate } from '@/lib/validation'
+import { useFormDialog } from "@/components/ui";
+import { can } from "@/domain/access";
+import { OVERLOAD_THRESHOLD } from "@/domain/constants";
+import { isActiveProject } from "@/domain/rules";
+import { todayIso } from "@/lib/date";
+import { useNameLookup } from "@/lib/hooks";
+import { zodValidate } from "@/lib/validation";
 import {
   useActiveCycle,
   useAllocations,
@@ -13,24 +13,24 @@ import {
   useMembers,
   useRemoveAllocation,
   useWorkloadByMember,
-} from '@/queries'
-import { useCurrentUser } from '@/stores/auth'
-import { toast, toastMutationError } from '@/stores/toast'
-import { buildEmptyAllocationForm, RUNS_THE_ENTERPRISE } from './constants'
-import { allocationFormSchema } from './schemas'
-import type { AllocationPageState } from './types'
+} from "@/queries";
+import { useCurrentUser } from "@/stores/auth";
+import { toast, toastMutationError } from "@/stores/toast";
+import { buildEmptyAllocationForm, RUNS_THE_ENTERPRISE } from "./constants";
+import { allocationFormSchema } from "./schemas";
+import type { AllocationPageState } from "./types";
 
 export function useAllocationPage(): AllocationPageState {
-  const user = useCurrentUser()
-  const { cycle } = useActiveCycle()
+  const user = useCurrentUser();
+  const { cycle } = useActiveCycle();
 
-  const workload = useWorkloadByMember({ cycleId: cycle?.id })
-  const allocations = useAllocations({ activeOn: todayIso() })
-  const members = useMembers()
-  const projects = useCycleProjects(cycle?.id)
-  const removeAllocation = useRemoveAllocation()
+  const workload = useWorkloadByMember({ cycleId: cycle?.id });
+  const allocations = useAllocations({ activeOn: todayIso() });
+  const members = useMembers();
+  const projects = useCycleProjects(cycle?.id);
+  const removeAllocation = useRemoveAllocation();
 
-  const openProjects = (projects.data ?? []).filter(isActiveProject)
+  const openProjects = (projects.data ?? []).filter(isActiveProject);
 
   const dialog = useFormDialog({
     initial: buildEmptyAllocationForm,
@@ -43,13 +43,13 @@ export function useAllocationPage(): AllocationPageState {
       startsAt: form.startsAt,
       endsAt: form.endsAt,
     }),
-    successMessage: () => 'Alocação cadastrada.',
-  })
+    successMessage: () => "Alocação cadastrada.",
+  });
 
-  const rows = workload.data ?? []
+  const rows = workload.data ?? [];
 
   return {
-    editable: can(user, 'allocation:manage'),
+    editable: can(user, "allocation:manage"),
     workload,
     allocations,
     members: members.data ?? [],
@@ -60,20 +60,20 @@ export function useAllocationPage(): AllocationPageState {
     idle: rows.filter(
       (row) =>
         row.activeProjects === 0 &&
-        row.status === 'active' &&
+        row.status === "active" &&
         !RUNS_THE_ENTERPRISE.includes(row.role),
     ),
     removing: removeAllocation.isPending,
     removeAllocation: (id) =>
       removeAllocation.mutate(id, {
-        onSuccess: () => toast.success('Alocação removida.'),
+        onSuccess: () => toast.success("Alocação removida."),
         onError: (cause) => toastMutationError(cause),
       }),
     dialog,
     openDialog: () =>
       dialog.openWith({
-        memberId: members.data?.[0]?.id ?? '',
-        projectId: openProjects[0]?.id ?? '',
+        memberId: members.data?.[0]?.id ?? "",
+        projectId: openProjects[0]?.id ?? "",
       }),
-  }
+  };
 }

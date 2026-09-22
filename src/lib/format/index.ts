@@ -14,5 +14,5 @@ export {
   formatDayMonthLong,
   formatTimeRange,
   getInitials,
-} from './formatters'
-export { LOCALE } from './constants'
+} from "./formatters";
+export { LOCALE } from "./constants";

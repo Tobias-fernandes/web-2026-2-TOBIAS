@@ -1,7 +1,7 @@
-import { isUsingMockData } from '@/config/env'
-import { apiOnboarding } from './apiOnboarding'
-import { mockOnboarding } from './mockOnboarding'
-import type { OnboardingService } from './types'
+import { isUsingMockData } from "@/config/env";
+import { apiOnboarding } from "./apiOnboarding";
+import { mockOnboarding } from "./mockOnboarding";
+import type { OnboardingService } from "./types";
 
 /**
  * Registering a junior enterprise.
@@ -11,7 +11,7 @@ import type { OnboardingService } from './types'
  */
 export const onboardingService: OnboardingService = isUsingMockData
   ? mockOnboarding
-  : apiOnboarding
+  : apiOnboarding;
 
-export { SignUpError } from './SignUpError'
-export type { OnboardingService, SignUpInput } from './types'
+export { SignUpError } from "./SignUpError";
+export type { OnboardingService, SignUpInput } from "./types";

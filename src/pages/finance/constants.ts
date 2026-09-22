@@ -1,31 +1,31 @@
-import { todayIso } from '@/lib/date'
-import type { FinanceFilterState, FinanceFormState } from './types'
+import { todayIso } from "@/lib/date";
+import type { FinanceFilterState, FinanceFormState } from "./types";
 
 export const buildEmptyFinanceForm = (): FinanceFormState => ({
-  kind: 'receivable',
-  category: 'projectInstalment',
-  description: '',
-  amount: '',
+  kind: "receivable",
+  category: "projectInstalment",
+  description: "",
+  amount: "",
   dueAt: todayIso(),
   settled: false,
-  directorate: 'finance',
-  memberId: '',
-  receiptRef: '',
-  projectId: '',
-  clientId: '',
-})
+  directorate: "finance",
+  memberId: "",
+  receiptRef: "",
+  projectId: "",
+  clientId: "",
+});
 
 export const EMPTY_FINANCE_FILTER: FinanceFilterState = {
-  kind: '',
-  settlement: '',
-}
+  kind: "",
+  settlement: "",
+};
 
 export const FINANCE_TABLE_HEADERS = [
-  'Vencimento',
-  'Descrição',
-  'Categoria',
-  'Área',
-  'Valor',
-  'Situação',
-  '',
-]
+  "Vencimento",
+  "Descrição",
+  "Categoria",
+  "Área",
+  "Valor",
+  "Situação",
+  "",
+];

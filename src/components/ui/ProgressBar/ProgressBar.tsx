@@ -1,33 +1,19 @@
-import type { ReactNode } from 'react'
-import type { Tone } from '@/domain/constants'
-import { cn } from '@/lib/utils'
-import { PROGRESS_FILL_CLASSES } from './constants'
+import type {} from "react";
+import type {} from "@/domain/constants";
+import { cn } from "@/lib/utils";
+import { PROGRESS_FILL_CLASSES } from "./constants";
+import type { ProgressBarProps } from "./types";
 
-export interface ProgressBarProps {
-  /** 0-1. Values above 1 fill the bar and are reported in the label, not clipped. */
-  ratio: number
-  label?: ReactNode
-  value?: ReactNode
-  tone?: Tone
-  /**
-   * Second, thinner marker under the bar — the pace the term is running at, so a
-   * goal can be read as ahead or behind instead of just "40%".
-   */
-  reference?: number
-  referenceLabel?: string
-  className?: string
-}
-
-export function ProgressBar({
+const ProgressBar: React.FC<ProgressBarProps> = ({
   ratio,
   label,
   value,
-  tone = 'violet',
+  tone = "violet",
   reference,
   referenceLabel,
   className,
-}: ProgressBarProps) {
-  const percent = Math.min(100, Math.max(0, Math.round(ratio * 100)))
+}) => {
+  const percent = Math.min(100, Math.max(0, Math.round(ratio * 100)));
 
   return (
     <div className={className}>
@@ -44,7 +30,7 @@ export function ProgressBar({
         aria-label={`${percent}% concluído`}
       >
         <div
-          className={cn('h-full rounded-full', PROGRESS_FILL_CLASSES[tone])}
+          className={cn("h-full rounded-full", PROGRESS_FILL_CLASSES[tone])}
           style={{ width: `${percent}%` }}
         />
         {reference !== undefined && (
@@ -57,5 +43,7 @@ export function ProgressBar({
         )}
       </div>
     </div>
-  )
-}
+  );
+};
+
+export { ProgressBar };

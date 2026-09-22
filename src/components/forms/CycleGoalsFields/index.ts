@@ -1,2 +1,2 @@
-export { CycleGoalsFields } from './CycleGoalsFields'
-export type { CycleGoalsFieldsProps } from './types'
+export { CycleGoalsFields } from "./CycleGoalsFields";
+export type { CycleGoalsFieldsProps } from "./types";

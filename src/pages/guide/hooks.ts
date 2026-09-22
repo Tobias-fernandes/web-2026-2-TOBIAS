@@ -1,7 +1,7 @@
-import { useState } from 'react'
-import { isUsingMockData } from '@/config/env'
-import { clearDemoData, restoreDemoData } from '@/services/mock'
-import type { DemoAction, DemoDataState } from './types'
+import { useState } from "react";
+import { isUsingMockData } from "@/config/env";
+import { clearDemoData, restoreDemoData } from "@/services/mock";
+import type { DemoAction, DemoDataState } from "./types";
 
 /**
  * Wiping the demo data, or putting it back.
@@ -15,8 +15,8 @@ import type { DemoAction, DemoDataState } from './types'
  * running app would leave the screens showing records that no longer exist.
  */
 export function useDemoData(): DemoDataState {
-  const [confirming, setConfirming] = useState<DemoAction | null>(null)
-  const [running, setRunning] = useState(false)
+  const [confirming, setConfirming] = useState<DemoAction | null>(null);
+  const [running, setRunning] = useState(false);
 
   return {
     available: isUsingMockData,
@@ -27,13 +27,13 @@ export function useDemoData(): DemoDataState {
     dismiss: () => setConfirming(null),
 
     confirm: () => {
-      if (!confirming) return
-      setRunning(true)
+      if (!confirming) return;
+      setRunning(true);
 
-      if (confirming === 'clear') clearDemoData()
-      else restoreDemoData()
+      if (confirming === "clear") clearDemoData();
+      else restoreDemoData();
 
-      window.location.reload()
+      window.location.reload();
     },
-  }
+  };
 }

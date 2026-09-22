@@ -1,35 +1,35 @@
-import { useState } from 'react'
-import type { Meta, StoryObj } from '@storybook/react-vite'
-import { fn } from 'storybook/test'
-import { Button } from '@/components/ui/Button'
-import { SelectField, TextAreaField, TextField } from '@/components/ui/Field'
-import { Modal } from './Modal'
+import { useState } from "react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { fn } from "storybook/test";
+import { Button } from "@/components/ui/Button";
+import { SelectField, TextAreaField, TextField } from "@/components/ui/Field";
+import { Modal } from "./Modal";
 
 const meta = {
-  title: 'UI/Modal',
+  title: "UI/Modal",
   component: Modal,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
     docs: {
       description: {
         component:
-          'Apoiado no `<dialog>` nativo: o foco fica preso dentro do formulário e o Esc fecha ' +
-          'sem código extra. O corpo rola sozinho quando o formulário passa de 68dvh.',
+          "Apoiado no `<dialog>` nativo: o foco fica preso dentro do formulário e o Esc fecha " +
+          "sem código extra. O corpo rola sozinho quando o formulário passa de 68dvh.",
       },
     },
     // O dialog nativo é renderizado na top layer, fora do canvas do docs.
-    layout: 'centered',
+    layout: "centered",
   },
   args: {
     open: true,
-    title: 'Novo projeto',
+    title: "Novo projeto",
     onClose: fn(),
     children: null,
   },
-} satisfies Meta<typeof Modal>
+} satisfies Meta<typeof Modal>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 /** Aberto por padrão, para inspecionar o conteúdo. */
 export const Aberto: Story = {
@@ -40,8 +40,8 @@ export const Aberto: Story = {
         <SelectField
           label="Cliente"
           options={[
-            { value: 'cli-1', label: 'Padaria Pão de Ouro' },
-            { value: 'cli-2', label: 'Vistoria Norte Engenharia' },
+            { value: "cli-1", label: "Padaria Pão de Ouro" },
+            { value: "cli-2", label: "Vistoria Norte Engenharia" },
           ]}
         />
         <div className="flex justify-end gap-2">
@@ -51,20 +51,23 @@ export const Aberto: Story = {
       </div>
     ),
   },
-}
+};
 
 /** Abre e fecha de verdade, para testar o foco e a tecla Esc. */
 export const Interativo: Story = {
   args: { children: null },
   render: (args) => {
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(false);
 
     return (
       <>
         <Button onClick={() => setOpen(true)}>Abrir modal</Button>
         <Modal {...args} open={open} onClose={() => setOpen(false)}>
           <div className="flex flex-col gap-4">
-            <TextField label="Nome do projeto" placeholder="Site institucional" />
+            <TextField
+              label="Nome do projeto"
+              placeholder="Site institucional"
+            />
             <TextAreaField label="Escopo" />
             <div className="flex justify-end gap-2">
               <Button variant="subtle" onClick={() => setOpen(false)}>
@@ -75,14 +78,14 @@ export const Interativo: Story = {
           </div>
         </Modal>
       </>
-    )
+    );
   },
-}
+};
 
 /** Conteúdo longo: o corpo ganha rolagem e o cabeçalho fica fixo. */
 export const ConteudoLongo: Story = {
   args: {
-    title: 'Novo cliente',
+    title: "Novo cliente",
     children: (
       <div className="flex flex-col gap-4">
         {Array.from({ length: 10 }, (_, index) => (
@@ -91,4 +94,4 @@ export const ConteudoLongo: Story = {
       </div>
     ),
   },
-}
+};

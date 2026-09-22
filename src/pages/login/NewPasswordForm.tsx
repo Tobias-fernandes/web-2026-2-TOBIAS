@@ -1,17 +1,8 @@
-import { useState, type FormEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
-import type { NewPasswordChallenge } from '@/auth/services'
-import { Button, ErrorText, TextField } from '@/components/ui'
-import { MIN_PASSWORD_LENGTH, validateNewPassword } from '@/lib/password'
-import { useCompleteNewPassword } from '@/stores/auth'
-import { toast } from '@/stores/toast'
-import { EMPTY_NEW_PASSWORD_FORM } from './constants'
-import type { NewPasswordFormState } from './types'
-
-interface NewPasswordFormProps {
-  challenge: NewPasswordChallenge
-  redirectTo: string
-}
+import type {} from "@/auth/services";
+import { Button, ErrorText, TextField } from "@/components/ui";
+import { MIN_PASSWORD_LENGTH } from "@/lib/password";
+import { useNewPasswordForm } from "./hooks";
+import type { NewPasswordFormProps } from "./types";
 
 /**
  * The forced first sign-in for an account an administrator created.
@@ -20,35 +11,14 @@ interface NewPasswordFormProps {
  * mid-way, not refusing them — so this replaces that form rather than
  * reporting an error on it.
  */
-export function NewPasswordForm({ challenge, redirectTo }: NewPasswordFormProps) {
-  const completeNewPassword = useCompleteNewPassword()
-  const navigate = useNavigate()
-
-  const [form, setForm] = useState<NewPasswordFormState>(EMPTY_NEW_PASSWORD_FORM)
-  const [error, setError] = useState<string | null>(null)
-  const [submitting, setSubmitting] = useState(false)
-
-  async function handleSubmit(event: FormEvent) {
-    event.preventDefault()
-
-    const complaint = validateNewPassword(form.password, form.confirmation)
-    if (complaint) {
-      setError(complaint)
-      return
-    }
-
-    setError(null)
-    setSubmitting(true)
-    try {
-      await completeNewPassword(challenge, form.password)
-      toast.success('Senha definida.')
-      navigate(redirectTo, { replace: true })
-    } catch (cause) {
-      setError(cause instanceof Error ? cause.message : 'Não foi possível definir a senha.')
-    } finally {
-      setSubmitting(false)
-    }
-  }
+const NewPasswordForm: React.FC<NewPasswordFormProps> = ({
+  challenge,
+  redirectTo,
+}) => {
+  const { form, setForm, error, submitting, handleSubmit } = useNewPasswordForm(
+    challenge,
+    redirectTo,
+  );
 
   return (
     <>
@@ -68,7 +38,9 @@ export function NewPasswordForm({ challenge, redirectTo }: NewPasswordFormProps)
           autoComplete="new-password"
           hint={`Ao menos ${MIN_PASSWORD_LENGTH} caracteres.`}
           value={form.password}
-          onChange={(event) => setForm({ ...form, password: event.target.value })}
+          onChange={(event) =>
+            setForm({ ...form, password: event.target.value })
+          }
         />
         <TextField
           label="Repita a senha"
@@ -76,15 +48,19 @@ export function NewPasswordForm({ challenge, redirectTo }: NewPasswordFormProps)
           name="new-password-confirmation"
           autoComplete="new-password"
           value={form.confirmation}
-          onChange={(event) => setForm({ ...form, confirmation: event.target.value })}
+          onChange={(event) =>
+            setForm({ ...form, confirmation: event.target.value })
+          }
         />
 
         {error && <ErrorText>{error}</ErrorText>}
 
         <Button type="submit" className="mt-1 w-full" disabled={submitting}>
-          {submitting ? 'Salvando…' : 'Definir senha e entrar'}
+          {submitting ? "Salvando…" : "Definir senha e entrar"}
         </Button>
       </form>
     </>
-  )
-}
+  );
+};
+
+export { NewPasswordForm };

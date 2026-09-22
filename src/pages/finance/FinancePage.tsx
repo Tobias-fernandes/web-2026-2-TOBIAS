@@ -1,36 +1,41 @@
-import { PageHeader } from '@/components/layout'
-import { Button, Card, FormDialog, SelectField } from '@/components/ui'
-import { FINANCE_KIND_LABELS } from '@/domain/constants'
-import type { FinanceKind } from '@/domain/types'
-import { CashFlowRow } from './CashFlowRow'
-import { FinanceForm } from './FinanceForm'
-import { LedgerTable } from './LedgerTable'
-import { useFinancePage } from './hooks'
-import type { FinanceFilterState } from './types'
+import { PageHeader } from "@/components/layout";
+import { Button, Card, FormDialog, SelectField } from "@/components/ui";
+import { FINANCE_KIND_LABELS } from "@/domain/constants";
+import type { FinanceKind } from "@/domain/types";
+import { CashFlowRow } from "./CashFlowRow";
+import { FinanceForm } from "./FinanceForm";
+import { LedgerTable } from "./LedgerTable";
+import { useFinancePage } from "./hooks";
+import type { FinanceFilterState } from "./types";
 
 const KIND_FILTER_OPTIONS = [
-  { value: '', label: 'Entradas e saídas' },
-  { value: 'receivable', label: FINANCE_KIND_LABELS.receivable },
-  { value: 'payable', label: FINANCE_KIND_LABELS.payable },
-]
+  { value: "", label: "Entradas e saídas" },
+  { value: "receivable", label: FINANCE_KIND_LABELS.receivable },
+  { value: "payable", label: FINANCE_KIND_LABELS.payable },
+];
 
 const SETTLEMENT_FILTER_OPTIONS = [
-  { value: '', label: 'Todas' },
-  { value: 'open', label: 'Em aberto' },
-  { value: 'overdue', label: 'Vencidas' },
-  { value: 'settled', label: 'Quitadas' },
-]
+  { value: "", label: "Todas" },
+  { value: "open", label: "Em aberto" },
+  { value: "overdue", label: "Vencidas" },
+  { value: "settled", label: "Quitadas" },
+];
 
-export function FinancePage() {
-  const ledger = useFinancePage()
-
+const FinancePage: React.FC = () => {
+  const ledger = useFinancePage();
 
   return (
     <>
       <PageHeader
         title="Contas e fluxo de caixa"
         description="Tudo que entra e sai, com data — parcela de contrato, mensalidade, premiação, coffee break. Contrato assinado não é dinheiro em conta, e a diferença entre os dois aparece aqui."
-        action={ledger.editable && <Button onClick={() => ledger.dialog.openWith()}>Novo lançamento</Button>}
+        action={
+          ledger.editable && (
+            <Button onClick={() => ledger.dialog.openWith()}>
+              Novo lançamento
+            </Button>
+          )
+        }
       />
 
       <CashFlowRow cashFlow={ledger.cashFlow} />
@@ -42,7 +47,10 @@ export function FinancePage() {
             value={ledger.filter.kind}
             options={KIND_FILTER_OPTIONS}
             onChange={(event) =>
-              ledger.setFilter({ ...ledger.filter, kind: event.target.value as '' | FinanceKind })
+              ledger.setFilter({
+                ...ledger.filter,
+                kind: event.target.value as "" | FinanceKind,
+              })
             }
           />
           <SelectField
@@ -52,7 +60,8 @@ export function FinancePage() {
             onChange={(event) =>
               ledger.setFilter({
                 ...ledger.filter,
-                settlement: event.target.value as FinanceFilterState['settlement'],
+                settlement: event.target
+                  .value as FinanceFilterState["settlement"],
               })
             }
           />
@@ -82,5 +91,7 @@ export function FinancePage() {
         />
       </FormDialog>
     </>
-  )
-}
+  );
+};
+
+export { FinancePage };

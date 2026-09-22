@@ -1,6 +1,6 @@
-export { dataLayer } from './dataLayer'
-export { onboardingService, SignUpError } from './onboarding'
-export type { OnboardingService, SignUpInput } from './onboarding'
+export { dataLayer } from "./dataLayer";
+export { onboardingService, SignUpError } from "./onboarding";
+export type { OnboardingService, SignUpInput } from "./onboarding";
 export type {
   CrudRepository,
   CycleRepository,
@@ -27,4 +27,4 @@ export type {
   ReportService,
   ReportScope,
   DataLayer,
-} from './types'
+} from "./types";

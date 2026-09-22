@@ -1,11 +1,11 @@
-import { useMemo } from 'react'
-import { useFormDialog } from '@/components/ui'
-import { can } from '@/domain/access'
-import { PROJECT_STATUS_LABELS } from '@/domain/constants'
-import { todayIso } from '@/lib/date'
-import { useNameLookup } from '@/lib/hooks'
-import { parseMoneyInput } from '@/lib/money'
-import { zodValidate } from '@/lib/validation'
+import { useMemo } from "react";
+import { useFormDialog } from "@/components/ui";
+import { can } from "@/domain/access";
+import { PROJECT_STATUS_LABELS } from "@/domain/constants";
+import { todayIso } from "@/lib/date";
+import { useNameLookup } from "@/lib/hooks";
+import { parseMoneyInput } from "@/lib/money";
+import { zodValidate } from "@/lib/validation";
 import {
   useActiveCycle,
   useChangeProjectStatus,
@@ -14,27 +14,28 @@ import {
   useCycleProjects,
   useMembers,
   useProjectMargins,
-} from '@/queries'
-import { useCurrentUser } from '@/stores/auth'
-import { toast, toastMutationError } from '@/stores/toast'
-import { buildEmptyProjectForm } from './constants'
-import { projectFormSchema } from './schemas'
-import type { ProjectsPageState } from './types'
+} from "@/queries";
+import { useCurrentUser } from "@/stores/auth";
+import { toast, toastMutationError } from "@/stores/toast";
+import { buildEmptyProjectForm } from "./constants";
+import { projectFormSchema } from "./schemas";
+import type { ProjectsPageState } from "./types";
 
 export function useProjectsPage(): ProjectsPageState {
-  const user = useCurrentUser()
-  const { cycle } = useActiveCycle()
+  const user = useCurrentUser();
+  const { cycle } = useActiveCycle();
 
-  const projects = useCycleProjects(cycle?.id)
-  const clients = useClients()
-  const members = useMembers()
-  const margins = useProjectMargins(cycle?.id)
-  const changeStatus = useChangeProjectStatus()
+  const projects = useCycleProjects(cycle?.id);
+  const clients = useClients();
+  const members = useMembers();
+  const margins = useProjectMargins(cycle?.id);
+  const changeStatus = useChangeProjectStatus();
 
   const marginByProject = useMemo(
-    () => new Map((margins.data ?? []).map((margin) => [margin.projectId, margin])),
+    () =>
+      new Map((margins.data ?? []).map((margin) => [margin.projectId, margin])),
     [margins.data],
-  )
+  );
 
   const dialog = useFormDialog({
     initial: buildEmptyProjectForm,
@@ -43,7 +44,7 @@ export function useProjectsPage(): ProjectsPageState {
     toInput: (form) => ({
       name: form.name.trim(),
       clientId: form.clientId,
-      cycleId: cycle?.id ?? '',
+      cycleId: cycle?.id ?? "",
       ownerId: form.ownerId,
       teamIds: form.ownerId ? [form.ownerId] : [],
       scope: form.scope.trim(),
@@ -57,11 +58,11 @@ export function useProjectsPage(): ProjectsPageState {
       npsScore: null,
       dealId: null,
     }),
-    successMessage: () => 'Projeto cadastrado.',
-  })
+    successMessage: () => "Projeto cadastrado.",
+  });
 
   return {
-    editable: can(user, 'project:manage'),
+    editable: can(user, "project:manage"),
     projects,
     clients: clients.data ?? [],
     members: members.data ?? [],
@@ -74,7 +75,9 @@ export function useProjectsPage(): ProjectsPageState {
         { id: project.id, status },
         {
           onSuccess: () =>
-            toast.success(`${project.name}: status alterado para ${PROJECT_STATUS_LABELS[status]}.`),
+            toast.success(
+              `${project.name}: status alterado para ${PROJECT_STATUS_LABELS[status]}.`,
+            ),
           onError: (cause) => toastMutationError(cause),
         },
       ),
@@ -82,8 +85,8 @@ export function useProjectsPage(): ProjectsPageState {
     /** The pickers default to the first record, resolved at click time. */
     openDialog: () =>
       dialog.openWith({
-        clientId: clients.data?.[0]?.id ?? '',
-        ownerId: user?.memberId ?? members.data?.[0]?.id ?? '',
+        clientId: clients.data?.[0]?.id ?? "",
+        ownerId: user?.memberId ?? members.data?.[0]?.id ?? "",
       }),
-  }
+  };
 }

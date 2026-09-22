@@ -1,33 +1,31 @@
-import { useId, useState } from 'react'
-import { EyeIcon, EyeOffIcon } from '@/components/ui/icons'
-import { cn } from '@/lib/utils'
-import { FIELD_BASE_CLASSES } from './constants'
-import { FieldShell } from './FieldShell'
-import type { TextFieldProps } from './types'
+import { EyeIcon, EyeOffIcon } from "@/components/ui/icons";
+import { cn } from "@/lib/utils";
+import { FIELD_BASE_CLASSES } from "./constants";
+import { FieldShell } from "./FieldShell";
+import { useTextField } from "./hooks";
+import type { TextFieldProps } from "./types";
 
-export function TextField({
+const TextField: React.FC<TextFieldProps> = ({
   label,
   hint,
   error,
   className,
   type,
   ...props
-}: TextFieldProps) {
-  const id = useId()
-  const [visible, setVisible] = useState(false)
-  const isPassword = type === 'password'
+}) => {
+  const { id, visible, isPassword, toggleVisible } = useTextField(type);
 
   return (
     <FieldShell id={id} label={label} hint={hint} error={error}>
       <div className="relative">
         <input
           id={id}
-          type={isPassword && visible ? 'text' : type}
+          type={isPassword && visible ? "text" : type}
           aria-invalid={error ? true : undefined}
           className={cn(
             FIELD_BASE_CLASSES,
-            isPassword && 'pr-10',
-            error && 'border-ambar',
+            isPassword && "pr-10",
+            error && "border-ambar",
             className,
           )}
           {...props}
@@ -35,8 +33,8 @@ export function TextField({
         {isPassword && (
           <button
             type="button"
-            onClick={() => setVisible((current) => !current)}
-            aria-label={visible ? 'Ocultar senha' : 'Mostrar senha'}
+            onClick={toggleVisible}
+            aria-label={visible ? "Ocultar senha" : "Mostrar senha"}
             aria-pressed={visible}
             className="absolute inset-y-0 right-0 flex w-10 items-center justify-center text-tinta-suave hover:text-tinta"
           >
@@ -45,5 +43,7 @@ export function TextField({
         )}
       </div>
     </FieldShell>
-  )
-}
+  );
+};
+
+export { TextField };

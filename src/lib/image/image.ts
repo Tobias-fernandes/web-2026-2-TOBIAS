@@ -1,5 +1,5 @@
 /** Profile pictures are stored as a square of this side, in pixels. */
-export const AVATAR_SIZE = 256
+export const AVATAR_SIZE = 256;
 
 /**
  * Turns a picked image file into a small square data URL.
@@ -12,18 +12,21 @@ export const AVATAR_SIZE = 256
  * Centre-cropped rather than squashed — a face stretched into a square is worse
  * than a face with its corners trimmed.
  */
-export async function toSquareDataUrl(file: File, size = AVATAR_SIZE): Promise<string> {
-  const bitmap = await createImageBitmap(file)
+export async function toSquareDataUrl(
+  file: File,
+  size = AVATAR_SIZE,
+): Promise<string> {
+  const bitmap = await createImageBitmap(file);
 
   try {
-    const canvas = document.createElement('canvas')
-    canvas.width = size
-    canvas.height = size
+    const canvas = document.createElement("canvas");
+    canvas.width = size;
+    canvas.height = size;
 
-    const context = canvas.getContext('2d')
-    if (!context) throw new Error('Canvas 2D não disponível neste navegador.')
+    const context = canvas.getContext("2d");
+    if (!context) throw new Error("Canvas 2D não disponível neste navegador.");
 
-    const side = Math.min(bitmap.width, bitmap.height)
+    const side = Math.min(bitmap.width, bitmap.height);
     context.drawImage(
       bitmap,
       (bitmap.width - side) / 2,
@@ -34,10 +37,10 @@ export async function toSquareDataUrl(file: File, size = AVATAR_SIZE): Promise<s
       0,
       size,
       size,
-    )
+    );
 
-    return canvas.toDataURL('image/jpeg', 0.82)
+    return canvas.toDataURL("image/jpeg", 0.82);
   } finally {
-    bitmap.close()
+    bitmap.close();
   }
 }

@@ -1,18 +1,18 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Button } from '@/components/ui/Button'
-import { Card, CardTitle } from './Card'
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Button } from "@/components/ui/Button";
+import { Card, CardTitle } from "./Card";
 
 const meta = {
-  title: 'UI/Card',
+  title: "UI/Card",
   component: Card,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   args: {
-    children: 'Conteúdo do cartão.',
+    children: "Conteúdo do cartão.",
   },
-} satisfies Meta<typeof Card>
+} satisfies Meta<typeof Card>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Padrao: Story = {
   render: (args) => (
@@ -22,7 +22,7 @@ export const Padrao: Story = {
       </p>
     </Card>
   ),
-}
+};
 
 /** Com o cabeçalho e uma ação alinhada à direita. */
 export const ComTitulo: Story = {
@@ -32,8 +32,9 @@ export const ComTitulo: Story = {
         Prazos mais próximos
       </CardTitle>
       <p className="m-0 text-sm text-tinta-suave">
-        O título usa a fonte de display; a ação fica alinhada pela linha de base.
+        O título usa a fonte de display; a ação fica alinhada pela linha de
+        base.
       </p>
     </Card>
   ),
-}
+};

@@ -9,21 +9,21 @@
  * only the identifiers are in English.
  */
 export const ROUTES = {
-  landing: '/',
-  login: '/login',
-  signUp: '/cadastro',
+  landing: "/",
+  login: "/login",
+  signUp: "/cadastro",
   app: {
-    root: '/app',
-    cycle: '/app/gestao',
-    calendar: '/app/calendario',
-    projects: '/app/projetos',
-    allocation: '/app/alocacao',
-    timeEntries: '/app/horas',
-    funnel: '/app/funil',
-    clients: '/app/clientes',
-    finance: '/app/financeiro',
-    members: '/app/membros',
-    reports: '/app/relatorios',
-    guide: '/app/como-funciona',
+    root: "/app",
+    cycle: "/app/gestao",
+    calendar: "/app/calendario",
+    projects: "/app/projetos",
+    allocation: "/app/alocacao",
+    timeEntries: "/app/horas",
+    funnel: "/app/funil",
+    clients: "/app/clientes",
+    finance: "/app/financeiro",
+    members: "/app/membros",
+    reports: "/app/relatorios",
+    guide: "/app/como-funciona",
   },
-} as const
+} as const;

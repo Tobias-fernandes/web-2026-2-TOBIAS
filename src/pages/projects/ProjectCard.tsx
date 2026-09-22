@@ -3,7 +3,7 @@ import {
   PROJECT_STATUS_LABELS,
   PROJECT_STATUS_TONES,
 } from "@/domain/constants";
-import type { Project, ProjectMargin, ProjectStatus } from "@/domain/types";
+import type { ProjectStatus } from "@/domain/types";
 import {
   formatDate,
   formatDueLabel,
@@ -12,6 +12,7 @@ import {
 } from "@/lib/format";
 import { PROJECT_BOARD_COLUMNS } from "@/domain/constants";
 import { BUDGET_ALERT_USAGE } from "./constants";
+import type { ProjectCardProps } from "./types";
 
 /** Next column on the board; the last one has nowhere left to advance. */
 function nextStatus(status: ProjectStatus): ProjectStatus | null {
@@ -21,19 +22,7 @@ function nextStatus(status: ProjectStatus): ProjectStatus | null {
     : null;
 }
 
-interface ProjectCardProps {
-  project: Project;
-  clientName: string;
-  ownerName: string;
-  /** Absent until the margin report has loaded. */
-  margin?: ProjectMargin;
-  /** Only whoever may manage projects gets the "move forward" button. */
-  editable: boolean;
-  moving: boolean;
-  onMove: (status: ProjectStatus) => void;
-}
-
-export function ProjectCard({
+const ProjectCard: React.FC<ProjectCardProps> = ({
   project,
   clientName,
   ownerName,
@@ -41,7 +30,7 @@ export function ProjectCard({
   editable,
   moving,
   onMove,
-}: ProjectCardProps) {
+}) => {
   const overBudget = (margin?.hoursUsage ?? 0) > BUDGET_ALERT_USAGE;
   const next = editable ? nextStatus(project.status) : null;
 
@@ -116,4 +105,6 @@ export function ProjectCard({
       )}
     </li>
   );
-}
+};
+
+export { ProjectCard };

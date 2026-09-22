@@ -1,4 +1,4 @@
-import type { Loadable } from '@/components/ui'
+import type { Loadable } from "@/components/ui";
 import type {
   CashFlowSummary,
   CycleProgress,
@@ -6,7 +6,7 @@ import type {
   HoursByCategory,
   MemberWorkload,
   Project,
-} from '@/domain/types'
+} from "@/domain/types";
 
 /**
  * Everything the dashboard reads, resolved once.
@@ -16,16 +16,16 @@ import type {
  * whatever it needs to *show* is in the section components.
  */
 export interface DashboardPageState {
-  greeting: string
-  description: string
-  metrics: Loadable<DashboardMetrics>
-  progress: Loadable<CycleProgress | null>
-  cashFlow: Loadable<CashFlowSummary>
-  categories: Loadable<HoursByCategory[]>
-  workload: Loadable<MemberWorkload[]>
+  greeting: string;
+  description: string;
+  metrics: Loadable<DashboardMetrics>;
+  progress: Loadable<CycleProgress | null>;
+  cashFlow: Loadable<CashFlowSummary>;
+  categories: Loadable<HoursByCategory[]>;
+  workload: Loadable<MemberWorkload[]>;
   /** Only the head of the list, which is all the card has room for. */
-  topWorkload: MemberWorkload[]
-  projects: Loadable<Project[]>
+  topWorkload: MemberWorkload[];
+  projects: Loadable<Project[]>;
   /** Projects under way, soonest deadline first. */
-  deadlines: Project[]
+  deadlines: Project[];
 }

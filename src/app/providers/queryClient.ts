@@ -1,5 +1,8 @@
-import { QueryClient } from '@tanstack/react-query'
-import { DEFAULT_RETRY_COUNT, DEFAULT_STALE_TIME_MS } from '@/queries/constants'
+import { QueryClient } from "@tanstack/react-query";
+import {
+  DEFAULT_RETRY_COUNT,
+  DEFAULT_STALE_TIME_MS,
+} from "@/queries/constants";
 
 /**
  * Single QueryClient for the app.
@@ -14,7 +17,7 @@ import { DEFAULT_RETRY_COUNT, DEFAULT_STALE_TIME_MS } from '@/queries/constants'
  * stale with nothing to catch it. A mutation that sets its own `onSuccess`
  * replaces this default rather than adding to it.
  */
-export const queryClient: QueryClient = new QueryClient({
+const queryClient: QueryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: DEFAULT_STALE_TIME_MS,
@@ -25,4 +28,6 @@ export const queryClient: QueryClient = new QueryClient({
       onSuccess: (): Promise<void> => queryClient.invalidateQueries(),
     },
   },
-})
+});
+
+export { queryClient };

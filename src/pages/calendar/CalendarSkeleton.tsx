@@ -1,12 +1,12 @@
-import { Skeleton, SkeletonList, SkeletonRegion } from '@/components/ui'
-import { DAYS_IN_WEEK } from '@/lib/date'
-import { WEEKDAY_HEADERS } from './constants'
+import { Skeleton, SkeletonList, SkeletonRegion } from "@/components/ui";
+import { DAYS_IN_WEEK } from "@/lib/date";
+import { WEEKDAY_HEADERS } from "./constants";
 
 /** Five weeks of empty cells, so the grid does not jump when the month lands. */
-const WEEKS = 5
+const WEEKS = 5;
 
 /** The whole screen's placeholder: the month and the panel beside it. */
-export function CalendarSkeleton() {
+const CalendarSkeleton: React.FC = () => {
   return (
     <SkeletonRegion
       label="Carregando o calendário…"
@@ -41,5 +41,7 @@ export function CalendarSkeleton() {
         <SkeletonList count={3} label="Carregando o dia…" />
       </div>
     </SkeletonRegion>
-  )
-}
+  );
+};
+
+export { CalendarSkeleton };

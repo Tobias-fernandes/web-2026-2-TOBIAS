@@ -1,31 +1,14 @@
-import { useState } from 'react'
-import { Button, TextField } from '@/components/ui'
-import { CloseIcon } from '@/components/ui/icons'
-import type { SignUpFormState } from '../types'
+import { Button, TextField } from "@/components/ui";
+import { CloseIcon } from "@/components/ui/icons";
+import { useCoursesStep } from "./hooks";
+import type {} from "../types";
+import type { StepProps } from "./types";
 
-interface StepProps {
-  value: SignUpFormState
-  onChange: (value: SignUpFormState) => void
-}
-
-export function CoursesStep({ value, onChange }: StepProps) {
-  const [draft, setDraft] = useState('')
-
-  function add() {
-    const name = draft.trim()
-    if (!name) return
-    // Case-insensitive, because "Engenharia de Software" and "engenharia de
-    // software" would otherwise become two courses that split every report.
-    const exists = value.courses.some(
-      (course) => course.toLowerCase() === name.toLowerCase(),
-    )
-    if (!exists) onChange({ ...value, courses: [...value.courses, name] })
-    setDraft('')
-  }
-
-  function remove(name: string) {
-    onChange({ ...value, courses: value.courses.filter((item) => item !== name) })
-  }
+const CoursesStep: React.FC<StepProps> = ({ value, onChange }) => {
+  const { draft, setDraft, add, remove, handleKeyDown } = useCoursesStep(
+    value,
+    onChange,
+  );
 
   return (
     <>
@@ -36,17 +19,14 @@ export function CoursesStep({ value, onChange }: StepProps) {
           className="flex-1"
           value={draft}
           onChange={(event) => setDraft(event.target.value)}
-          onKeyDown={(event) => {
-            if (event.key === 'Enter') {
-              // Enter adds the course instead of submitting the step: the list
-              // is the point of this screen, and advancing from it by accident
-              // loses what was being typed.
-              event.preventDefault()
-              add()
-            }
-          }}
+          onKeyDown={handleKeyDown}
         />
-        <Button type="button" variant="outline" onClick={add} className="mb-0.5">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={add}
+          className="mb-0.5"
+        >
           Adicionar
         </Button>
       </div>
@@ -76,5 +56,7 @@ export function CoursesStep({ value, onChange }: StepProps) {
         </ul>
       )}
     </>
-  )
-}
+  );
+};
+
+export { CoursesStep };

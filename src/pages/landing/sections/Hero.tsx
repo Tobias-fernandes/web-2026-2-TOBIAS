@@ -1,34 +1,34 @@
-import { Link } from 'react-router-dom'
-import { ArrowRightIcon, ChevronDownIcon } from '@/components/ui/icons'
-import { ROUTES } from '@/config/routes'
-import { AppPreview } from '../AppPreview'
-import { HERO_ASSURANCES } from '../constants'
-import { EYEBROW } from './styles'
+import { Link } from "react-router-dom";
+import { ArrowRightIcon, ChevronDownIcon } from "@/components/ui/icons";
+import { ROUTES } from "@/config/routes";
+import { AppPreview } from "../AppPreview";
+import { HERO_ASSURANCES } from "../constants";
+import { EYEBROW } from "./styles";
 
 /** Seção "Capa" da página pública. */
-export function Hero() {
+const Hero: React.FC = () => {
   return (
     <section className="relative flex min-h-[calc(100dvh-var(--altura-cabecalho))] items-center overflow-hidden border-b border-linha">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 h-[70%] bg-[radial-gradient(75%_100%_at_50%_0%,var(--violeta-lav)_0%,transparent_72%)]"
       />
-  
+
       <div className="env relative grid items-center gap-12 py-16 lg:grid-cols-[1fr_1.02fr] lg:gap-16 lg:py-10">
         <div>
           <p className={EYEBROW}>Feito para empresas juniores</p>
-  
+
           <h1 className="font-destaque text-[clamp(2.8rem,6.2vw,4.6rem)] leading-[1.02] font-extrabold tracking-[-0.035em] text-balance">
-            A gestão da sua empresa júnior{' '}
+            A gestão da sua empresa júnior{" "}
             <em className="text-violeta not-italic">fora da planilha</em>
           </h1>
-  
+
           <p className="mt-7 max-w-[54ch] text-lg leading-relaxed text-tinta-suave">
             Funil comercial, projetos, horas da equipe, financeiro e indicadores
             em um sistema só. E quando a diretoria troca, o histórico continua
             lá — a gestão que entra começa sabendo onde a anterior parou.
           </p>
-  
+
           <div className="mt-9 flex flex-wrap gap-3">
             {/*
               The hero asks for the commitment, not for a tour: whoever arrives
@@ -50,7 +50,7 @@ export function Hero() {
               Conhecer o sistema
             </Link>
           </div>
-  
+
           <ul className="mt-8 flex list-none flex-wrap gap-x-6 gap-y-2 p-0 text-sm text-tinta-suave">
             {HERO_ASSURANCES.map((item) => (
               <li key={item} className="flex items-center gap-2">
@@ -60,10 +60,10 @@ export function Hero() {
             ))}
           </ul>
         </div>
-  
+
         <AppPreview />
       </div>
-  
+
       {/* A full screen hides the fact that there is more below it. */}
       <a
         href="#solucao"
@@ -73,5 +73,7 @@ export function Hero() {
         <ChevronDownIcon size={18} />
       </a>
     </section>
-  )
-}
+  );
+};
+
+export { Hero };

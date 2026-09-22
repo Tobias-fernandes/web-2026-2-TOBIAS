@@ -1,4 +1,4 @@
-import type { AcademicTerm, ID, IsoDate } from './common'
+import type { AcademicTerm, ID, IsoDate } from "./common";
 
 /**
  * Where a person is in the enterprise.
@@ -8,7 +8,7 @@ import type { AcademicTerm, ID, IsoDate } from './common'
  * but nobody has accepted it yet, so it counts for no report and grants no
  * access. Accepting moves it to `active`; the other two are what happens after.
  */
-export type MemberStatus = 'invited' | 'active' | 'onLeave' | 'inactive'
+export type MemberStatus = "invited" | "active" | "onLeave" | "inactive";
 
 /**
  * A person, across every term they took part in.
@@ -22,23 +22,23 @@ export type MemberStatus = 'invited' | 'active' | 'onLeave' | 'inactive'
  * forms is how the same student gets admitted twice.
  */
 export interface Member {
-  id: ID
-  enterpriseId: ID
-  name: string
-  email: string
-  phone: string
+  id: ID;
+  enterpriseId: ID;
+  name: string;
+  email: string;
+  phone: string;
   /** 11 digits, unpunctuated. */
-  cpf: string
+  cpf: string;
   /** Enrolment number at the university. */
-  registration: string
+  registration: string;
   /** The term the person started the degree in, as `2023.1`. */
-  entryTerm: AcademicTerm
-  courseId: ID
+  entryTerm: AcademicTerm;
+  courseId: ID;
   /** Optional: the system never blocks an admission for a missing picture. */
-  avatarUrl: string | null
-  status: MemberStatus
-  joinedAt: IsoDate
+  avatarUrl: string | null;
+  status: MemberStatus;
+  joinedAt: IsoDate;
   /** Filled when the person leaves; keeps the history of past terms intact. */
-  leftAt: IsoDate | null
-  createdAt: IsoDate
+  leftAt: IsoDate | null;
+  createdAt: IsoDate;
 }

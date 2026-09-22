@@ -1,22 +1,22 @@
-import { Button, Card, CardTitle, Modal, Note } from '@/components/ui'
-import type { DemoAction, DemoDataState } from './types'
+import { Button, Card, CardTitle, Modal, Note } from "@/components/ui";
+import type { DemoAction } from "./types";
+import type { DemoDataCardProps } from "./types";
 
-interface DemoDataCardProps {
-  demo: DemoDataState
-}
-
-const CONFIRMATION: Record<DemoAction, { title: string; text: string; label: string }> = {
+const CONFIRMATION: Record<
+  DemoAction,
+  { title: string; text: string; label: string }
+> = {
   clear: {
-    title: 'Zerar os dados',
-    text: 'Apaga tudo que está gravado neste navegador: gestões, membros, clientes, negociações, projetos, alocações, horas, lançamentos e compromissos. O sistema reabre vazio, como no primeiro dia de uma EJ.',
-    label: 'Zerar tudo',
+    title: "Zerar os dados",
+    text: "Apaga tudo que está gravado neste navegador: gestões, membros, clientes, negociações, projetos, alocações, horas, lançamentos e compromissos. O sistema reabre vazio, como no primeiro dia de uma EJ.",
+    label: "Zerar tudo",
   },
   restore: {
-    title: 'Restaurar a demonstração',
-    text: 'Descarta o que você cadastrou e traz de volta os dados de exemplo: a gestão de 2026, os doze membros, os projetos em andamento, o funil, o caixa e o calendário.',
-    label: 'Restaurar',
+    title: "Restaurar a demonstração",
+    text: "Descarta o que você cadastrou e traz de volta os dados de exemplo: a gestão de 2026, os doze membros, os projetos em andamento, o funil, o caixa e o calendário.",
+    label: "Restaurar",
   },
-}
+};
 
 /**
  * The switch between an empty system and the demonstration.
@@ -26,10 +26,10 @@ const CONFIRMATION: Record<DemoAction, { title: string; text: string; label: str
  * model; starting from nothing and being asked for a gestão before anything
  * else will accept a record is what makes it stick.
  */
-export function DemoDataCard({ demo }: DemoDataCardProps) {
-  if (!demo.available) return null
+const DemoDataCard: React.FC<DemoDataCardProps> = ({ demo }) => {
+  if (!demo.available) return null;
 
-  const confirmation = demo.confirming && CONFIRMATION[demo.confirming]
+  const confirmation = demo.confirming && CONFIRMATION[demo.confirming];
 
   return (
     <>
@@ -45,10 +45,10 @@ export function DemoDataCard({ demo }: DemoDataCardProps) {
         </p>
 
         <div className="flex flex-wrap gap-2">
-          <Button variant="danger" onClick={() => demo.ask('clear')}>
+          <Button variant="danger" onClick={() => demo.ask("clear")}>
             Zerar os dados
           </Button>
-          <Button variant="subtle" onClick={() => demo.ask('restore')}>
+          <Button variant="subtle" onClick={() => demo.ask("restore")}>
             Restaurar a demonstração
           </Button>
         </div>
@@ -63,7 +63,7 @@ export function DemoDataCard({ demo }: DemoDataCardProps) {
 
       <Modal
         open={demo.confirming !== null}
-        title={confirmation?.title ?? ''}
+        title={confirmation?.title ?? ""}
         onClose={demo.dismiss}
       >
         <div className="flex flex-col gap-5">
@@ -76,15 +76,17 @@ export function DemoDataCard({ demo }: DemoDataCardProps) {
               Cancelar
             </Button>
             <Button
-              variant={demo.confirming === 'clear' ? 'dangerSolid' : 'solid'}
+              variant={demo.confirming === "clear" ? "dangerSolid" : "solid"}
               disabled={demo.running}
               onClick={demo.confirm}
             >
-              {demo.running ? 'Aplicando…' : (confirmation?.label ?? '')}
+              {demo.running ? "Aplicando…" : (confirmation?.label ?? "")}
             </Button>
           </div>
         </div>
       </Modal>
     </>
-  )
-}
+  );
+};
+
+export { DemoDataCard };

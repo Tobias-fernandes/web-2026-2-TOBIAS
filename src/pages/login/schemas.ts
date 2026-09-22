@@ -1,6 +1,6 @@
-import { z } from 'zod'
-import { MIN_PASSWORD_LENGTH } from '@/lib/password'
-import { zEmail } from '@/lib/validation'
+import { z } from "zod";
+import { MIN_PASSWORD_LENGTH } from "@/lib/password";
+import { zEmail } from "@/lib/validation";
 
 export const loginSchema = z.object({
   email: zEmail(),
@@ -12,5 +12,8 @@ export const loginSchema = z.object({
    */
   password: z
     .string()
-    .min(MIN_PASSWORD_LENGTH, `A senha precisa de ao menos ${MIN_PASSWORD_LENGTH} caracteres.`),
-})
+    .min(
+      MIN_PASSWORD_LENGTH,
+      `A senha precisa de ao menos ${MIN_PASSWORD_LENGTH} caracteres.`,
+    ),
+});

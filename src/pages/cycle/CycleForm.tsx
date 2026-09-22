@@ -1,19 +1,14 @@
-import { CycleGoalsFields } from '@/components/forms'
-import { SelectField, TextField, labelOptions } from '@/components/ui'
-import { CYCLE_STATUS_LABELS } from '@/domain/constants'
-import type { CycleStatus } from '@/domain/types'
-import { setField } from '@/lib/utils'
-import type { CycleFormState } from './types'
+import { CycleGoalsFields } from "@/components/forms";
+import { SelectField, TextField, labelOptions } from "@/components/ui";
+import { CYCLE_STATUS_LABELS } from "@/domain/constants";
+import type { CycleStatus } from "@/domain/types";
+import { setField } from "@/lib/utils";
+import type { CycleFormProps } from "./types";
 
-const STATUS_OPTIONS = labelOptions(CYCLE_STATUS_LABELS)
+const STATUS_OPTIONS = labelOptions(CYCLE_STATUS_LABELS);
 
-interface CycleFormProps {
-  value: CycleFormState
-  onChange: (next: CycleFormState) => void
-}
-
-export function CycleForm({ value, onChange }: CycleFormProps) {
-  const set = setField(value, onChange)
+const CycleForm: React.FC<CycleFormProps> = ({ value, onChange }) => {
+  const set = setField(value, onChange);
 
   return (
     <>
@@ -28,14 +23,14 @@ export function CycleForm({ value, onChange }: CycleFormProps) {
           hint="O dia em que a diretoria assumiu. É o ano dele que dá nome à gestão."
           type="date"
           value={value.startsAt}
-          onChange={(event) => set('startsAt', event.target.value)}
+          onChange={(event) => set("startsAt", event.target.value)}
         />
         <SelectField
           label="Situação"
           hint="Marcar como encerrada registra a data de hoje como o fim da gestão."
           value={value.status}
           options={STATUS_OPTIONS}
-          onChange={(event) => set('status', event.target.value as CycleStatus)}
+          onChange={(event) => set("status", event.target.value as CycleStatus)}
         />
       </div>
 
@@ -43,8 +38,13 @@ export function CycleForm({ value, onChange }: CycleFormProps) {
         <legend className="mb-3 text-sm font-semibold text-tinta">
           Metas da gestão
         </legend>
-        <CycleGoalsFields value={value} onChange={(goals) => onChange({ ...value, ...goals })} />
+        <CycleGoalsFields
+          value={value}
+          onChange={(goals) => onChange({ ...value, ...goals })}
+        />
       </fieldset>
     </>
-  )
-}
+  );
+};
+
+export { CycleForm };

@@ -1,1 +1,2 @@
-export { Note, type NoteProps } from './Note'
+export { Note } from "./Note";
+export type { NoteProps } from "./types";

@@ -4,4 +4,4 @@ export {
   isActiveProject,
   isScheduledEvent,
   cycleEnd,
-} from './predicates'
+} from "./predicates";

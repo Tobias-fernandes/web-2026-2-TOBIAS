@@ -1,25 +1,18 @@
-import { Button, Modal, SelectField, labelOptions } from '@/components/ui'
-import { LOSS_REASON_LABELS } from '@/domain/constants'
-import type { LossReason } from '@/domain/types'
+import { Button, Modal, SelectField, labelOptions } from "@/components/ui";
+import { LOSS_REASON_LABELS } from "@/domain/constants";
+import type { LossReason } from "@/domain/types";
+import type { LossReasonDialogProps } from "./types";
 
-const LOSS_OPTIONS = labelOptions(LOSS_REASON_LABELS)
-
-interface LossReasonDialogProps {
-  reason: LossReason | null
-  submitting: boolean
-  onChange: (reason: LossReason) => void
-  onCancel: () => void
-  onConfirm: () => void
-}
+const LOSS_OPTIONS = labelOptions(LOSS_REASON_LABELS);
 
 /** Closing a deal as lost asks why, because the reason is the whole value. */
-export function LossReasonDialog({
+const LossReasonDialog: React.FC<LossReasonDialogProps> = ({
   reason,
   submitting,
   onChange,
   onCancel,
   onConfirm,
-}: LossReasonDialogProps) {
+}) => {
   return (
     <Modal
       open={reason !== null}
@@ -30,7 +23,7 @@ export function LossReasonDialog({
         <SelectField
           label="Motivo"
           hint="Sem o motivo, a diretoria seguinte repete o mesmo erro."
-          value={reason ?? 'price'}
+          value={reason ?? "price"}
           options={LOSS_OPTIONS}
           onChange={(event) => onChange(event.target.value as LossReason)}
         />
@@ -44,5 +37,7 @@ export function LossReasonDialog({
         </div>
       </div>
     </Modal>
-  )
-}
+  );
+};
+
+export { LossReasonDialog };

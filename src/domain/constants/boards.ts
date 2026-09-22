@@ -3,23 +3,23 @@ import type {
   EventKind,
   ProjectStatus,
   TimeEntryCategory,
-} from '@/domain/types'
+} from "@/domain/types";
 
 /** Column order on the project board. Cancelled projects are not shown there. */
 export const PROJECT_BOARD_COLUMNS: ProjectStatus[] = [
-  'planning',
-  'inProgress',
-  'review',
-  'delivered',
-]
+  "planning",
+  "inProgress",
+  "review",
+  "delivered",
+];
 
 /** Column order on the commercial funnel. Won and lost leave the board. */
 export const DEAL_FUNNEL_COLUMNS: DealStage[] = [
-  'qualification',
-  'diagnosis',
-  'proposal',
-  'negotiation',
-]
+  "qualification",
+  "diagnosis",
+  "proposal",
+  "negotiation",
+];
 
 /**
  * Every stage, in funnel order, with the two closed ones at the end.
@@ -29,33 +29,33 @@ export const DEAL_FUNNEL_COLUMNS: DealStage[] = [
  */
 export const DEAL_STAGE_ORDER: DealStage[] = [
   ...DEAL_FUNNEL_COLUMNS,
-  'won',
-  'lost',
-]
+  "won",
+  "lost",
+];
 
 /** Order the categories are reported in — billable work first. */
 export const TIME_ENTRY_CATEGORY_ORDER: TimeEntryCategory[] = [
-  'project',
-  'commercial',
-  'internal',
-  'training',
-  'event',
-]
+  "project",
+  "commercial",
+  "internal",
+  "training",
+  "event",
+];
 
 /** Statuses that count as a project consuming the team's time right now. */
 export const ACTIVE_PROJECT_STATUSES: ProjectStatus[] = [
-  'planning',
-  'inProgress',
-  'review',
-]
+  "planning",
+  "inProgress",
+  "review",
+];
 
 /** Order the kinds are offered in — what an EJ schedules most, first. */
 export const EVENT_KIND_ORDER: EventKind[] = [
-  'meeting',
-  'training',
-  'commercial',
-  'selection',
-  'external',
-  'social',
-  'deadline',
-]
+  "meeting",
+  "training",
+  "commercial",
+  "selection",
+  "external",
+  "social",
+  "deadline",
+];

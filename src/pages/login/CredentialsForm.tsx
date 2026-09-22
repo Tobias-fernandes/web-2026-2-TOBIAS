@@ -1,71 +1,18 @@
-import { useState, type FormEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
-import {
-  DEMO_PASSWORD,
-  DEMO_USERS,
-  isUsingMockAuth,
-  NewPasswordRequiredError,
-} from '@/auth/services'
-import type { NewPasswordChallenge } from '@/auth/services'
-import { Button, ErrorText, TextField } from '@/components/ui'
-import { ChevronDownIcon } from '@/components/ui/icons'
-import { describePosition } from '@/domain/constants'
-import { zodValidate } from '@/lib/validation'
-import { useAuthStore, useSignIn } from '@/stores/auth'
-import { toast } from '@/stores/toast'
-import { EMPTY_LOGIN_FORM } from './constants'
-import { loginSchema } from './schemas'
-import type { LoginFormState } from './types'
-
-interface CredentialsFormProps {
-  redirectTo: string
-  /** `signIn` paused mid-way: the credentials were correct, a new password is needed first. */
-  onChallenge: (challenge: NewPasswordChallenge) => void
-}
+import { DEMO_PASSWORD, DEMO_USERS, isUsingMockAuth } from "@/auth/services";
+import type {} from "@/auth/services";
+import { Button, ErrorText, TextField } from "@/components/ui";
+import { ChevronDownIcon } from "@/components/ui/icons";
+import { describePosition } from "@/domain/constants";
+import { useCredentialsForm } from "./hooks";
+import type { CredentialsFormProps } from "./types";
 
 /** E-mail and password — the door everyone without a pending password change walks through. */
-export function CredentialsForm({ redirectTo, onChallenge }: CredentialsFormProps) {
-  const signIn = useSignIn()
-  const navigate = useNavigate()
-
-  const [form, setForm] = useState<LoginFormState>(EMPTY_LOGIN_FORM)
-  const [error, setError] = useState<string | null>(null)
-  const [submitting, setSubmitting] = useState(false)
-
-  async function handleSubmit(event: FormEvent) {
-    event.preventDefault()
-
-    const complaint = zodValidate(loginSchema, form)
-    if (complaint) {
-      setError(complaint)
-      return
-    }
-
-    setError(null)
-    setSubmitting(true)
-
-    try {
-      await signIn(form)
-      // `signIn` already resolved the store's `set()` by the time it returns,
-      // so the session is there to greet by name instead of a flat "entrou".
-      const name = useAuthStore.getState().session?.user.name.split(' ')[0]
-      toast.success(name ? `Bem-vindo(a), ${name}!` : 'Login realizado.')
-      navigate(redirectTo, { replace: true })
-    } catch (cause) {
-      if (cause instanceof NewPasswordRequiredError) {
-        onChallenge(cause.challenge)
-      } else {
-        setError(cause instanceof Error ? cause.message : 'Não foi possível entrar.')
-      }
-    } finally {
-      setSubmitting(false)
-    }
-  }
-
-  function fillDemoUser(email: string) {
-    setForm({ email, password: DEMO_PASSWORD })
-    setError(null)
-  }
+const CredentialsForm: React.FC<CredentialsFormProps> = ({
+  redirectTo,
+  onChallenge,
+}) => {
+  const { form, setForm, error, submitting, handleSubmit, fillDemoUser } =
+    useCredentialsForm(redirectTo, onChallenge);
 
   return (
     <>
@@ -93,7 +40,9 @@ export function CredentialsForm({ redirectTo, onChallenge }: CredentialsFormProp
           autoComplete="current-password"
           value={form.password}
           placeholder="******"
-          onChange={(event) => setForm({ ...form, password: event.target.value })}
+          onChange={(event) =>
+            setForm({ ...form, password: event.target.value })
+          }
         />
 
         {/*
@@ -103,7 +52,7 @@ export function CredentialsForm({ redirectTo, onChallenge }: CredentialsFormProp
         {error && <ErrorText>{error}</ErrorText>}
 
         <Button type="submit" className="mt-1 w-full" disabled={submitting}>
-          {submitting ? 'Entrando…' : 'Entrar'}
+          {submitting ? "Entrando…" : "Entrar"}
         </Button>
       </form>
 
@@ -135,12 +84,14 @@ export function CredentialsForm({ redirectTo, onChallenge }: CredentialsFormProp
           </ul>
 
           <p className="mt-3 mb-0 px-2 text-xs leading-relaxed text-tinta-suave">
-            Senha para todos:{' '}
-            <code className="rounded bg-papel-alto px-1">{DEMO_PASSWORD}</code>. Cada
-            acesso tem um conjunto de permissões diferente.
+            Senha para todos:{" "}
+            <code className="rounded bg-papel-alto px-1">{DEMO_PASSWORD}</code>.
+            Cada acesso tem um conjunto de permissões diferente.
           </p>
         </details>
       )}
     </>
-  )
-}
+  );
+};
+
+export { CredentialsForm };

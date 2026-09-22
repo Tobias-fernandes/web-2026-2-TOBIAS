@@ -1,7 +1,7 @@
-import { create } from 'zustand'
-import { authService } from '@/auth/services'
-import { writeActiveEnterpriseId } from '@/config/storage'
-import type { AuthState } from './types'
+import { create } from "zustand";
+import { authService } from "@/auth/services";
+import { writeActiveEnterpriseId } from "@/config/storage";
+import type { AuthState } from "./types";
 
 /**
  * Global authentication state.
@@ -19,41 +19,44 @@ import type { AuthState } from './types'
  */
 export const useAuthStore = create<AuthState>()((set) => ({
   session: null,
-  status: 'restoring',
+  status: "restoring",
 
   async signIn(credentials) {
-    const session = await authService.signIn(credentials)
-    writeActiveEnterpriseId(session.user.enterpriseId)
-    set({ session, status: 'authenticated' })
+    const session = await authService.signIn(credentials);
+    writeActiveEnterpriseId(session.user.enterpriseId);
+    set({ session, status: "authenticated" });
   },
 
   async completeNewPassword(challenge, newPassword) {
-    const session = await authService.completeNewPassword(challenge, newPassword)
-    writeActiveEnterpriseId(session.user.enterpriseId)
-    set({ session, status: 'authenticated' })
+    const session = await authService.completeNewPassword(
+      challenge,
+      newPassword,
+    );
+    writeActiveEnterpriseId(session.user.enterpriseId);
+    set({ session, status: "authenticated" });
   },
 
   adopt(session) {
-    writeActiveEnterpriseId(session.user.enterpriseId)
-    set({ session, status: 'authenticated' })
+    writeActiveEnterpriseId(session.user.enterpriseId);
+    set({ session, status: "authenticated" });
   },
 
   async signOut() {
-    await authService.signOut()
-    writeActiveEnterpriseId(null)
-    set({ session: null, status: 'anonymous' })
+    await authService.signOut();
+    writeActiveEnterpriseId(null);
+    set({ session: null, status: "anonymous" });
   },
 
   async restore() {
     try {
-      const session = await authService.restore()
-      writeActiveEnterpriseId(session?.user.enterpriseId ?? null)
-      set({ session, status: session ? 'authenticated' : 'anonymous' })
+      const session = await authService.restore();
+      writeActiveEnterpriseId(session?.user.enterpriseId ?? null);
+      set({ session, status: session ? "authenticated" : "anonymous" });
     } catch {
       // A restore that throws must still resolve the status, or `RequireAuth`
       // waits on 'restoring' forever and the app never leaves the spinner.
-      writeActiveEnterpriseId(null)
-      set({ session: null, status: 'anonymous' })
+      writeActiveEnterpriseId(null);
+      set({ session: null, status: "anonymous" });
     }
   },
-}))
+}));

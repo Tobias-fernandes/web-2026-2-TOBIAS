@@ -1,1 +1,1 @@
-export { apiDataLayer } from './apiDataLayer'
+export { apiDataLayer } from "./apiDataLayer";

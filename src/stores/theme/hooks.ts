@@ -1,8 +1,8 @@
-import { useThemeStore } from './themeStore'
-import type { ThemePreference } from './types'
+import { useThemeStore } from "./themeStore";
+import type { ThemePreference } from "./types";
 
 export const useThemePreference = (): ThemePreference =>
-  useThemeStore((state) => state.preference)
+  useThemeStore((state) => state.preference);
 
 export const useSetThemePreference = () =>
-  useThemeStore((state) => state.setPreference)
+  useThemeStore((state) => state.setPreference);

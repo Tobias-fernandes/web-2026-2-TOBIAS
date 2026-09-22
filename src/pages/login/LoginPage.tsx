@@ -1,15 +1,11 @@
-import { useState } from 'react'
-import { Link, Navigate, useLocation } from 'react-router-dom'
-import type { NewPasswordChallenge } from '@/auth/services'
-import { Brand } from '@/components/layout'
-import { CloseIcon } from '@/components/ui/icons'
-import { ROUTES } from '@/config/routes'
-import { useCurrentUser, useIsRestoringSession } from '@/stores/auth'
-import { AuthModeToggle } from './AuthModeToggle'
-import { CredentialsForm } from './CredentialsForm'
-import { DEFAULT_REDIRECT } from './constants'
-import { NewPasswordForm } from './NewPasswordForm'
-import type { LocationStateWithRedirect } from './types'
+import { Link, Navigate } from "react-router-dom";
+import { Brand } from "@/components/layout";
+import { CloseIcon } from "@/components/ui/icons";
+import { ROUTES } from "@/config/routes";
+import { AuthModeToggle } from "./AuthModeToggle";
+import { CredentialsForm } from "./CredentialsForm";
+import { NewPasswordForm } from "./NewPasswordForm";
+import { useLoginPage } from "./hooks";
 
 /**
  * Sign-in.
@@ -23,17 +19,10 @@ import type { LocationStateWithRedirect } from './types'
  * whether a challenge is pending — this shell owns only that switch and the
  * chrome both share.
  */
-export function LoginPage() {
-  const user = useCurrentUser()
-  const isRestoring = useIsRestoringSession()
-  const location = useLocation()
+const LoginPage: React.FC = () => {
+  const { challenge, setChallenge, redirectTo, isSignedIn } = useLoginPage();
 
-  const [challenge, setChallenge] = useState<NewPasswordChallenge | null>(null)
-
-  const redirectTo =
-    (location.state as LocationStateWithRedirect | null)?.from ?? DEFAULT_REDIRECT
-
-  if (!isRestoring && user) return <Navigate to={redirectTo} replace />
+  if (isSignedIn) return <Navigate to={redirectTo} replace />;
 
   return (
     <div className="relative grid min-h-dvh place-items-center bg-papel px-6 py-16">
@@ -66,5 +55,7 @@ export function LoginPage() {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
+
+export { LoginPage };

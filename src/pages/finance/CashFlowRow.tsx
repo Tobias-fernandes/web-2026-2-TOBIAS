@@ -1,10 +1,12 @@
-import { MetricCard, QueryState, SkeletonMetrics } from '@/components/ui'
-import type { Loadable } from '@/components/ui'
-import type { CashFlowSummary } from '@/domain/types'
-import { formatMoney } from '@/lib/format'
+import { MetricCard, QueryState, SkeletonMetrics } from "@/components/ui";
+import type { Loadable } from "@/components/ui";
+import type { CashFlowSummary } from "@/domain/types";
+import { formatMoney } from "@/lib/format";
 
 /** What moved, what is still coming, and what is late. */
-export function CashFlowRow({ cashFlow }: { cashFlow: Loadable<CashFlowSummary> }) {
+const CashFlowRow: React.FC<{
+  cashFlow: Loadable<CashFlowSummary>;
+}> = ({ cashFlow }) => {
   return (
     <QueryState
       query={cashFlow}
@@ -27,8 +29,8 @@ export function CashFlowRow({ cashFlow }: { cashFlow: Loadable<CashFlowSummary> 
             value={formatMoney(cash.overdueCents)}
             hint={
               cash.overdueCents > 0
-                ? 'Cobrança pendente com o cliente'
-                : 'Nenhuma parcela atrasada'
+                ? "Cobrança pendente com o cliente"
+                : "Nenhuma parcela atrasada"
             }
           />
           <MetricCard
@@ -39,5 +41,7 @@ export function CashFlowRow({ cashFlow }: { cashFlow: Loadable<CashFlowSummary> 
         </div>
       )}
     </QueryState>
-  )
-}
+  );
+};
+
+export { CashFlowRow };

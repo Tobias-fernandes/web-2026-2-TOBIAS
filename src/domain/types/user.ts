@@ -1,6 +1,6 @@
-import type { Directorate } from './directorate'
-import type { ID } from './common'
-import type { MemberRole } from './membership'
+import type { Directorate } from "./directorate";
+import type { ID } from "./common";
+import type { MemberRole } from "./membership";
 
 /**
  * Authenticated user. Mirrors the claims expected from a Cognito id token.
@@ -17,21 +17,21 @@ import type { MemberRole } from './membership'
  * finance director would keep the ledger until their token expired.
  */
 export interface User {
-  id: ID
-  enterpriseId: ID
-  name: string
-  email: string
+  id: ID;
+  enterpriseId: ID;
+  name: string;
+  email: string;
   /** Position in the current term; the claim the permission rules read. */
-  role: MemberRole
-  directorate: Directorate
+  role: MemberRole;
+  directorate: Directorate;
   /** Picture URL, when the identity provider has one — Cognito's `picture` claim. */
-  avatarUrl: string | null
-  memberId: ID | null
+  avatarUrl: string | null;
+  memberId: ID | null;
 }
 
 export interface Session {
-  user: User
+  user: User;
   /** Sent as the Authorization bearer token on every API call. */
-  accessToken: string
-  expiresAt: number
+  accessToken: string;
+  expiresAt: number;
 }

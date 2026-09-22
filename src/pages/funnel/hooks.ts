@@ -1,12 +1,12 @@
-import { useState } from 'react'
-import { useFormDialog } from '@/components/ui'
-import { can } from '@/domain/access'
-import { DEAL_STAGE_LABELS, LOSS_REASON_LABELS } from '@/domain/constants'
-import { isOpenDeal } from '@/domain/rules'
-import type { Deal, LossReason } from '@/domain/types'
-import { useNameLookup } from '@/lib/hooks'
-import { parseMoneyInput } from '@/lib/money'
-import { zodValidate } from '@/lib/validation'
+import { useState } from "react";
+import { useFormDialog } from "@/components/ui";
+import { can } from "@/domain/access";
+import { DEAL_STAGE_LABELS, LOSS_REASON_LABELS } from "@/domain/constants";
+import { isOpenDeal } from "@/domain/rules";
+import type { Deal, LossReason } from "@/domain/types";
+import { useNameLookup } from "@/lib/hooks";
+import { parseMoneyInput } from "@/lib/money";
+import { zodValidate } from "@/lib/validation";
 import {
   useActiveCycle,
   useChangeDealStage,
@@ -15,12 +15,12 @@ import {
   useCycleDeals,
   useFunnel,
   useMembers,
-} from '@/queries'
-import { useCurrentUser } from '@/stores/auth'
-import { toast, toastMutationError } from '@/stores/toast'
-import { buildEmptyDealForm } from './constants'
-import { dealFormSchema } from './schemas'
-import type { FunnelPageState, LosingDeal } from './types'
+} from "@/queries";
+import { useCurrentUser } from "@/stores/auth";
+import { toast, toastMutationError } from "@/stores/toast";
+import { buildEmptyDealForm } from "./constants";
+import { dealFormSchema } from "./schemas";
+import type { FunnelPageState, LosingDeal } from "./types";
 
 /**
  * Everything the funnel screen reads, decides and can do.
@@ -29,16 +29,16 @@ import type { FunnelPageState, LosingDeal } from './types'
  * and the deal being closed as lost, which needs a reason before it can move.
  */
 export function useFunnelPage(): FunnelPageState {
-  const user = useCurrentUser()
-  const { cycle } = useActiveCycle()
+  const user = useCurrentUser();
+  const { cycle } = useActiveCycle();
 
-  const deals = useCycleDeals(cycle?.id)
-  const clients = useClients()
-  const members = useMembers()
-  const summary = useFunnel({ cycleId: cycle?.id })
-  const changeStage = useChangeDealStage()
+  const deals = useCycleDeals(cycle?.id);
+  const clients = useClients();
+  const members = useMembers();
+  const summary = useFunnel({ cycleId: cycle?.id });
+  const changeStage = useChangeDealStage();
 
-  const [losing, setLosing] = useState<LosingDeal | null>(null)
+  const [losing, setLosing] = useState<LosingDeal | null>(null);
 
   const dialog = useFormDialog({
     initial: buildEmptyDealForm,
@@ -47,7 +47,7 @@ export function useFunnelPage(): FunnelPageState {
     toInput: (form) => ({
       title: form.title.trim(),
       clientId: form.clientId,
-      cycleId: cycle?.id ?? '',
+      cycleId: cycle?.id ?? "",
       ownerId: form.ownerId,
       stage: form.stage,
       source: form.source,
@@ -57,11 +57,11 @@ export function useFunnelPage(): FunnelPageState {
       lossReason: null,
       notes: form.notes.trim(),
     }),
-    successMessage: () => 'Negócio cadastrado no funil.',
-  })
+    successMessage: () => "Negócio cadastrado no funil.",
+  });
 
   return {
-    editable: can(user, 'deal:manage'),
+    editable: can(user, "deal:manage"),
     deals,
     open: (deals.data ?? []).filter(isOpenDeal),
     summary,
@@ -73,38 +73,40 @@ export function useFunnelPage(): FunnelPageState {
     /** The pickers default to the first record, resolved at click time. */
     openDialog: () =>
       dialog.openWith({
-        clientId: clients.data?.[0]?.id ?? '',
-        ownerId: user?.memberId ?? members.data?.[0]?.id ?? '',
+        clientId: clients.data?.[0]?.id ?? "",
+        ownerId: user?.memberId ?? members.data?.[0]?.id ?? "",
       }),
     moving: changeStage.isPending,
-    advance: (deal: Deal, stage: Deal['stage']) =>
+    advance: (deal: Deal, stage: Deal["stage"]) =>
       changeStage.mutate(
         { id: deal.id, stage },
         {
           onSuccess: () =>
-            toast.success(`${deal.title}: movido para ${DEAL_STAGE_LABELS[stage]}.`),
+            toast.success(
+              `${deal.title}: movido para ${DEAL_STAGE_LABELS[stage]}.`,
+            ),
           onError: (cause) => toastMutationError(cause),
         },
       ),
     losing,
-    startLosing: (deal: Deal) => setLosing({ id: deal.id, reason: 'price' }),
+    startLosing: (deal: Deal) => setLosing({ id: deal.id, reason: "price" }),
     changeLossReason: (reason: LossReason) =>
       setLosing((current) => (current ? { ...current, reason } : current)),
     cancelLosing: () => setLosing(null),
     confirmLoss: () => {
-      if (!losing) return
-      const lost = deals.data?.find((deal) => deal.id === losing.id)
+      if (!losing) return;
+      const lost = deals.data?.find((deal) => deal.id === losing.id);
       changeStage.mutate(
-        { id: losing.id, stage: 'lost', lossReason: losing.reason },
+        { id: losing.id, stage: "lost", lossReason: losing.reason },
         {
           onSuccess: () =>
             toast.info(
-              `${lost?.title ?? 'Negócio'} marcado como perdido — ${LOSS_REASON_LABELS[losing.reason]}.`,
+              `${lost?.title ?? "Negócio"} marcado como perdido — ${LOSS_REASON_LABELS[losing.reason]}.`,
             ),
           onError: (cause) => toastMutationError(cause),
         },
-      )
-      setLosing(null)
+      );
+      setLosing(null);
     },
-  }
+  };
 }

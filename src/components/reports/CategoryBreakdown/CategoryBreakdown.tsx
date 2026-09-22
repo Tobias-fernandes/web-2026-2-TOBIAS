@@ -1,14 +1,11 @@
-import { Note, ProgressBar } from '@/components/ui'
+import { Note, ProgressBar } from "@/components/ui";
 import {
   TIME_ENTRY_CATEGORY_LABELS,
   TIME_ENTRY_CATEGORY_TONES,
-} from '@/domain/constants'
-import type { HoursByCategory } from '@/domain/types'
-import { formatHours, formatPercent } from '@/lib/format'
-
-export interface CategoryBreakdownProps {
-  rows: HoursByCategory[]
-}
+} from "@/domain/constants";
+import { formatHours, formatPercent } from "@/lib/format";
+import type { CategoryBreakdownProps } from "./types";
+import { useCategoryBreakdown } from "./hooks";
 
 /**
  * Where the term's hours went.
@@ -16,8 +13,8 @@ export interface CategoryBreakdownProps {
  * The share of non-project work is the number that explains why a team that
  * "did nothing" delivered two contracts: it was running the enterprise.
  */
-export function CategoryBreakdown({ rows }: CategoryBreakdownProps) {
-  const billable = rows.find((row) => row.category === 'project')
+const CategoryBreakdown: React.FC<CategoryBreakdownProps> = ({ rows }) => {
+  const { billable } = useCategoryBreakdown({ rows });
 
   return (
     <>
@@ -36,10 +33,12 @@ export function CategoryBreakdown({ rows }: CategoryBreakdownProps) {
 
       {billable && (
         <Note>
-          {formatPercent(1 - billable.share)} das horas da gestão não foram horas de
-          projeto. É o custo real de manter a EJ funcionando.
+          {formatPercent(1 - billable.share)} das horas da gestão não foram
+          horas de projeto. É o custo real de manter a EJ funcionando.
         </Note>
       )}
     </>
-  )
-}
+  );
+};
+
+export { CategoryBreakdown };

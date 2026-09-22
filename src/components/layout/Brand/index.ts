@@ -1,2 +1,2 @@
-export { Brand } from './Brand'
-export type { BrandProps } from './types'
+export { Brand, type BrandProps } from './Brand'
+export { BrandLockup, type BrandLockupProps } from './BrandLockup'

@@ -9,15 +9,15 @@ export function FieldShell({
   children,
 }: FieldShellProps) {
   return (
-    <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-[0.82rem] font-semibold text-tinta">
+    <div className="flex flex-col gap-2">
+      <label htmlFor={id} className="text-sm font-semibold text-tinta">
         {label}
       </label>
       {children}
       {error ? (
-        <p className="text-[0.78rem] text-ambar">{error}</p>
+        <p className="text-xs text-ambar">{error}</p>
       ) : (
-        hint && <p className="text-[0.78rem] text-tinta-suave">{hint}</p>
+        hint && <p className="text-xs leading-relaxed text-tinta-suave">{hint}</p>
       )}
     </div>
   )

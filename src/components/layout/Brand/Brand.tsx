@@ -1,24 +1,17 @@
 import { Link } from 'react-router-dom'
 import { cn } from '@/lib/utils'
-import type { BrandProps } from './types'
+import { BrandLockup } from './BrandLockup'
 
-/** Wordmark used on the landing page and at the top of the system. */
+export interface BrandProps {
+  to?: string
+  className?: string
+}
+
+/** Assinatura do produto. Aponta para `/` na página pública e para `/app` dentro do sistema. */
 export function Brand({ to = '/', className }: BrandProps) {
   return (
-    <Link
-      to={to}
-      className={cn(
-        'flex items-center gap-2.5 font-display text-[1.05rem] font-bold text-tinta no-underline',
-        className,
-      )}
-    >
-      <span
-        aria-hidden
-        className="grid size-[26px] shrink-0 place-items-center rounded-md bg-violeta text-[0.8rem] text-white"
-      >
-        A
-      </span>
-      AltoTech Manager
+    <Link to={to} className={cn('flex items-center text-tinta no-underline', className)}>
+      <BrandLockup className="h-12 w-auto max-w-full" />
     </Link>
   )
 }

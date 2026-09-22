@@ -1,2 +1,1 @@
-export { PageHeader } from './PageHeader'
-export type { PageHeaderProps } from './types'
+export { PageHeader, type PageHeaderProps } from './PageHeader'

@@ -1,3 +1,4 @@
 export { AppLayout } from './AppLayout'
-export { APP_NAV_ITEMS } from './constants'
-export type { NavItem } from './types'
+export { SidebarContent } from './SidebarContent'
+export { APP_NAV_GROUPS } from './constants'
+export type { NavItem, NavGroup } from './constants'

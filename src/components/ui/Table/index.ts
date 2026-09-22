@@ -1,2 +1,8 @@
-export { Table, TableRow, TableCell } from './Table'
-export type { TableProps, TableRowProps, TableCellProps } from './types'
+export {
+  Table,
+  TableRow,
+  TableCell,
+  type TableProps,
+  type TableRowProps,
+  type TableCellProps,
+} from './Table'

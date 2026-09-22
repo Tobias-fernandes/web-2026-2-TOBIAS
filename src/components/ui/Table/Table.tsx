@@ -1,10 +1,25 @@
+import type { ReactNode } from 'react'
 import { cn } from '@/lib/utils'
-import type { TableCellProps, TableProps, TableRowProps } from './types'
+
+export interface TableProps {
+  headers: ReactNode[]
+  children: ReactNode
+  className?: string
+}
+
+export interface TableRowProps {
+  children: ReactNode
+}
+
+export interface TableCellProps {
+  children: ReactNode
+  className?: string
+}
 
 /** Wraps the table in a scrollable container so it never widens the page. */
 export function Table({ headers, children, className }: TableProps) {
   return (
-    <div className="overflow-x-auto rounded-lg border border-linha bg-papel-alto">
+    <div className="overflow-x-auto rounded-xl border border-linha bg-papel-alto">
       <table className={cn('w-full border-collapse text-left text-sm', className)}>
         <thead>
           <tr className="border-b border-linha">
@@ -12,7 +27,7 @@ export function Table({ headers, children, className }: TableProps) {
               <th
                 key={index}
                 scope="col"
-                className="px-4 py-3 text-[0.75rem] font-semibold tracking-wide text-tinta-suave uppercase"
+                className="px-4 py-3.5 text-xs font-semibold text-tinta-suave"
               >
                 {header}
               </th>
@@ -32,5 +47,5 @@ export function TableRow({ children }: TableRowProps) {
 }
 
 export function TableCell({ children, className }: TableCellProps) {
-  return <td className={cn('px-4 py-3 align-middle', className)}>{children}</td>
+  return <td className={cn('px-4 py-3.5 align-middle', className)}>{children}</td>
 }

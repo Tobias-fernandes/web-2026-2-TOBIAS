@@ -1,5 +1,11 @@
-import { useEffect, useRef } from 'react'
-import type { ModalProps } from './types'
+import { useEffect, useRef, type ReactNode } from 'react'
+
+export interface ModalProps {
+  open: boolean
+  title: string
+  onClose: () => void
+  children: ReactNode
+}
 
 /**
  * Dialog backed by the native <dialog> element, so focus is trapped inside the
@@ -25,10 +31,10 @@ export function Modal({ open, title, onClose, children }: ModalProps) {
       }}
       onClose={onClose}
       aria-label={title}
-      className="m-auto w-[min(560px,92vw)] rounded-lg border border-linha bg-papel-alto p-0 text-tinta backdrop:bg-tinta/45"
+      className="m-auto w-[min(560px,92vw)] rounded-xl border border-linha bg-papel-alto p-0 text-tinta backdrop:bg-veu"
     >
-      <div className="flex items-center justify-between gap-4 border-b border-linha px-5 py-3.5">
-        <h2 className="font-display text-base font-bold">{title}</h2>
+      <div className="flex items-center justify-between gap-4 border-b border-linha px-6 py-4">
+        <h2 className="font-display text-md font-bold">{title}</h2>
         <button
           type="button"
           onClick={onClose}
@@ -38,7 +44,7 @@ export function Modal({ open, title, onClose, children }: ModalProps) {
           ×
         </button>
       </div>
-      <div className="max-h-[68dvh] overflow-y-auto px-5 pt-5 pb-6">{children}</div>
+      <div className="max-h-[70dvh] overflow-y-auto px-6 pt-6 pb-7">{children}</div>
     </dialog>
   )
 }

@@ -34,7 +34,7 @@ export const Padrao: Story = {
         <TableRow key={client.id}>
           <TableCell>
             <p className="m-0 font-semibold">{client.name}</p>
-            <p className="m-0 text-[0.78rem] text-tinta-suave">
+            <p className="m-0 text-xs text-tinta-suave">
               {client.taxId ?? 'Sem CNPJ cadastrado'}
             </p>
           </TableCell>

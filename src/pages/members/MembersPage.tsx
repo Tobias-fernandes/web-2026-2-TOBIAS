@@ -1,165 +1,147 @@
-import { useState } from 'react'
 import { PageHeader } from '@/components/layout'
 import {
+  Badge,
   Button,
   EmptyState,
-  Modal,
-  Spinner,
+  FormDialog,
+  ListState,
+  SkeletonTable,
   StatusSelect,
   Table,
   TableCell,
   TableRow,
+  labelOptions,
 } from '@/components/ui'
 import {
   MEMBER_ROLE_LABELS,
   MEMBER_STATUS_LABELS,
   MEMBER_STATUS_TONES,
 } from '@/domain/constants'
-import type { MemberStatus } from '@/domain/types'
 import { formatDate, formatHours, getInitials } from '@/lib/format'
-import {
-  useCreateMember,
-  useHoursByMember,
-  useMembers,
-  useUpdateMemberStatus,
-} from '@/queries'
-import { buildEmptyMemberForm, MEMBERS_TABLE_HEADERS } from './constants'
+import { MEMBERS_TABLE_HEADERS } from './constants'
 import { MemberForm } from './MemberForm'
-import type { MemberFormState } from './types'
+import { useMembersPage } from './hooks'
 
-const STATUS_OPTIONS = (Object.keys(MEMBER_STATUS_LABELS) as MemberStatus[]).map(
-  (status) => ({ value: status, label: MEMBER_STATUS_LABELS[status] }),
-)
+const STATUS_OPTIONS = labelOptions(MEMBER_STATUS_LABELS)
 
 export function MembersPage() {
-  const members = useMembers()
-  const hoursByMember = useHoursByMember()
+  const roster = useMembersPage()
 
-  const createMember = useCreateMember()
-  const updateStatus = useUpdateMemberStatus()
-
-  const [open, setOpen] = useState(false)
-  const [form, setForm] = useState<MemberFormState>(buildEmptyMemberForm)
-  const [error, setError] = useState<string | null>(null)
-
-  const hoursOf = (memberId: string) =>
-    hoursByMember.data?.find((row) => row.memberId === memberId)?.hours ?? 0
-
-  function openDialog() {
-    setForm(buildEmptyMemberForm())
-    setError(null)
-    setOpen(true)
-  }
-
-  async function handleSave() {
-    if (!form.name.trim() || !form.email.trim()) {
-      setError('Informe o nome e o e-mail do membro.')
-      return
-    }
-
-    setError(null)
-
-    try {
-      await createMember.mutateAsync({
-        name: form.name.trim(),
-        email: form.email.trim(),
-        role: form.role,
-        course: form.course.trim(),
-        status: form.status,
-        joinedAt: form.joinedAt,
-        weeklyHours: Number(form.weeklyHours) || 0,
-      })
-      setOpen(false)
-    } catch (cause) {
-      setError(cause instanceof Error ? cause.message : 'Não foi possível salvar.')
-    }
-  }
 
   return (
     <>
       <PageHeader
         title="Membros"
-        description="Equipe, cargos e carga horária pactuada. O cadastro acompanha a EJ nas gestões seguintes."
-        action={<Button onClick={openDialog}>Novo membro</Button>}
+        description={roster.description}
+        action={
+          roster.editable && <Button onClick={() => roster.dialog.openWith()}>Novo membro</Button>
+        }
       />
 
-      {members.isPending && <Spinner label="Carregando equipe…" />}
-      {members.isError && (
-        <p className="text-sm text-ambar">{members.error.message}</p>
-      )}
+      <ListState
+        query={roster.roster}
+        rows={roster.rows}
+        loadingLabel="Carregando equipe…"
+        skeleton={<SkeletonTable columns={7} rows={6} />}
+        empty={
+          <EmptyState
+            title="Nenhum membro cadastrado"
+            description="Registre a equipe para começar a acompanhar horas, alocação e responsabilidades."
+            action={
+              roster.editable && <Button onClick={() => roster.dialog.openWith()}>Novo membro</Button>
+            }
+          />
+        }
+      >
+        {(list) => (
+          <Table headers={MEMBERS_TABLE_HEADERS}>
+            {list.map((member) => {
+              const membership = roster.membershipOf(member.id)
 
-      {members.data?.length === 0 && (
-        <EmptyState
-          title="Nenhum membro cadastrado"
-          description="Registre a equipe para começar a acompanhar horas e responsabilidades."
-          action={<Button onClick={openDialog}>Novo membro</Button>}
+              return (
+                <TableRow key={member.id}>
+                  <TableCell>
+                    <div className="flex items-center gap-2.5">
+                      <span
+                        aria-hidden
+                        className="grid size-8 shrink-0 place-items-center rounded-full bg-violeta-lav text-2xs font-semibold text-violeta"
+                      >
+                        {getInitials(member.name)}
+                      </span>
+                      <div className="min-w-0">
+                        <p className="m-0 font-semibold">{member.name}</p>
+                        <p className="m-0 text-xs text-tinta-suave">
+                          {member.email}
+                        </p>
+                      </div>
+                    </div>
+                  </TableCell>
+
+                  <TableCell>
+                    {membership ? (
+                      <Badge tone="violet">
+                        {MEMBER_ROLE_LABELS[membership.role]}
+                      </Badge>
+                    ) : (
+                      <span className="text-sm text-tinta-suave">
+                        Fora desta gestão
+                      </span>
+                    )}
+                  </TableCell>
+
+                  <TableCell className="text-tinta-suave">
+                    {membership ? roster.workAreaName(membership.workAreaId) : '—'}
+                  </TableCell>
+
+                  <TableCell className="text-tinta-suave">
+                    {roster.courseName(member.courseId)}
+                  </TableCell>
+
+                  <TableCell className="whitespace-nowrap">
+                    {membership ? `${formatHours(membership.weeklyHours)}/sem` : '—'}
+                  </TableCell>
+
+                  <TableCell className="whitespace-nowrap font-display font-bold">
+                    {formatHours(roster.hoursOf(member.id))}
+                  </TableCell>
+
+                  <TableCell>
+                    <StatusSelect
+                      value={member.status}
+                      tone={MEMBER_STATUS_TONES[member.status]}
+                      accessibleLabel={`Situação de ${member.name}`}
+                      options={STATUS_OPTIONS}
+                      disabled={!roster.editable || roster.updating}
+                      onChange={(status) => roster.changeStatus(member, status)}
+                    />
+                    <span className="mt-0.5 block text-2xs text-tinta-suave">
+                      desde {formatDate(member.joinedAt)}
+                    </span>
+                  </TableCell>
+                </TableRow>
+              )
+            })}
+          </Table>
+        )}
+      </ListState>
+
+      <FormDialog
+        open={roster.dialog.open}
+        title="Novo membro"
+        submitLabel="Cadastrar"
+        error={roster.dialog.error}
+        submitting={roster.dialog.submitting}
+        onSubmit={roster.dialog.submit}
+        onClose={roster.dialog.close}
+      >
+        <MemberForm
+          value={roster.dialog.form}
+          cycleName={roster.cycleName}
+          courses={roster.courses}
+          workAreas={roster.workAreas}
+          onChange={roster.dialog.setForm}
         />
-      )}
-
-      {members.data && members.data.length > 0 && (
-        <Table headers={MEMBERS_TABLE_HEADERS}>
-          {members.data.map((member) => (
-            <TableRow key={member.id}>
-              <TableCell>
-                <div className="flex items-center gap-2.5">
-                  <span
-                    aria-hidden
-                    className="grid size-8 shrink-0 place-items-center rounded-full bg-violeta-lav text-[0.72rem] font-semibold text-violeta"
-                  >
-                    {getInitials(member.name)}
-                  </span>
-                  <div className="min-w-0">
-                    <p className="m-0 font-semibold">{member.name}</p>
-                    <p className="m-0 text-[0.78rem] text-tinta-suave">
-                      {member.email}
-                    </p>
-                  </div>
-                </div>
-              </TableCell>
-              <TableCell className="text-tinta-suave">
-                {MEMBER_ROLE_LABELS[member.role]}
-              </TableCell>
-              <TableCell className="text-tinta-suave">{member.course}</TableCell>
-              <TableCell className="whitespace-nowrap">
-                {formatHours(member.weeklyHours)}/sem
-              </TableCell>
-              <TableCell className="whitespace-nowrap font-display font-bold">
-                {formatHours(hoursOf(member.id))}
-              </TableCell>
-              <TableCell>
-                <StatusSelect
-                  value={member.status}
-                  tone={MEMBER_STATUS_TONES[member.status]}
-                  accessibleLabel={`Situação de ${member.name}`}
-                  options={STATUS_OPTIONS}
-                  disabled={updateStatus.isPending}
-                  onChange={(status) => updateStatus.mutate({ id: member.id, status })}
-                />
-              </TableCell>
-              <TableCell className="whitespace-nowrap text-tinta-suave">
-                {formatDate(member.joinedAt)}
-              </TableCell>
-            </TableRow>
-          ))}
-        </Table>
-      )}
-
-      <Modal open={open} title="Novo membro" onClose={() => setOpen(false)}>
-        <div className="flex flex-col gap-4">
-          <MemberForm value={form} onChange={setForm} />
-
-          {error && <p className="m-0 text-[0.85rem] text-ambar">{error}</p>}
-
-          <div className="flex justify-end gap-2">
-            <Button variant="subtle" onClick={() => setOpen(false)}>
-              Cancelar
-            </Button>
-            <Button onClick={handleSave} disabled={createMember.isPending}>
-              {createMember.isPending ? 'Salvando…' : 'Cadastrar'}
-            </Button>
-          </div>
-        </div>
-      </Modal>
+      </FormDialog>
     </>
   )
 }

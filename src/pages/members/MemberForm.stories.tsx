@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { fn } from 'storybook/test'
+import { courseList, workAreaList } from '@/stories/fixtures'
 import { buildEmptyMemberForm } from './constants'
 import { MemberForm } from './MemberForm'
 import type { MemberFormState } from './types'
@@ -16,7 +17,13 @@ const meta = {
       </div>
     ),
   ],
-  args: { value: buildEmptyMemberForm(), onChange: fn() },
+  args: {
+    value: buildEmptyMemberForm(),
+    cycleName: '2026',
+    courses: courseList,
+    workAreas: workAreaList,
+    onChange: fn(),
+  },
 } satisfies Meta<typeof MemberForm>
 
 export default meta
@@ -29,11 +36,17 @@ export const Preenchido: Story = {
     value: {
       name: 'Larissa Moura',
       email: 'larissa@altotech.ej.br',
-      role: 'director',
-      course: 'Engenharia de Software',
+      phone: '(84) 98844-2210',
+      cpf: '96001338914',
+      registration: '2023011820',
+      entryTerm: '2023.1',
+      courseId: courseList[0].id,
+      avatarUrl: null,
       status: 'active',
-      weeklyHours: '10',
       joinedAt: '2025-02-10',
+      role: 'vicePresident',
+      workAreaId: workAreaList[0].id,
+      weeklyHours: '12',
     },
   },
 }

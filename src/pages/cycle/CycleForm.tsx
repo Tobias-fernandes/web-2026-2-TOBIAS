@@ -1,7 +1,6 @@
 import { CycleGoalsFields } from "@/components/forms";
 import { SelectField, TextField, labelOptions } from "@/components/ui";
 import { CYCLE_STATUS_LABELS } from "@/domain/constants";
-import type { CycleStatus } from "@/domain/types";
 import { setField } from "@/lib/utils";
 import type { CycleFormProps } from "./types";
 
@@ -13,9 +12,9 @@ const CycleForm: React.FC<CycleFormProps> = ({ value, onChange }) => {
   return (
     <>
       {/*
-        Sem nome e sem data de fim de propósito. Uma EJ não batiza a gestão — diz
-        "a gestão de 2026", que é o ano em que ela abriu — e não sabe o dia da
-        passagem de bastão até ele chegar. O fim é carimbado ao encerrar.
+        No name and no end date, on purpose. An EJ does not christen its
+        management — it says "a gestão de 2026", the year it opened in — and does
+        not know the handover day until it arrives. The end is stamped on closing.
       */}
       <div className="grid gap-4 sm:grid-cols-2">
         <TextField
@@ -30,7 +29,7 @@ const CycleForm: React.FC<CycleFormProps> = ({ value, onChange }) => {
           hint="Marcar como encerrada registra a data de hoje como o fim da gestão."
           value={value.status}
           options={STATUS_OPTIONS}
-          onChange={(event) => set("status", event.target.value as CycleStatus)}
+          onValueChange={(next) => set("status", next)}
         />
       </div>
 

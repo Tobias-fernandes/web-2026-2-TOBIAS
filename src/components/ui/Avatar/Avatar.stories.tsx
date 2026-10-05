@@ -33,7 +33,7 @@ export const Tamanhos: Story = {
   ),
 };
 
-/** Com foto — a URL vem da claim `picture` do token de identidade. */
+/** With a photo — the URL comes from the ID token's `picture` claim. */
 export const ComFoto: Story = {
   args: {
     src:
@@ -45,7 +45,7 @@ export const ComFoto: Story = {
   },
 };
 
-/** Um nome só ainda rende uma inicial. */
+/** A single name still yields an initial. */
 export const NomeCurto: Story = {
   args: { name: "Beatriz" },
 };

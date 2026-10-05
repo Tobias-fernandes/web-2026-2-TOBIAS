@@ -23,7 +23,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Padrao: Story = {};
 
-/** Centralizada, como aparece acima do formulário de login. */
+/** Centred, as it appears above the login form. */
 export const Centralizada: Story = {
   args: { className: "justify-center" },
 };

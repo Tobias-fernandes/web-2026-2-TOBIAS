@@ -1,9 +1,8 @@
 import type { Tone } from "@/domain/constants";
 
-export interface StatusOption<T extends string> {
-  value: T;
-  label: string;
-}
+import type { SelectOption } from "../Select/types";
+
+export type StatusOption<T extends string> = SelectOption<T>;
 
 export interface StatusSelectProps<T extends string> {
   value: T;

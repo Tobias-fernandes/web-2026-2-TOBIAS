@@ -31,12 +31,12 @@ export const Contorno: Story = {
   args: { variant: "outline", children: "Imprimir / salvar PDF" },
 };
 
-/** Ação secundária dentro de cartões e modais. */
+/** Secondary action inside cards and modals. */
 export const Sutil: Story = {
   args: { variant: "subtle", children: "Cancelar" },
 };
 
-/** Ação destrutiva — usada para exclusões. */
+/** Destructive action — used for deletions. */
 export const Perigo: Story = {
   args: { variant: "danger", children: "Excluir lançamento" },
 };
@@ -45,7 +45,7 @@ export const Desabilitado: Story = {
   args: { disabled: true, children: "Salvando…" },
 };
 
-/** Todas as variantes juntas, para comparar peso visual. */
+/** Every variant together, to compare visual weight. */
 export const Variantes: Story = {
   render: (args) => (
     <div className="flex flex-wrap items-center gap-3">

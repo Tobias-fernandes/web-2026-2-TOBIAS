@@ -17,7 +17,14 @@ const CashFlowRow: React.FC<{
           <MetricCard
             label="Saldo da gestão"
             value={formatMoney(cash.balanceCents)}
-            hint={`${formatMoney(cash.receivedCents)} recebidos · ${formatMoney(cash.paidCents)} pagos`}
+            hint={[
+              cash.openingBalanceCents !== null &&
+                `${formatMoney(cash.openingBalanceCents)} ao começar`,
+              `${formatMoney(cash.receivedCents)} recebidos`,
+              `${formatMoney(cash.paidCents)} pagos`,
+            ]
+              .filter(Boolean)
+              .join(" · ")}
           />
           <MetricCard
             label="A receber"

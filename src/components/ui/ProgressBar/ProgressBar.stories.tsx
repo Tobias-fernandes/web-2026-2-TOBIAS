@@ -26,8 +26,8 @@ type Story = StoryObj<typeof meta>;
 export const Padrao: Story = {};
 
 /**
- * Com o marcador de ritmo: a linha vertical mostra quanto da gestão já passou,
- * então 42% da meta em uma gestão 30% percorrida é um resultado adiantado.
+ * With the pace marker: the vertical line shows how much of the management has
+ * gone by, so 42% of a goal in a management 30% through is ahead of pace.
  */
 export const ComRitmoDaGestao: Story = {
   args: {

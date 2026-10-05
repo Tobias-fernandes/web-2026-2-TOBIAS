@@ -5,7 +5,7 @@ import type { ZeroStep } from "../types";
  * The order an empty system has to be filled in.
  *
  * Not a preference: each step needs what the one before it created. There is
- * nowhere to put a project before a gestão exists, nobody to allocate before
+ * nowhere to put a project before a management exists, nobody to allocate before
  * the members are registered, and no hours to approve before someone logs them.
  * Walking it once is the fastest way to understand why the screens are wired
  * the way they are.

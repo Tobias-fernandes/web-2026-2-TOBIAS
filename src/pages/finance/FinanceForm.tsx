@@ -5,17 +5,14 @@ import {
   TextField,
 } from "@/components/ui";
 import {
-  DIRECTORATE_LABELS,
   FINANCE_CATEGORY_LABELS,
   FINANCE_KIND_LABELS,
 } from "@/domain/constants";
-import type { Directorate, FinanceCategory, FinanceKind } from "@/domain/types";
 import { setField } from "@/lib/utils";
 import type { FinanceFormProps } from "./types";
 
 const KIND_OPTIONS = labelOptions(FINANCE_KIND_LABELS);
 const CATEGORY_OPTIONS = labelOptions(FINANCE_CATEGORY_LABELS);
-const DIRECTORATE_OPTIONS = labelOptions(DIRECTORATE_LABELS);
 const NONE_OPTION = { value: "", label: "Sem vínculo" };
 
 /**
@@ -32,6 +29,7 @@ const FinanceForm: React.FC<FinanceFormProps> = ({
   projects,
   clients,
   members,
+  workAreas,
   onChange,
 }) => {
   const set = setField(value, onChange);
@@ -50,15 +48,13 @@ const FinanceForm: React.FC<FinanceFormProps> = ({
         <SelectField
           label="Tipo"
           value={value.kind}
-          onChange={(event) => set("kind", event.target.value as FinanceKind)}
+          onValueChange={(next) => set("kind", next)}
           options={KIND_OPTIONS}
         />
         <SelectField
           label="Categoria"
           value={value.category}
-          onChange={(event) =>
-            set("category", event.target.value as FinanceCategory)
-          }
+          onValueChange={(next) => set("category", next)}
           options={CATEGORY_OPTIONS}
         />
         <TextField
@@ -71,7 +67,7 @@ const FinanceForm: React.FC<FinanceFormProps> = ({
         <SelectField
           label="Situação"
           value={value.settled ? "settled" : "open"}
-          onChange={(event) => set("settled", event.target.value === "settled")}
+          onValueChange={(next) => set("settled", next === "settled")}
           options={[
             { value: "open", label: "Ainda vai acontecer" },
             { value: "settled", label: isIncome ? "Já recebido" : "Já pago" },
@@ -79,8 +75,8 @@ const FinanceForm: React.FC<FinanceFormProps> = ({
         />
       </div>
 
-      {/* Uma data só: para o que já aconteceu, o dia do vencimento e o dia em
-          que o dinheiro se moveu são o mesmo dia. */}
+      {/* A single date: for what already happened, the due day and the day
+          the money moved are the same day. */}
       <TextField
         label={value.settled ? "Data" : "Vencimento"}
         hint={
@@ -96,11 +92,9 @@ const FinanceForm: React.FC<FinanceFormProps> = ({
       <SelectField
         label="Área responsável"
         hint="É o que permite fechar o orçamento por diretoria no fim da gestão."
-        value={value.directorate}
-        onChange={(event) =>
-          set("directorate", event.target.value as Directorate)
-        }
-        options={DIRECTORATE_OPTIONS}
+        value={value.workAreaId}
+        onValueChange={(next) => set("workAreaId", next)}
+        options={nameOptions(workAreas)}
       />
 
       <SelectField
@@ -111,7 +105,7 @@ const FinanceForm: React.FC<FinanceFormProps> = ({
             : "Opcional. Quem pagou do próprio bolso — é o que permite reembolsar depois."
         }
         value={value.memberId}
-        onChange={(event) => set("memberId", event.target.value)}
+        onValueChange={(next) => set("memberId", next)}
         options={[
           { value: "", label: "A EJ, direto na conta" },
           ...nameOptions(members),
@@ -131,13 +125,13 @@ const FinanceForm: React.FC<FinanceFormProps> = ({
           label="Projeto"
           hint="Só para parcelas de contrato."
           value={value.projectId}
-          onChange={(event) => set("projectId", event.target.value)}
+          onValueChange={(next) => set("projectId", next)}
           options={[NONE_OPTION, ...nameOptions(projects)]}
         />
         <SelectField
           label="Cliente"
           value={value.clientId}
-          onChange={(event) => set("clientId", event.target.value)}
+          onValueChange={(next) => set("clientId", next)}
           options={[NONE_OPTION, ...nameOptions(clients)]}
         />
       </div>

@@ -14,6 +14,7 @@ type DayScheduleProps = Pick<
   | "saving"
   | "projectName"
   | "memberName"
+  | "areaName"
 >;
 
 /**
@@ -33,6 +34,7 @@ const DaySchedule: React.FC<DayScheduleProps> = ({
   saving,
   projectName,
   memberName,
+  areaName,
 }) => {
   if (!day) return null;
 
@@ -75,6 +77,7 @@ const DaySchedule: React.FC<DayScheduleProps> = ({
               saving={saving}
               projectName={projectName}
               memberName={memberName}
+              areaName={areaName}
               onEdit={editEvent}
               onToggleCancelled={toggleCancelled}
               onRemove={removeEvent}

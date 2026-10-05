@@ -20,8 +20,12 @@ export function createEntityQueries<T extends { id: ID }>(
   repository: CrudRepository<T>,
 ) {
   return {
-    useList: () =>
-      useQuery({ queryKey: keys.all, queryFn: () => repository.list() }),
+    useList: ({ enabled = true }: { enabled?: boolean } = {}) =>
+      useQuery({
+        queryKey: keys.all,
+        queryFn: () => repository.list(),
+        enabled,
+      }),
 
     useDetail: (id: ID) =>
       useQuery({

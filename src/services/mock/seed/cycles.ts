@@ -25,12 +25,13 @@ export const SEED_CYCLES: Cycle[] = [
       members: 8,
       npsScore: 8.5,
     },
+    startingPoint: null,
     createdAt: "2025-01-20",
   },
   {
     id: CURRENT_CYCLE_ID,
     startsAt: "2026-02-02",
-    // Em andamento: a diretoria ainda não sabe o dia em que entrega o bastão.
+    // In progress: the board does not yet know the day it hands over.
     endsAt: null,
     status: "active",
     goals: {
@@ -39,6 +40,7 @@ export const SEED_CYCLES: Cycle[] = [
       members: 14,
       npsScore: 9,
     },
+    startingPoint: null,
     createdAt: "2025-12-08",
   },
 ];

@@ -2,7 +2,7 @@ import { TextField } from "@/components/ui";
 import { setField } from "@/lib/utils";
 import type { CycleGoalsFieldsProps } from "./types";
 
-/** The four targets a management commits to. Shared by sign-up and the gestão screen. */
+/** The four targets a management commits to. Shared by sign-up and the management screen. */
 const CycleGoalsFields: React.FC<CycleGoalsFieldsProps> = ({
   value,
   onChange,
@@ -28,7 +28,7 @@ const CycleGoalsFields: React.FC<CycleGoalsFieldsProps> = ({
       <TextField
         label="Membros na gestão"
         type="number"
-        min={0}
+        min={1}
         value={value.membersGoal}
         onChange={(event) => set("membersGoal", event.target.value)}
       />

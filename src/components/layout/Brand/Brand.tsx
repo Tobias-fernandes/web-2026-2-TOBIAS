@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { BrandLockup } from "./BrandLockup";
 import type { BrandProps } from "./types";
 
-/** Assinatura do produto. Aponta para `/` na página pública e para `/app` dentro do sistema. */
+/** The product's signature. Links to `/` on the public page and to `/app` inside the system. */
 const Brand: React.FC<BrandProps> = ({ to = "/", className }) => {
   return (
     <Link

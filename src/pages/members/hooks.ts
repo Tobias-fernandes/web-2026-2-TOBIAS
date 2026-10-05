@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useFormDialog } from "@/components/ui";
 import { can } from "@/domain/access";
 import { describeCycle, MEMBER_STATUS_LABELS } from "@/domain/constants";
+import { memberConflict } from "@/domain/rules";
 import { toast, toastMutationError } from "@/stores/toast";
 import {
   useActiveCycle,
@@ -39,7 +40,12 @@ export function useMembersPage(): MembersPageState {
     // would exist without a position, and no report would ever see them.
     validate: (form) => {
       if (!cycle) return "Abra a gestão do ano antes de admitir alguém.";
-      return zodValidate(memberFormSchema, form);
+      // Checked here so the complaint comes before the round trip; the
+      // repository checks again, since this roster may already be stale.
+      return (
+        zodValidate(memberFormSchema, form) ??
+        memberConflict(members.data ?? [], form)
+      );
     },
     toInput: (form): MemberAdmission => ({
       member: {

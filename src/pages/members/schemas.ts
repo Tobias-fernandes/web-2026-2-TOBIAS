@@ -4,7 +4,7 @@ import {
   zCpf,
   zEmail,
   zPhone,
-  zPositiveCount,
+  zPositiveWholeCount,
   zRequiredText,
 } from "@/lib/validation";
 
@@ -17,7 +17,7 @@ export const memberFormSchema = z.object({
   entryTerm: zAcademicTerm,
   courseId: zRequiredText("Escolha o curso."),
   workAreaId: zRequiredText("Escolha a área de atuação."),
-  weeklyHours: zPositiveCount(
-    "Informe a carga horária semanal, maior que zero.",
+  weeklyHours: zPositiveWholeCount(
+    "Informe a carga horária semanal em horas inteiras, maior que zero.",
   ),
 });

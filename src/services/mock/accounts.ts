@@ -1,4 +1,5 @@
 import type { ID } from "@/domain/types";
+import { DEMO_ACCOUNTS } from "./demoAccounts";
 import { readGlobal, writeGlobal } from "./tenantStorage";
 
 /**
@@ -20,8 +21,14 @@ export interface DemoAccount {
 
 const COLLECTION = "accounts";
 
-export const listAccounts = (): DemoAccount[] =>
-  readGlobal<DemoAccount>(COLLECTION);
+/**
+ * Registered accounts, then the seeded demo ones — which makes a demo e-mail
+ * as taken for sign-up as any other.
+ */
+export const listAccounts = (): DemoAccount[] => [
+  ...readGlobal<DemoAccount>(COLLECTION),
+  ...DEMO_ACCOUNTS,
+];
 
 export function findAccount(email: string): DemoAccount | null {
   const wanted = email.trim().toLowerCase();
@@ -32,5 +39,5 @@ export function findAccount(email: string): DemoAccount | null {
 }
 
 export function saveAccount(account: DemoAccount): void {
-  writeGlobal(COLLECTION, [account, ...listAccounts()]);
+  writeGlobal(COLLECTION, [account, ...readGlobal<DemoAccount>(COLLECTION)]);
 }

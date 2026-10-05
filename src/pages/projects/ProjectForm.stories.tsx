@@ -61,7 +61,7 @@ export const Preenchido: Story = {
   },
 };
 
-/** Editável de verdade, para testar o fluxo de digitação. */
+/** Actually editable, to test the typing flow. */
 export const Interativo: Story = {
   render: (args) => {
     const [value, setValue] = useState<ProjectFormState>(args.value);

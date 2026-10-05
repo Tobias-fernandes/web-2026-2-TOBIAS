@@ -40,6 +40,7 @@ const EventCard: React.FC<EventCardProps> = ({
   saving,
   projectName,
   memberName,
+  areaName,
   onEdit,
   onToggleCancelled,
   onRemove,
@@ -68,7 +69,7 @@ const EventCard: React.FC<EventCardProps> = ({
           </p>
           <p className="m-0 text-xs text-tinta-suave">
             {formatTimeRange(event.startTime, event.endTime)} ·{" "}
-            {describeAudience(event.audience, event.directorate)}
+            {describeAudience(event.audience, areaName(event.workAreaId))}
           </p>
         </div>
 
@@ -147,8 +148,8 @@ const EventCard: React.FC<EventCardProps> = ({
               {active ? "Cancelar" : "Reativar"}
             </button>
 
-            {/* Excluir é para o que nunca deveria ter sido criado; o que foi
-                desmarcado é cancelado, para quem tinha reservado a noite ver. */}
+            {/* Deleting is for what should never have been created; what was
+                called off is cancelled, so whoever had saved the evening sees it. */}
             <button
               type="button"
               disabled={saving}

@@ -12,17 +12,11 @@
 <meta name="theme-color" content="#f4f4f8" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#131220" media="(prefers-color-scheme: dark)">
 
-<script>
-/* Stamps the saved theme on <html> before the first paint, so a reader who chose
-   dark never gets a white flash on load. "Sistema" writes nothing and lets the
-   CSS media query decide — see src/index.css and src/stores/theme. */
-try {
-  var altotechTheme = localStorage.getItem('altotech:theme');
-  if (altotechTheme === 'dark' || altotechTheme === 'light') {
-    document.documentElement.dataset.theme = altotechTheme;
-  }
-} catch (error) { /* storage blocked: the system preference still applies */ }
-</script>
+<!-- Stamps the saved theme on <html> before the first paint. A file in public/
+     rather than an inline script so the Content-Security-Policy in customHttp.yml
+     can refuse every inline script. Classic and blocking on purpose: it must run
+     before the body renders. -->
+<script src="/theme-init.js"></script>
 
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
@@ -38,10 +32,10 @@ try {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
 
-<!-- ====================== MARKUP EXIGIDO NA ATIVIDADE: FAQPage ======================
-     Mantido estático no HTML (e não injetado por JavaScript) para que o Google leia o
-     rich result sem depender da renderização do bundle React. As mesmas perguntas são
-     renderizadas na landing por src/pages/landing/constants.ts — manter os dois em sincronia.
+<!-- ================ MARKUP REQUIRED BY THE ASSIGNMENT: FAQPage ================
+     Kept static in the HTML (rather than injected by JavaScript) so Google reads the
+     rich result without depending on the React bundle rendering. The same questions are
+     rendered on the landing page by src/pages/landing/constants.ts — keep both in sync.
 ================================================================================== -->
 <script type="application/ld+json">
 {
@@ -108,7 +102,7 @@ try {
 }
 </script>
 
-<!-- Markup complementar: identifica o site e o software para o Google -->
+<!-- Supplementary markup: identifies the site and the software to Google -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",

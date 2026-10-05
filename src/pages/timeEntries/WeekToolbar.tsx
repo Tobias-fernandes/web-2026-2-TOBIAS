@@ -1,4 +1,10 @@
-import { Button, Card, SelectField, nameOptions } from "@/components/ui";
+import {
+  Button,
+  Card,
+  ProgressBar,
+  SelectField,
+  nameOptions,
+} from "@/components/ui";
 import { formatDate, formatDayMonth, formatHours } from "@/lib/format";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/components/ui/icons";
 import type { TimesheetPageState } from "./types";
@@ -18,50 +24,83 @@ type WeekToolbarProps = Pick<
   | "setMemberId"
 >;
 
-/** Which week is on screen, whose it is, and the one-click submit. */
+/** Which week is on screen, whose it is, and how far it is from the commitment. */
 const WeekToolbar: React.FC<WeekToolbarProps> = (props) => {
+  const hasGoal = props.committed > 0;
+  const missing = Math.max(0, props.committed - props.weekTotal);
+
   return (
     <Card className="mb-5 p-4">
       <div className="flex flex-wrap items-end justify-between gap-4">
-        <div className="flex items-end gap-2">
-          <Button variant="subtle" onClick={() => props.goToWeek(-1)}>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="subtle"
+            onClick={() => props.goToWeek(-1)}
+            aria-label="Semana anterior"
+            title="Semana anterior"
+          >
             <ChevronLeftIcon size={15} />
-            Semana anterior
           </Button>
 
-          <div className="px-1">
+          <div className="min-w-44 px-1 text-center">
+            <p className="m-0 text-xs text-tinta-suave">
+              {props.isCurrentWeek ? "Esta semana" : "Semana de"}
+            </p>
             <p className="m-0 font-display text-base font-bold">
               {formatDayMonth(props.weekStart)} a {formatDate(props.weekEnd)}
             </p>
-            <p className="m-0 text-xs text-tinta-suave">
-              {props.isCurrentWeek ? "Semana atual" : "Outra semana"} ·{" "}
-              {formatHours(props.weekTotal)} lançadas
-              {props.committed > 0 &&
-                ` de ${formatHours(props.committed)} pactuadas`}
-            </p>
           </div>
 
-          <Button variant="subtle" onClick={() => props.goToWeek(1)}>
-            Próxima semana
+          <Button
+            variant="subtle"
+            onClick={() => props.goToWeek(1)}
+            aria-label="Próxima semana"
+            title="Próxima semana"
+          >
             <ChevronRightIcon size={15} />
           </Button>
 
           {!props.isCurrentWeek && (
             <Button variant="subtle" onClick={props.goToToday}>
-              Hoje
+              Voltar para esta semana
             </Button>
           )}
         </div>
 
         {props.seesEveryone && (
-          <div className="min-w-[220px]">
+          <div className="min-w-55">
             <SelectField
-              label="Membro"
+              label="Ver horas de"
               value={props.memberId}
-              onChange={(event) => props.setMemberId(event.target.value)}
+              onValueChange={(next) => props.setMemberId(next)}
               options={nameOptions(props.members)}
             />
           </div>
+        )}
+      </div>
+
+      <div className="mt-4 border-t border-linha pt-4">
+        {hasGoal ? (
+          <ProgressBar
+            ratio={props.weekTotal / props.committed}
+            tone={missing === 0 ? "green" : "violet"}
+            label={
+              <>
+                <strong>{formatHours(props.weekTotal)}</strong> registradas de{" "}
+                {formatHours(props.committed)} combinadas por semana
+              </>
+            }
+            value={
+              missing === 0
+                ? "Meta da semana cumprida"
+                : `Faltam ${formatHours(missing)}`
+            }
+          />
+        ) : (
+          <p className="m-0 text-base">
+            <strong>{formatHours(props.weekTotal)}</strong> registradas nesta
+            semana
+          </p>
         )}
       </div>
     </Card>

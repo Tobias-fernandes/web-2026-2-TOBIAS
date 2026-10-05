@@ -12,17 +12,14 @@ const PresidentStep: React.FC<StepProps> = ({ value, onChange }) => {
     next: PresidentDraft[K],
   ) => onChange({ ...value, president: { ...president, [key]: next } });
 
-  const courseOptions = [
-    { value: "", label: "Selecione…" },
-    ...value.courses.map((course) => ({ value: course, label: course })),
-  ];
+  const courseOptions = value.courses.map((course) => ({
+    value: course,
+    label: course,
+  }));
 
-  const areaOptions = [
-    { value: "", label: "Selecione…" },
-    ...value.workAreas
-      .filter((area) => area.name.trim())
-      .map((area) => ({ value: area.name, label: area.name })),
-  ];
+  const areaOptions = value.workAreas
+    .filter((area) => area.name.trim())
+    .map((area) => ({ value: area.name, label: area.name }));
 
   return (
     <>
@@ -61,7 +58,7 @@ const PresidentStep: React.FC<StepProps> = ({ value, onChange }) => {
         <SelectField
           label="Curso"
           value={president.course}
-          onChange={(event) => set("course", event.target.value)}
+          onValueChange={(next) => set("course", next)}
           options={courseOptions}
         />
         <TextField
@@ -76,7 +73,7 @@ const PresidentStep: React.FC<StepProps> = ({ value, onChange }) => {
         <SelectField
           label="Área de atuação"
           value={president.workArea}
-          onChange={(event) => set("workArea", event.target.value)}
+          onValueChange={(next) => set("workArea", next)}
           options={areaOptions}
         />
       </div>

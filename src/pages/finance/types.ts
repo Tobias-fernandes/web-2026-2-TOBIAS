@@ -1,12 +1,12 @@
 import type {
   CashFlowSummary,
   Client,
-  Directorate,
   FinanceCategory,
   FinanceEntry,
   FinanceKind,
   Member,
   Project,
+  WorkArea,
 } from "@/domain/types";
 import type { FormDialogState, Loadable } from "@/components/ui";
 
@@ -22,7 +22,7 @@ export interface FinanceFormState {
    * not an entry plus a second trip to settle it.
    */
   settled: boolean;
-  directorate: Directorate;
+  workAreaId: string;
   /** Who paid out of pocket, or received on the EJ's behalf. Optional. */
   memberId: string;
   /** Nota fiscal, recibo ou link do comprovante. Optional. */
@@ -49,7 +49,9 @@ export interface FinancePageState {
   projects: Project[];
   clients: Client[];
   members: Member[];
+  workAreas: WorkArea[];
   memberName: (id: string) => string;
+  areaName: (id: string) => string;
   settling: boolean;
   /** Marks a line paid today, or reopens it when the date is cleared. */
   toggleSettlement: (entry: FinanceEntry) => void;
@@ -61,5 +63,6 @@ export interface FinanceFormProps {
   projects: Project[];
   clients: Client[];
   members: Member[];
+  workAreas: WorkArea[];
   onChange: (value: FinanceFormState) => void;
 }

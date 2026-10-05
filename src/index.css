@@ -225,6 +225,22 @@
   animation: subir-e-aparecer 180ms ease-out;
 }
 
+@keyframes abrir-menu {
+  from {
+    opacity: 0;
+    translate: 0 -4px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+/** Entrance of a select's list. Disabled under reduced motion. */
+@utility menu-entrada {
+  animation: abrir-menu 120ms ease-out;
+}
+
 /**
  * Reading width for the screens inside the system.
  *

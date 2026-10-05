@@ -23,7 +23,7 @@ const CONFIRMATION: Record<
  *
  * Lives on this page because the question it answers is this page's question:
  * how the system works. Reading the seven steps of a contract explains the
- * model; starting from nothing and being asked for a gestão before anything
+ * model; starting from nothing and being asked for a management before anything
  * else will accept a record is what makes it stick.
  */
 const DemoDataCard: React.FC<DemoDataCardProps> = ({ demo }) => {

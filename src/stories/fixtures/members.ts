@@ -21,7 +21,7 @@ export const workAreaList: WorkArea[] = [
   id: `wka-${area.directorate}`,
   enterpriseId: DEMO_ENTERPRISE_ID,
   name: area.name,
-  directorate: area.directorate,
+  directorates: [area.directorate],
   createdAt: "2024-08-05",
 }));
 

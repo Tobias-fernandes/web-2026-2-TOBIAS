@@ -1,18 +1,18 @@
 import type { FormDialogState, Loadable } from "@/components/ui";
 import type {
   CalendarEvent,
-  Directorate,
   EventAudience,
   EventKind,
   ID,
   IsoDate,
   Project,
+  WorkArea,
 } from "@/domain/types";
 
 export interface EventFormState {
   title: string;
   kind: EventKind;
-  directorate: Directorate;
+  workAreaId: string;
   audience: EventAudience;
   startsAt: string;
   endsAt: string;
@@ -26,7 +26,8 @@ export interface EventFormState {
 }
 
 export interface CalendarFilterState {
-  directorate: "" | Directorate;
+  /** Empty for every area. */
+  workAreaId: string;
   kind: "" | EventKind;
 }
 
@@ -71,8 +72,10 @@ export interface CalendarPageState {
   upcoming: CalendarEvent[];
 
   projects: Project[];
+  workAreas: WorkArea[];
   projectName: (id: string) => string;
   memberName: (id: string) => string;
+  areaName: (id: string) => string;
 
   dialog: FormDialogState<EventFormState>;
   /** Opens an empty form, already on the day the member clicked. */
@@ -90,6 +93,7 @@ export interface EventCardProps {
   saving: boolean;
   projectName: (id: string) => string;
   memberName: (id: string) => string;
+  areaName: (id: string) => string;
   onEdit: (event: CalendarEvent) => void;
   onToggleCancelled: (event: CalendarEvent) => void;
   onRemove: (id: ID) => void;
@@ -98,6 +102,7 @@ export interface EventCardProps {
 export interface EventFormProps {
   value: EventFormState;
   projects: Project[];
+  workAreas: WorkArea[];
   onChange: (value: EventFormState) => void;
 }
 

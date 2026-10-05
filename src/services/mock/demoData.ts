@@ -4,7 +4,7 @@ import { clearTenant, markEmpty } from "./tenantStorage";
  * Emptying the demo, and putting it back.
  *
  * Both exist so the system can be walked from the first day of a junior
- * enterprise: no gestão, no members, no contracts — which is the only way to
+ * enterprise: no management, no members, no contracts — which is the only way to
  * see what each screen asks for and in what order.
  *
  * Neither touches the session or the theme. Signing out whoever pressed the

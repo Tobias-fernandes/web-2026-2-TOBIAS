@@ -39,7 +39,7 @@ export const Indicadores: Story = {
   render: () => <SkeletonMetrics />,
 };
 
-/** Metas da gestão, carga da equipe, horas por categoria. */
+/** Management goals, team workload, hours by category. */
 export const Barras: Story = {
   render: () => (
     <div className="max-w-md">
@@ -61,7 +61,7 @@ export const Lista: Story = {
   ),
 };
 
-/** Rótulo à esquerda, número à direita: o caixa da gestão. */
+/** Label on the left, figure on the right: the management's cash. */
 export const Linhas: Story = {
   render: () => (
     <div className="max-w-sm">

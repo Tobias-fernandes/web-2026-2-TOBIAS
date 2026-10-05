@@ -1,14 +1,14 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { fn } from "storybook/test";
-import { projectList } from "@/stories/fixtures";
+import { projectList, workAreaList } from "@/stories/fixtures";
 import { EventForm } from "./EventForm";
 import type { EventFormState } from "./types";
 
 const EMPTY: EventFormState = {
   title: "",
   kind: "meeting",
-  directorate: "presidency",
+  workAreaId: "wka-presidency",
   audience: "enterprise",
   startsAt: "2026-09-18",
   endsAt: "2026-09-18",
@@ -32,7 +32,12 @@ const meta = {
       </div>
     ),
   ],
-  args: { onChange: fn(), value: EMPTY, projects: projectList },
+  args: {
+    onChange: fn(),
+    value: EMPTY,
+    projects: projectList,
+    workAreas: workAreaList,
+  },
 } satisfies Meta<typeof EventForm>;
 
 export default meta;
@@ -53,14 +58,14 @@ export const ReuniaoDeDiretoria: Story = {
   },
 };
 
-/** Marcar "dia todo" tira os dois campos de horário do formulário. */
+/** Ticking "all day" removes both time fields from the form. */
 export const DiaTodo: Story = {
   args: {
     value: {
       ...EMPTY,
       title: "Semana do processo seletivo",
       kind: "selection",
-      directorate: "people",
+      workAreaId: "wka-presidency",
       endsAt: "2026-09-25",
       allDay: true,
       location: "Campus Pau dos Ferros",
@@ -75,7 +80,7 @@ export const LigadoAUmProjeto: Story = {
       ...EMPTY,
       title: "Entrega e treinamento do cliente",
       kind: "deadline",
-      directorate: "projects",
+      workAreaId: "wka-projects",
       projectId: projectList[0].id,
       location: "Remoto",
     },

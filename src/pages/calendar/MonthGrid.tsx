@@ -97,8 +97,8 @@ const MonthGrid: React.FC<MonthGridProps> = ({ days, onSelect }) => {
                           key={event.id}
                           className={cn(
                             "block truncate rounded-[4px] border px-1.5 py-0.5 text-2xs font-medium",
-                            // Tracejado é o que diz "isto não mora aqui": a data
-                            // pertence ao projeto e aqui ela só é desenhada.
+                            // Dashed is what says "this does not live here": the date
+                            // belongs to the project and is only drawn here.
                             isDerivedEvent(event)
                               ? "border-dashed border-ambar text-ambar"
                               : BADGE_TONE_CLASSES[

@@ -86,11 +86,11 @@ export function formatTimeRange(
 }
 
 /**
- * "03/02/2025 — 19/12/2025", ou o fim em aberto enquanto ainda está correndo.
+ * "03/02/2025 — 19/12/2025", or an open end while it is still running.
  *
- * A gestão em andamento não tem data de fim: o dia da passagem de bastão só é
- * conhecido quando chega, e imprimir uma data inventada no lugar seria pior que
- * dizer que ela não existe.
+ * A management in progress has no end date: the handover day is only known
+ * when it arrives, and printing a made-up date in its place would be worse
+ * than saying there is none.
  */
 export const formatPeriod = (startsAt: string, endsAt: string | null) =>
   `${formatDate(startsAt)} — ${endsAt ? formatDate(endsAt) : "em andamento"}`;

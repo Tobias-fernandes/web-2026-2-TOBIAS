@@ -15,6 +15,9 @@ import type { ICognitoStorage } from "amazon-cognito-identity-js";
  * backend's `POST /session` minting an `httpOnly` cookie once it exists. Until
  * then, this is what stands in for it.
  */
+/** Prefix the SDK puts on every key it stores (`CognitoIdentityServiceProvider.<clientId>.…`). */
+const COGNITO_KEY_PREFIX = "CognitoIdentityServiceProvider.";
+
 const cognitoStorage: ICognitoStorage = {
   getItem(key) {
     try {
@@ -39,9 +42,13 @@ const cognitoStorage: ICognitoStorage = {
       // Nothing to clean up if it was never stored.
     }
   },
+  // Only the SDK's own keys: `sessionStorage` is shared by the whole origin,
+  // and a blanket `clear()` would take everything else stored there with it.
   clear() {
     try {
-      sessionStorage.clear();
+      Object.keys(sessionStorage)
+        .filter((key) => key.startsWith(COGNITO_KEY_PREFIX))
+        .forEach((key) => sessionStorage.removeItem(key));
     } catch {
       // Nothing to clean up if nothing was stored.
     }

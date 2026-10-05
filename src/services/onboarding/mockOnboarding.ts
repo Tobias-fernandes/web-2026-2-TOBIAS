@@ -1,8 +1,11 @@
 import { SESSION_DURATION_MS } from "@/auth/services";
 import { writeStoredSession } from "@/config/storage";
+import { workAreaConflict } from "@/domain/rules";
 import type {
   Course,
   Cycle,
+  CycleStartingPoint,
+  IsoDate,
   JuniorEnterprise,
   Member,
   Membership,
@@ -20,6 +23,18 @@ import { SignUpError } from "./SignUpError";
 import type { OnboardingService, SignUpInput } from "./types";
 
 const delay = (ms = 420) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/**
+ * Everything the form reported about the running management, minus the day it
+ * started — that goes on the cycle — plus the day it was reported. Spread
+ * rather than copied field by field, so a new figure cannot be dropped here.
+ */
+function startingPointOf(
+  { startsAt: _startsAt, ...figures }: NonNullable<SignUpInput["ongoingCycle"]>,
+  recordedAt: IsoDate,
+): CycleStartingPoint {
+  return { ...figures, recordedAt };
+}
 
 /**
  * Registering an enterprise, in the browser.
@@ -57,6 +72,8 @@ export const mockOnboarding: OnboardingService = {
     if (input.workAreas.length === 0) {
       throw new SignUpError("Cadastre ao menos uma área de atuação.");
     }
+    const areaConflict = workAreaConflict(input.workAreas);
+    if (areaConflict) throw new SignUpError(areaConflict);
 
     const today = todayIso();
     const enterpriseId = generateId("ej");
@@ -80,7 +97,7 @@ export const mockOnboarding: OnboardingService = {
       id: generateId("wka"),
       enterpriseId,
       name: area.name.trim(),
-      directorate: area.directorate,
+      directorates: [...area.directorates],
       createdAt: today,
     }));
 
@@ -94,17 +111,29 @@ export const mockOnboarding: OnboardingService = {
     if (!workArea)
       throw new SignUpError("Escolha a área de atuação do presidente.");
 
+    const ongoing = input.ongoingCycle;
+    if (ongoing && ongoing.startsAt > today) {
+      throw new SignUpError(
+        "Uma gestão em andamento não pode começar no futuro.",
+      );
+    }
+
     /**
      * The term the enterprise opens in. It exists from the first minute because
      * a position belongs to a management: without it the president would hold a
      * cargo in a term that does not exist, and every report would skip them.
+     *
+     * An EJ joining mid-term keeps the day its board actually took office — the
+     * management is named after that year and measured from that day — and
+     * brings along where it stood today.
      */
     const cycle: Cycle = {
       id: generateId("cyc"),
-      startsAt: today,
+      startsAt: ongoing?.startsAt ?? today,
       endsAt: null,
       status: "active",
       goals: input.cycleGoals,
+      startingPoint: ongoing ? startingPointOf(ongoing, today) : null,
       createdAt: today,
     };
 
@@ -133,6 +162,9 @@ export const mockOnboarding: OnboardingService = {
       role: "president",
       workAreaId: workArea.id,
       weeklyHours: 12,
+      // Today even when the management started earlier: the workload report
+      // counts expected hours from this date, and none of the hours before
+      // sign-up could have been logged.
       startsAt: today,
       endsAt: null,
       createdAt: today,
@@ -150,7 +182,9 @@ export const mockOnboarding: OnboardingService = {
       name: president.name,
       email: president.email,
       role: "president",
-      directorate: workArea.directorate,
+      workAreaId: workArea.id,
+      directorates: workArea.directorates,
+      areaName: workArea.name,
       avatarUrl: president.avatarUrl,
       memberId: president.id,
     };

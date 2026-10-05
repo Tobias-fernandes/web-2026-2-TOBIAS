@@ -16,13 +16,13 @@ const AllocationForm: React.FC<AllocationFormProps> = ({
       <SelectField
         label="Membro"
         value={value.memberId}
-        onChange={(event) => set("memberId", event.target.value)}
+        onValueChange={(next) => set("memberId", next)}
         options={nameOptions(members)}
       />
       <SelectField
         label="Projeto"
         value={value.projectId}
-        onChange={(event) => set("projectId", event.target.value)}
+        onValueChange={(next) => set("projectId", next)}
         options={nameOptions(projects)}
       />
       <div className="grid gap-4 sm:grid-cols-3">

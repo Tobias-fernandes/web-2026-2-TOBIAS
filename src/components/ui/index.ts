@@ -13,6 +13,7 @@ export * from "./Modal";
 export * from "./Note";
 export * from "./ProgressBar";
 export * from "./QueryState";
+export * from "./Select";
 export * from "./Sheet";
 export * from "./Skeleton";
 export * from "./Spinner";

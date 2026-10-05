@@ -53,3 +53,31 @@ export const zPositiveMoney = (message: string) =>
 /** A text field holding a count or a quantity that must be > 0. */
 export const zPositiveCount = (message: string) =>
   z.string().refine((value) => Number(value) > 0, { message });
+
+/** A text field holding a whole count (members, hours per week…) that must be ≥ 1. */
+export const zPositiveWholeCount = (message: string) =>
+  z
+    .string()
+    .refine((value) => Number.isInteger(Number(value)) && Number(value) > 0, {
+      message,
+    });
+
+/** A text field holding a money amount that must be typed, even if it is 0. */
+export const zRequiredMoney = (message: string) =>
+  z.string().refine((value) => parseMoneyInput(value) !== null, { message });
+
+/** A text field holding a money amount that may be blank, but never negative. */
+export const zNonNegativeMoney = (message: string) =>
+  z
+    .string()
+    .refine((value) => !value.trim() || (parseMoneyInput(value) ?? -1) >= 0, {
+      message,
+    });
+
+/** A text field holding a whole count that may be 0 (blank reads as 0). */
+export const zWholeCount = (message: string) =>
+  z
+    .string()
+    .refine((value) => Number.isInteger(Number(value)) && Number(value) >= 0, {
+      message,
+    });

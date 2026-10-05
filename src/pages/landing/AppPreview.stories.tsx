@@ -31,7 +31,7 @@ export const Padrao: Story = {
   ],
 };
 
-/** Em telas estreitas as três colunas viram uma. */
+/** On narrow screens the three columns become one. */
 export const Mobile: Story = {
   globals: { viewport: { value: "mobile1", isRotated: false } },
 };

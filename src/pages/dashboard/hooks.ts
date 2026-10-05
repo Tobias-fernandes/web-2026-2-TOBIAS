@@ -1,3 +1,4 @@
+import { can } from "@/domain/access";
 import { describeCycle } from "@/domain/constants";
 import { isActiveProject } from "@/domain/rules";
 import { daysUntil } from "@/lib/date";
@@ -13,6 +14,7 @@ import {
 import { useCurrentUser } from "@/stores/auth";
 import { WORKLOAD_CHART_LIMIT } from "./constants";
 import type { DashboardPageState } from "./types";
+import { useStartingChecklist } from "./useStartingChecklist";
 
 /**
  * The panel's reads and the handful of derivations on top of them.
@@ -41,9 +43,14 @@ export function useDashboardPage(): DashboardPageState {
   const categories = useHoursByCategory(scope);
   const workload = useWorkloadByMember(scope);
   const projects = useCycleProjects(cycle?.id);
+  const checklist = useStartingChecklist(
+    cycle,
+    can(user, "cycle:manage"),
+    projects.data,
+  );
 
   return {
-    greeting: `Olá, ${user?.name.split(" ")[0] ?? "membro"}`,
+    greeting: `Olá, ${user?.name?.split(" ")[0] ?? "membro"}`,
     description: describe(
       cycle ? describeCycle(cycle) : undefined,
       cyclePending,
@@ -58,5 +65,6 @@ export function useDashboardPage(): DashboardPageState {
     deadlines: (projects.data ?? [])
       .filter(isActiveProject)
       .sort((a, b) => daysUntil(a.dueAt) - daysUntil(b.dueAt)),
+    checklist,
   };
 }

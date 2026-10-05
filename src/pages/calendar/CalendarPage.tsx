@@ -53,6 +53,7 @@ const CalendarPage: React.FC = () => {
         <EventForm
           value={agenda.dialog.form}
           projects={agenda.projects}
+          workAreas={agenda.workAreas}
           onChange={agenda.dialog.setForm}
         />
       </FormDialog>

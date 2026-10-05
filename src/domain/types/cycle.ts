@@ -15,6 +15,33 @@ export interface CycleGoals {
 }
 
 /**
+ * Where a management stood on the day the EJ started using the system.
+ *
+ * A president can adopt the system halfway through the year, with money in the
+ * account and contracts already signed. Without these figures the dashboard
+ * would open at zero and tell a board that closed half its revenue goal that it
+ * has not started — and the cash balance would be wrong from the first day.
+ *
+ * They are a snapshot, not a record: whatever happened before `recordedAt`
+ * lives here, and whatever happens after is registered normally. Registering
+ * one of those earlier projects or payments again would count it twice.
+ */
+export interface CycleStartingPoint {
+  /** The day the figures below were true — the day the EJ signed up. */
+  recordedAt: IsoDate;
+  /** Money in the account that day. Can be negative, for an EJ in debt. */
+  balanceCents: number;
+  /**
+   * Contract value of the projects this management had already delivered.
+   * Projects still running are registered as projects instead, and count
+   * towards the goals from there — so they are not in this figure.
+   */
+  contractedRevenueCents: number;
+  /** How many projects this management had already delivered. */
+  deliveredProjects: number;
+}
+
+/**
  * One management of the junior enterprise — the board that runs a year and the
  * goals it set.
  *
@@ -44,5 +71,10 @@ export interface Cycle {
   endsAt: IsoDate | null;
   status: CycleStatus;
   goals: CycleGoals;
+  /**
+   * Null when the management started with the system, which is every one but
+   * the first of an EJ that signed up mid-term.
+   */
+  startingPoint: CycleStartingPoint | null;
   createdAt: IsoDate;
 }

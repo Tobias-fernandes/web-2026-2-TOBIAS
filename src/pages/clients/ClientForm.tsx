@@ -5,7 +5,6 @@ import {
   TextField,
 } from "@/components/ui";
 import { CLIENT_STATUS_LABELS } from "@/domain/constants";
-import type { ClientStatus } from "@/domain/types";
 import { formatCnpj, formatPhone } from "@/lib/document";
 import { setField } from "@/lib/utils";
 import type { ClientFormProps } from "./types";
@@ -55,9 +54,7 @@ const ClientForm: React.FC<ClientFormProps> = ({ value, onChange }) => {
         <SelectField
           label="Situação"
           value={value.status}
-          onChange={(event) =>
-            set("status", event.target.value as ClientStatus)
-          }
+          onValueChange={(next) => set("status", next)}
           options={STATUS_OPTIONS}
         />
       </div>

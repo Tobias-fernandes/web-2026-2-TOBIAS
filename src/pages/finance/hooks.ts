@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useFormDialog } from "@/components/ui";
 import { can } from "@/domain/access";
+import { areaOfDirectorate } from "@/domain/rules";
 import { todayIso } from "@/lib/date";
 import { useNameLookup } from "@/lib/hooks";
 import { parseMoneyInput } from "@/lib/money";
@@ -14,6 +15,7 @@ import {
   useMembers,
   useProjects,
   useSettleFinanceEntry,
+  useWorkAreas,
 } from "@/queries";
 import { useCurrentUser } from "@/stores/auth";
 import { toast, toastMutationError } from "@/stores/toast";
@@ -32,6 +34,7 @@ export function useFinancePage(): FinancePageState {
   const projects = useProjects();
   const clients = useClients();
   const members = useMembers();
+  const workAreas = useWorkAreas();
   const settle = useSettleFinanceEntry();
 
   const entries = useFinanceEntries(cycle?.id, {
@@ -40,7 +43,11 @@ export function useFinancePage(): FinancePageState {
   });
 
   const dialog = useFormDialog({
-    initial: buildEmptyFinanceForm,
+    // Most lines are the finance area's own, so the form opens on it.
+    initial: () => ({
+      ...buildEmptyFinanceForm(),
+      workAreaId: areaOfDirectorate(workAreas.data ?? [], "finance")?.id ?? "",
+    }),
     mutation: useCreateFinanceEntry(),
     validate: (form) => zodValidate(financeFormSchema, form),
     toInput: (form) => ({
@@ -57,7 +64,7 @@ export function useFinancePage(): FinancePageState {
       clientId: form.clientId || null,
       memberId: form.memberId || null,
       receiptRef: form.receiptRef.trim(),
-      directorate: form.directorate,
+      workAreaId: form.workAreaId,
       createdBy: user?.memberId ?? null,
     }),
     successMessage: () => "Lançamento registrado.",
@@ -77,7 +84,9 @@ export function useFinancePage(): FinancePageState {
     projects: projects.data ?? [],
     clients: clients.data ?? [],
     members: members.data ?? [],
+    workAreas: workAreas.data ?? [],
     memberName: useNameLookup(members.data),
+    areaName: useNameLookup(workAreas.data),
     settling: settle.isPending,
     toggleSettlement: (entry) => {
       const settling = !entry.paidAt;

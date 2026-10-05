@@ -39,7 +39,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Padrao: Story = {};
 
-/** Gestão puxada por entregas: o trabalho interno encolhe. */
+/** A management driven by deliveries: internal work shrinks. */
 export const QuaseTudoProjeto: Story = {
   args: {
     rows: [

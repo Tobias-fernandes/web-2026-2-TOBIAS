@@ -3,7 +3,13 @@ import {
   describeCycle,
   TIME_ENTRY_CATEGORY_ORDER,
 } from "@/domain/constants";
-import { cycleEnd, isCountableProject, isOpenDeal } from "@/domain/rules";
+import {
+  carriedOver,
+  cycleEnd,
+  goalFigures,
+  isCountableProject,
+  isOpenDeal,
+} from "@/domain/rules";
 import type {
   CashFlowSummary,
   CycleProgress,
@@ -68,7 +74,7 @@ const averageNps = (items: Project[]): number | null => {
 
 export const mockReports: ReportService = {
   async dashboardMetrics(scope: ReportScope = {}): Promise<DashboardMetrics> {
-    const { cycleId, from, to } = await resolveScope(scope);
+    const { cycle, cycleId, from, to } = await resolveScope(scope);
 
     const [
       cycleProjects,
@@ -91,19 +97,17 @@ export const mockReports: ReportService = {
 
     const withStatus = (status: Project["status"]) =>
       cycleProjects.filter((project) => project.status === status).length;
-
     return {
       projectsInProgress: withStatus("inProgress") + withStatus("review"),
-      projectsDelivered: withStatus("delivered"),
+      projectsDelivered:
+        withStatus("delivered") + carriedOver(cycle).deliveredProjects,
       projectsPlanning: withStatus("planning"),
       activeMembers: cycleMemberships.length,
       activeClients: allClients.filter((client) => client.status === "active")
         .length,
       loggedHours: sum(entries, (entry) => entry.hours),
-      contractedRevenueCents: sum(
-        countable,
-        (project) => project.contractValueCents,
-      ),
+      contractedRevenueCents: goalFigures(cycleProjects, cycle)
+        .contractedRevenueCents,
       receivedRevenueCents: sum(
         ledger.filter(
           (line) => line.kind === "receivable" && line.paidAt !== null,
@@ -124,10 +128,11 @@ export const mockReports: ReportService = {
       memberships.listBy({ cycleId }),
     ]);
 
-    const countable = cycleProjects.filter(isCountableProject);
-    const nps = averageNps(countable);
-
-    const contracted = sum(countable, (project) => project.contractValueCents);
+    const nps = averageNps(cycleProjects.filter(isCountableProject));
+    const { contractedRevenueCents: contracted, closedProjects } = goalFigures(
+      cycleProjects,
+      cycle,
+    );
 
     return {
       cycleId: cycle.id,
@@ -146,8 +151,8 @@ export const mockReports: ReportService = {
         {
           label: "Projetos fechados",
           target: cycle.goals.projects,
-          current: countable.length,
-          ratio: ratio(countable.length, cycle.goals.projects),
+          current: closedProjects,
+          ratio: ratio(closedProjects, cycle.goals.projects),
           format: "count",
         },
         {
@@ -355,7 +360,7 @@ export const mockReports: ReportService = {
   },
 
   async cashFlow(scope: ReportScope = {}): Promise<CashFlowSummary> {
-    const { cycleId } = await resolveScope(scope);
+    const { cycle, cycleId } = await resolveScope(scope);
     const ledger = await finance.listBy({ cycleId });
     const today = todayIso();
 
@@ -366,6 +371,7 @@ export const mockReports: ReportService = {
 
     const received = sum(of("receivable", true), (line) => line.amountCents);
     const paid = sum(of("payable", true), (line) => line.amountCents);
+    const opening = cycle?.startingPoint?.balanceCents ?? null;
 
     return {
       receivedCents: received,
@@ -376,7 +382,8 @@ export const mockReports: ReportService = {
       ),
       paidCents: paid,
       toPayCents: sum(of("payable", false), (line) => line.amountCents),
-      balanceCents: received - paid,
+      openingBalanceCents: opening,
+      balanceCents: (opening ?? 0) + received - paid,
     };
   },
 };

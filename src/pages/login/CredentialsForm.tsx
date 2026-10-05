@@ -1,8 +1,7 @@
-import { DEMO_PASSWORD, DEMO_USERS, isUsingMockAuth } from "@/auth/services";
-import type {} from "@/auth/services";
+import { DEMO_ACCESSES, DEMO_PASSWORD, isUsingMockAuth } from "@/auth/services";
 import { Button, ErrorText, TextField } from "@/components/ui";
 import { ChevronDownIcon } from "@/components/ui/icons";
-import { describePosition } from "@/domain/constants";
+import type {} from "@/auth/services";
 import { useCredentialsForm } from "./hooks";
 import type { CredentialsFormProps } from "./types";
 
@@ -67,16 +66,19 @@ const CredentialsForm: React.FC<CredentialsFormProps> = ({
           </summary>
 
           <ul className="m-0 mt-4 flex list-none flex-col p-0">
-            {DEMO_USERS.map((demoUser) => (
-              <li key={demoUser.id}>
+            {DEMO_ACCESSES.map((access) => (
+              <li key={access.email}>
                 <button
                   type="button"
-                  onClick={() => fillDemoUser(demoUser.email)}
-                  className="flex w-full items-baseline justify-between gap-3 rounded-md px-2 py-2 text-left text-sm hover:bg-papel-alto hover:text-violeta"
+                  onClick={() => fillDemoUser(access.email)}
+                  className="flex w-full flex-wrap items-baseline justify-between gap-x-3 rounded-md px-2 py-2 text-left text-sm hover:bg-papel-alto hover:text-violeta"
                 >
-                  <span className="truncate">{demoUser.email}</span>
-                  <span className="shrink-0 text-xs text-tinta-suave">
-                    {describePosition(demoUser.role, demoUser.directorate)}
+                  {/* Wraps instead of truncating: a long position such as
+                      "Gerente de projeto · Gestão de Projetos" must not eat the
+                      e-mail, which is the part the reader needs. */}
+                  <span className="min-w-0 break-all">{access.email}</span>
+                  <span className="text-xs text-tinta-suave">
+                    {access.position}
                   </span>
                 </button>
               </li>

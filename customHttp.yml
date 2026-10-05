@@ -1,8 +1,8 @@
-# Cabeçalhos HTTP aplicados pelo Amplify Hosting.
+# HTTP headers applied by Amplify Hosting.
 #
-# Os arquivos com hash no nome (dist/assets/*) podem ser cacheados para sempre;
-# o index.html precisa ser sempre revalidado para que um novo deploy chegue ao
-# usuário na primeira visita.
+# Files with a hash in their name (dist/assets/*) can be cached forever;
+# index.html must always be revalidated so a new deploy reaches the user on
+# their first visit.
 customHeaders:
   - pattern: "/assets/*"
     headers:
@@ -14,9 +14,24 @@ customHeaders:
       - key: Cache-Control
         value: "public, max-age=0, must-revalidate"
 
+  # The Cognito tokens live in sessionStorage, readable by any script on the
+  # page — so what keeps them safe is keeping foreign scripts off the page.
+  # No inline script is allowed (the theme bootstrap lives in
+  # public/theme-init.js for that reason; the JSON-LD blocks in index.html are
+  # data, not scripts, and CSP does not apply to them).
+  # connect-src covers Cognito (cognito-idp.<region>.amazonaws.com) and an API
+  # on API Gateway or App Runner. An API on a custom domain must be added here.
   - pattern: "/**/*"
     headers:
+      - key: Content-Security-Policy
+        value: "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.amazonaws.com https://*.awsapprunner.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+      - key: Strict-Transport-Security
+        value: "max-age=31536000; includeSubDomains"
+      - key: X-Frame-Options
+        value: "DENY"
       - key: X-Content-Type-Options
         value: "nosniff"
       - key: Referrer-Policy
         value: "strict-origin-when-cross-origin"
+      - key: Permissions-Policy
+        value: "camera=(), microphone=(), geolocation=(), payment=()"

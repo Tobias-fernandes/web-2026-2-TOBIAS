@@ -21,7 +21,7 @@ function event(
     cycleId: "cyc-2026",
     title,
     kind,
-    directorate: "presidency",
+    workAreaId: "wka-presidency",
     audience: "enterprise",
     startsAt,
     endsAt: startsAt,
@@ -113,17 +113,17 @@ type Story = StoryObj<typeof meta>;
 
 export const MesCheio: Story = {};
 
-/** Mês sem nada marcado — o estado do primeiro dia de uma gestão nova. */
+/** A month with nothing scheduled — the state on day one of a new management. */
 export const MesVazio: Story = {
   args: { days: buildDays([]) },
 };
 
-/** A semana do processo seletivo aparece nos cinco dias que ela ocupa. */
+/** The recruitment week appears on all five days it spans. */
 export const CompromissoDeVariosDias: Story = {
   args: { days: buildDays(EVENTS.filter((item) => item.id === "e5")) },
 };
 
-/** Dia lotado: as três primeiras etiquetas cabem, o resto vira contagem. */
+/** A packed day: the first three labels fit, the rest becomes a count. */
 export const DiaComExcesso: Story = {
   args: {
     days: buildDays([

@@ -1,9 +1,9 @@
 import type {
   InputHTMLAttributes,
   ReactNode,
-  SelectHTMLAttributes,
   TextareaHTMLAttributes,
 } from "react";
+import type { SelectProps } from "../Select/types";
 
 export interface FieldShellProps {
   id: string;
@@ -25,12 +25,7 @@ export interface TextFieldProps
 export interface TextAreaFieldProps
   extends BaseFieldProps, TextareaHTMLAttributes<HTMLTextAreaElement> {}
 
-export interface SelectOption {
-  value: string;
-  label: string;
-}
-
-export interface SelectFieldProps
-  extends BaseFieldProps, SelectHTMLAttributes<HTMLSelectElement> {
-  options: SelectOption[];
-}
+export interface SelectFieldProps<T extends string>
+  extends
+    BaseFieldProps,
+    Omit<SelectProps<T>, "id" | "invalid" | "labelledBy" | "size"> {}

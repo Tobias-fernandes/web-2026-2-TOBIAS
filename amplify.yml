@@ -3,20 +3,20 @@ frontend:
   phases:
     preBuild:
       commands:
-        # O Vite 8 exige Node ^20.19 || >=22.12. A imagem de build do Amplify nem
-        # sempre entrega uma dessas por padrão, então fixamos a versão via nvm.
+        # Vite 8 requires Node ^20.19 || >=22.12. Amplify's build image does not
+        # always ship one of those by default, so the version is pinned via nvm.
         - nvm install 22
         - nvm use 22
         - node -v
-        # --include=dev é explícito de propósito: vite, tsc e tailwind são
-        # devDependencies, e o build quebra se o ambiente definir NODE_ENV=production.
+        # --include=dev is explicit on purpose: vite, tsc and tailwind are
+        # devDependencies, and the build breaks if the environment sets NODE_ENV=production.
         - npm ci --include=dev
     build:
       commands:
         - npm run build
   artifacts:
-    # O Vite gera o site em dist/. O conteúdo de public/ (robots.txt, sitemap.xml
-    # e o arquivo de verificação do Google) é copiado para lá sem alteração.
+    # Vite builds the site into dist/. The contents of public/ (robots.txt, sitemap.xml
+    # and the Google verification file) are copied there unchanged.
     baseDirectory: dist
     files:
       - "**/*"

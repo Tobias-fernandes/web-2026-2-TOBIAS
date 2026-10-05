@@ -10,7 +10,6 @@ import {
 } from "@/components/ui";
 import type { Tone } from "@/domain/constants";
 import {
-  DIRECTORATE_LABELS,
   FINANCE_CATEGORY_LABELS,
   FINANCE_KIND_TONES,
 } from "@/domain/constants";
@@ -47,6 +46,7 @@ type LedgerTableProps = Pick<
   | "toggleSettlement"
   | "dialog"
   | "memberName"
+  | "areaName"
 >;
 
 const LedgerTable: React.FC<LedgerTableProps> = (props) => {
@@ -82,8 +82,8 @@ const LedgerTable: React.FC<LedgerTableProps> = (props) => {
                 </TableCell>
                 <TableCell className="font-medium">
                   {entry.description}
-                  {/* Quem adiantou o dinheiro e onde está o papel: sem isso,
-                      um reembolso vira conversa de memória no grupo. */}
+                  {/* Who fronted the money and where the receipt is: without it,
+                      a reimbursement turns into a from-memory chat in the group. */}
                   {(entry.memberId || entry.receiptRef) && (
                     <span className="mt-0.5 block text-2xs font-normal text-tinta-suave">
                       {[
@@ -100,7 +100,7 @@ const LedgerTable: React.FC<LedgerTableProps> = (props) => {
                   {FINANCE_CATEGORY_LABELS[entry.category]}
                 </TableCell>
                 <TableCell className="text-tinta-suave">
-                  {DIRECTORATE_LABELS[entry.directorate]}
+                  {props.areaName(entry.workAreaId)}
                 </TableCell>
                 <TableCell className="whitespace-nowrap">
                   <Badge tone={FINANCE_KIND_TONES[entry.kind]}>

@@ -12,6 +12,7 @@ import type {
   TimeEntry,
   WorkArea,
 } from "@/domain/types";
+import { memberConflict } from "@/domain/rules";
 import { isWithinPeriod, overlapsPeriod, todayIso } from "@/lib/date";
 import type {
   AllocationFilter,
@@ -106,7 +107,26 @@ export const memberships: MembershipRepository = {
 
 export const members: MemberRepository = {
   ...baseMembers,
+
+  async update(id, input) {
+    if (input.cpf !== undefined || input.email !== undefined) {
+      const all = await baseMembers.list();
+      const current = all.find((item) => item.id === id);
+      if (current) {
+        const conflict = memberConflict(all, { ...current, ...input }, id);
+        if (conflict) throw new Error(conflict);
+      }
+    }
+    return baseMembers.update(id, input);
+  },
+
+  // The form checks the same rule first, but the repository is what actually
+  // guarantees it: two tabs admitting the same student would both pass a check
+  // made against a roster read before either saved.
   async admit({ member, membership }: MemberAdmission) {
+    const conflict = memberConflict(await baseMembers.list(), member);
+    if (conflict) throw new Error(conflict);
+
     const created = await baseMembers.create(member);
     await memberships.create({ ...membership, memberId: created.id });
     return created;
@@ -246,12 +266,12 @@ const baseCalendarEvents = createMockRepository<CalendarEvent>({
 
 export const calendarEvents: CalendarEventRepository = {
   ...baseCalendarEvents,
-  async listBy({ cycleId, directorate, kind, from, to }: CalendarEventFilter) {
+  async listBy({ cycleId, workAreaId, kind, from, to }: CalendarEventFilter) {
     const all = await baseCalendarEvents.list();
     return all.filter(
       (item) =>
         (!cycleId || item.cycleId === cycleId) &&
-        (!directorate || item.directorate === directorate) &&
+        (!workAreaId || item.workAreaId === workAreaId) &&
         (!kind || item.kind === kind) &&
         // Overlap, not containment: a commitment that spans the turn of the
         // month belongs to both months' calendars.

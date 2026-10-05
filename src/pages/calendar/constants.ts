@@ -22,7 +22,7 @@ export const DEFAULT_END_TIME = "20:30";
 export const buildEmptyEventForm = (): EventFormState => ({
   title: "",
   kind: "meeting",
-  directorate: "presidency",
+  workAreaId: "",
   audience: "enterprise",
   startsAt: todayIso(),
   endsAt: todayIso(),
@@ -36,7 +36,7 @@ export const buildEmptyEventForm = (): EventFormState => ({
 });
 
 export const EMPTY_CALENDAR_FILTER: CalendarFilterState = {
-  directorate: "",
+  workAreaId: "",
   kind: "",
 };
 

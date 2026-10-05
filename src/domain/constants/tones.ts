@@ -47,11 +47,17 @@ export const PROJECT_STATUS_TONES: Record<ProjectStatus, Tone> = {
   cancelled: "neutral",
 };
 
-/** Billable project work is the one category set apart by colour. */
+/**
+ * Billable project work is the one category set apart by colour. The rest are
+ * grouped by what they are for: green is the member's development — training
+ * and independent study alike — amber is client-facing, neutral keeps the
+ * enterprise running.
+ */
 export const TIME_ENTRY_CATEGORY_TONES: Record<TimeEntryCategory, Tone> = {
   project: "violet",
   internal: "neutral",
   training: "green",
+  studying: "green",
   commercial: "amber",
   event: "neutral",
 };

@@ -8,7 +8,7 @@ import type { ID, IsoDate } from "./common";
  * it is running the enterprise.
  */
 export type TimeEntryCategory =
-  "project" | "internal" | "training" | "commercial" | "event";
+  "project" | "studying" | "internal" | "training" | "commercial" | "event";
 
 /**
  * An hour of work, as the person who did it recorded it.

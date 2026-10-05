@@ -5,7 +5,7 @@ import { AppPreview } from "../AppPreview";
 import { HERO_ASSURANCES } from "../constants";
 import { EYEBROW } from "./styles";
 
-/** Seção "Capa" da página pública. */
+/** The public page's "Cover" section. */
 const Hero: React.FC = () => {
   return (
     <section className="relative flex min-h-[calc(100dvh-var(--altura-cabecalho))] items-center overflow-hidden border-b border-linha">

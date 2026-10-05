@@ -1,6 +1,5 @@
-import { useId } from "react";
-import type {} from "@/domain/constants";
 import { cn } from "@/lib/utils";
+import { Select } from "../Select/Select";
 import { STATUS_SELECT_TONE_CLASSES } from "./constants";
 import type { StatusSelectProps } from "./types";
 
@@ -17,32 +16,16 @@ const StatusSelect = <T extends string>({
   options,
   disabled,
   onChange,
-}: StatusSelectProps<T>) => {
-  const id = useId();
-
-  return (
-    <>
-      <label className="sr-only" htmlFor={id}>
-        {accessibleLabel}
-      </label>
-      <select
-        id={id}
-        value={value}
-        disabled={disabled}
-        onChange={(event) => onChange(event.target.value as T)}
-        className={cn(
-          "rounded-md border px-2.5 py-1.5 text-xs font-semibold disabled:opacity-60",
-          STATUS_SELECT_TONE_CLASSES[tone],
-        )}
-      >
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-    </>
-  );
-};
+}: StatusSelectProps<T>) => (
+  <Select
+    value={value}
+    options={options}
+    onValueChange={onChange}
+    disabled={disabled}
+    size="compact"
+    aria-label={accessibleLabel}
+    className={cn(STATUS_SELECT_TONE_CLASSES[tone])}
+  />
+);
 
 export { StatusSelect };

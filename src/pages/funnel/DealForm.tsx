@@ -10,7 +10,6 @@ import {
   DEAL_STAGE_LABELS,
   DEAL_FUNNEL_COLUMNS,
 } from "@/domain/constants";
-import type { DealSource, DealStage } from "@/domain/types";
 import { setField } from "@/lib/utils";
 import type { DealFormProps } from "./types";
 
@@ -42,26 +41,26 @@ const DealForm: React.FC<DealFormProps> = ({
         <SelectField
           label="Cliente"
           value={value.clientId}
-          onChange={(event) => set("clientId", event.target.value)}
+          onValueChange={(next) => set("clientId", next)}
           options={nameOptions(clients)}
         />
         <SelectField
           label="Responsável"
           value={value.ownerId}
-          onChange={(event) => set("ownerId", event.target.value)}
+          onValueChange={(next) => set("ownerId", next)}
           options={nameOptions(members)}
         />
         <SelectField
           label="Etapa"
           value={value.stage}
-          onChange={(event) => set("stage", event.target.value as DealStage)}
+          onValueChange={(next) => set("stage", next)}
           options={STAGE_OPTIONS}
         />
         <SelectField
           label="Origem"
           hint="É o que permite saber de onde vêm os contratos que fecham."
           value={value.source}
-          onChange={(event) => set("source", event.target.value as DealSource)}
+          onValueChange={(next) => set("source", next)}
           options={SOURCE_OPTIONS}
         />
         <TextField

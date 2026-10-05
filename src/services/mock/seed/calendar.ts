@@ -5,6 +5,7 @@ import type {
   IsoDate,
 } from "@/domain/types";
 import { CURRENT_CYCLE_ID } from "./cycles";
+import { WORK_AREA_ID_BY_DIRECTORATE } from "./organisation";
 
 const ROOM = "Sala da EJ — Bloco IV, UFERSA";
 
@@ -19,6 +20,7 @@ function event(
   id: string,
   title: string,
   kind: EventKind,
+  /** Named by function here; stored as the id of this EJ's area for it. */
   directorate: Directorate,
   startsAt: IsoDate,
   extra: Partial<CalendarEvent> = {},
@@ -28,7 +30,7 @@ function event(
     cycleId: CURRENT_CYCLE_ID,
     title,
     kind,
-    directorate,
+    workAreaId: WORK_AREA_ID_BY_DIRECTORATE[directorate],
     audience: "enterprise",
     startsAt,
     endsAt: startsAt,

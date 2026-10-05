@@ -10,7 +10,7 @@ export {
   useUpdateWorkArea,
   useRemoveWorkArea,
 } from "./useOrganisation";
-export { useSignUp } from "./useSignUp";
+export { useCheckCnpj, useSignUp } from "./useSignUp";
 export { createEntityQueries } from "./createEntityQueries";
 export { DEFAULT_STALE_TIME_MS, DEFAULT_RETRY_COUNT } from "./constants";
 export {

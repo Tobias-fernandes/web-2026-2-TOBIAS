@@ -13,13 +13,22 @@ import type { ID, IsoDate } from "./common";
  * Without the second layer, letting each EJ invent its areas would mean the
  * system no longer knows which of them is allowed to see money, and permissions
  * would collapse into the member's position alone.
+ *
+ * An area answers to one function or several: one EJ runs commercial and
+ * marketing as a single "Comercial e Marketing" directorate, another keeps them
+ * apart. What an area may not do is share a function with another area of the
+ * same EJ (`workAreaConflict`): every function has exactly one owner, so "who
+ * directs finance" has one answer and the finance area is one area.
  */
 export interface WorkArea {
   id: ID;
   enterpriseId: ID;
   /** What this EJ calls the area. Shown everywhere a person's area is shown. */
   name: string;
-  /** The function it maps to. Fixed set: this is what grants permissions. */
-  directorate: Directorate;
+  /**
+   * The functions it answers to — at least one. Fixed set: this is what grants
+   * permissions, and a director of the area holds all of them.
+   */
+  directorates: Directorate[];
   createdAt: IsoDate;
 }

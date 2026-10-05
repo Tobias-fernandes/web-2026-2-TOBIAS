@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useFormDialog } from "@/components/ui";
+import { can } from "@/domain/access";
 import { CLIENT_STATUS_LABELS } from "@/domain/constants";
 import { onlyDigits } from "@/lib/document";
 import { zodValidate } from "@/lib/validation";
@@ -9,12 +10,14 @@ import {
   useProjects,
   useUpdateClient,
 } from "@/queries";
+import { useCurrentUser } from "@/stores/auth";
 import { toast, toastMutationError } from "@/stores/toast";
 import { EMPTY_CLIENT_FORM } from "./constants";
 import { clientFormSchema } from "./schemas";
 import type { ClientsPageState } from "./types";
 
 export function useClientsPage(): ClientsPageState {
+  const user = useCurrentUser();
   const clients = useClients();
   const projects = useProjects();
   const updateClient = useUpdateClient();
@@ -36,6 +39,7 @@ export function useClientsPage(): ClientsPageState {
   });
 
   return {
+    editable: can(user, "client:manage"),
     clients,
     rows: (clients.data ?? []).filter(
       (client) =>

@@ -1,7 +1,7 @@
 import { z } from "zod";
 import {
-  zPositiveCount,
   zPositiveMoney,
+  zPositiveWholeCount,
   zRequiredText,
 } from "@/lib/validation";
 
@@ -14,5 +14,7 @@ export const projectFormSchema = z.object({
   contractValue: zPositiveMoney(
     "Informe um valor de contrato válido, maior que zero.",
   ),
-  estimatedHours: zPositiveCount("Informe as horas orçadas, maior que zero."),
+  estimatedHours: zPositiveWholeCount(
+    "Informe as horas orçadas em horas inteiras, maior que zero.",
+  ),
 });

@@ -28,7 +28,7 @@ const WeekGrid: React.FC<WeekGridProps> = ({ days, rows, today, onCell }) => {
               scope="col"
               className="px-4 py-3 text-xs font-semibold text-tinta-suave"
             >
-              Projeto
+              Atividade
             </th>
             {days.map((date) => (
               <th
@@ -39,7 +39,9 @@ const WeekGrid: React.FC<WeekGridProps> = ({ days, rows, today, onCell }) => {
                   date === today ? "text-violeta" : "text-tinta-suave",
                 )}
               >
-                <span className="block">{formatWeekday(date)}</span>
+                <span className="block">
+                  {date === today ? "Hoje" : formatWeekday(date)}
+                </span>
                 <span className="block font-normal normal-case">
                   {formatDayMonth(date)}
                 </span>
@@ -49,7 +51,7 @@ const WeekGrid: React.FC<WeekGridProps> = ({ days, rows, today, onCell }) => {
               scope="col"
               className="px-4 py-3 text-right text-xs font-semibold text-tinta-suave"
             >
-              Total
+              Total da semana
             </th>
           </tr>
         </thead>
@@ -58,7 +60,7 @@ const WeekGrid: React.FC<WeekGridProps> = ({ days, rows, today, onCell }) => {
           {rows.map((row) => (
             <tr key={row.key} className="border-b border-linha hover:bg-papel">
               <td className="px-4 py-2.5 align-middle">
-                <p className="m-0 font-medium">{row.label}</p>
+                <p className="m-0 font-medium whitespace-nowrap">{row.label}</p>
                 {/* On a non-project row the label already is the category. */}
                 {row.detail !== row.label && (
                   <Badge tone={TIME_ENTRY_CATEGORY_TONES[row.category]}>
@@ -77,15 +79,39 @@ const WeekGrid: React.FC<WeekGridProps> = ({ days, rows, today, onCell }) => {
                     <button
                       type="button"
                       onClick={() => onCell(row, date)}
-                      aria-label={`Lançar horas em ${row.label} no dia ${formatDayMonth(date)}`}
-                      className={cn(
-                        "w-full rounded-sm border px-2 py-1.5 text-sm transition-colors",
+                      aria-label={
                         hours > 0
-                          ? "border-violeta-lav bg-violeta-lav font-semibold text-violeta"
-                          : "border-transparent text-tinta-suave hover:border-linha hover:bg-papel",
+                          ? `${formatHours(hours)} em ${row.label} no dia ${formatDayMonth(date)}. Adicionar mais horas`
+                          : `Adicionar horas em ${row.label} no dia ${formatDayMonth(date)}`
+                      }
+                      title={
+                        hours > 0
+                          ? "Clique para somar mais horas neste dia"
+                          : "Clique para lançar horas neste dia"
+                      }
+                      className={cn(
+                        "group flex h-9 w-full items-center whitespace-nowrap justify-center gap-1 rounded-md border text-sm transition-colors",
+                        hours > 0
+                          ? "border-violeta-lav bg-violeta-lav font-semibold text-violeta hover:border-violeta"
+                          : "border-dashed border-linha text-tinta-suave hover:border-violeta hover:text-violeta",
                       )}
                     >
-                      {hours > 0 ? hours.toLocaleString("pt-BR") : "+"}
+                      {hours > 0 ? (
+                        <>
+                          {formatHours(hours)}
+                          {/* Says, before the click, that the click adds. */}
+                          <span
+                            aria-hidden
+                            className="grid size-4 place-items-center rounded-full bg-violeta text-[11px] leading-none text-papel-alto opacity-60 group-hover:opacity-100"
+                          >
+                            +
+                          </span>
+                        </>
+                      ) : (
+                        <span aria-hidden className="text-base leading-none">
+                          +
+                        </span>
+                      )}
                     </button>
                   </td>
                 );

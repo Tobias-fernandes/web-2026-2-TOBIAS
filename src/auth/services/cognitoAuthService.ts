@@ -132,7 +132,9 @@ function toDomainSession(cognitoSession: CognitoUserSession): Session {
     name: profile.name,
     email,
     role: profile.role,
-    directorate: profile.directorate,
+    workAreaId: profile.workAreaId,
+    directorates: profile.directorates,
+    areaName: profile.areaName,
     avatarUrl: profile.avatarUrl,
     memberId: profile.memberId,
   };
@@ -213,8 +215,21 @@ export const cognitoAuthService: AuthService = {
     );
   },
 
-  async signOut() {
-    getPool().getCurrentUser()?.signOut();
+  signOut() {
+    const cognitoUser = getPool().getCurrentUser();
+    if (!cognitoUser) return Promise.resolve();
+
+    // Passing a callback makes the SDK revoke the refresh token at Cognito
+    // before clearing the tab, so a copy taken from storage stops minting new
+    // access tokens the moment the reader signs out. The SDK only clears local
+    // data on the success path; on failure (offline, session already expired)
+    // the callback-less `signOut` clears it anyway — the reader asked to leave.
+    return new Promise<void>((resolve) => {
+      cognitoUser.signOut((err?: Error) => {
+        if (err) cognitoUser.signOut();
+        resolve();
+      });
+    });
   },
 
   restore() {

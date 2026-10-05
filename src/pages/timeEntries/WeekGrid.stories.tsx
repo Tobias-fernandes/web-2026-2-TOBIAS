@@ -73,7 +73,7 @@ type Story = StoryObj<typeof meta>;
 
 export const SemanaPreenchida: Story = {};
 
-/** Uma linha só e vários dias em branco — o buraco fica evidente. */
+/** A single row and several blank days — the gap is obvious. */
 export const SemanaIncompleta: Story = {
   args: { rows: [rows[0]] },
 };

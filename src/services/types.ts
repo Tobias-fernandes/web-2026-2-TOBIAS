@@ -10,7 +10,6 @@ import type {
   DashboardMetrics,
   Deal,
   DealStage,
-  Directorate,
   EventKind,
   FinanceEntry,
   FunnelSummary,
@@ -144,7 +143,7 @@ export interface FinanceRepository extends CrudRepository<FinanceEntry> {
 
 export interface CalendarEventFilter {
   cycleId?: ID;
-  directorate?: Directorate;
+  workAreaId?: ID;
   kind?: EventKind;
   /**
    * Commitments touching this range, not only those opening inside it — a

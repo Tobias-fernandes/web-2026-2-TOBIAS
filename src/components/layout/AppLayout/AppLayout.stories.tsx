@@ -24,12 +24,12 @@ type Story = StoryObj<typeof meta>;
 
 export const Padrao: Story = {};
 
-/** Outro cargo no topo — o rótulo e as iniciais acompanham o usuário. */
+/** Another role at the top — the label and the initials follow the user. */
 export const ComoTrainee: Story = {
   decorators: [withAuthenticatedUser(traineeUser)],
 };
 
-/** Em telas estreitas a navegação colapsa atrás do botão "Menu". */
+/** On narrow screens the navigation collapses behind the "Menu" button. */
 export const Mobile: Story = {
   globals: { viewport: { value: "mobile1", isRotated: false } },
 };

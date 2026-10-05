@@ -46,11 +46,13 @@ export const COURSE_ID_BY_NAME: Record<string, string> = Object.fromEntries(
  * This EJ's areas, one per function.
  *
  * A demo with a one-to-one mapping is the simplest thing to read, but the shape
- * does not require it: an EJ is free to run two areas that both answer to
- * `projects`, or to name none of them the way this one does.
+ * does not require it: an EJ is free to merge functions into one area — a
+ * single "Comercial e Marketing" — or to name none of them the way this one
+ * does. What it cannot do is give one function to two areas.
  */
 const AREA_NAMES: Record<Directorate, string> = {
   presidency: "Presidência",
+  vicePresidency: "Vice-presidência",
   commercial: "Comercial",
   marketing: "Marketing",
   people: "Gestão de Pessoas",
@@ -64,10 +66,10 @@ export const SEED_WORK_AREAS: WorkArea[] = (
   id: `wka-${directorate}`,
   enterpriseId: DEMO_ENTERPRISE_ID,
   name: AREA_NAMES[directorate],
-  directorate,
+  directorates: [directorate],
   createdAt: DEMO_ENTERPRISE.createdAt,
 }));
 
 export const WORK_AREA_ID_BY_DIRECTORATE = Object.fromEntries(
-  SEED_WORK_AREAS.map((area) => [area.directorate, area.id]),
+  SEED_WORK_AREAS.map((area) => [area.directorates[0], area.id]),
 ) as Record<Directorate, string>;

@@ -3,6 +3,7 @@ import { z } from "zod";
 export const eventFormSchema = z
   .object({
     title: z.string(),
+    workAreaId: z.string().min(1, "Escolha a diretoria responsável."),
     startsAt: z.string(),
     endsAt: z.string(),
     allDay: z.boolean(),

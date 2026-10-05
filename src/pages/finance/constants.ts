@@ -8,7 +8,7 @@ export const buildEmptyFinanceForm = (): FinanceFormState => ({
   amount: "",
   dueAt: todayIso(),
   settled: false,
-  directorate: "finance",
+  workAreaId: "",
   memberId: "",
   receiptRef: "",
   projectId: "",

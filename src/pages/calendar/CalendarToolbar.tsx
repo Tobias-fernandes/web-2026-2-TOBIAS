@@ -1,11 +1,13 @@
-import { Button, Card, SelectField, labelOptions } from "@/components/ui";
-import { ChevronLeftIcon, ChevronRightIcon } from "@/components/ui/icons";
 import {
-  DIRECTORATE_LABELS,
-  EVENT_KIND_LABELS,
-  EVENT_KIND_ORDER,
-} from "@/domain/constants";
-import type { Directorate, EventKind } from "@/domain/types";
+  Button,
+  Card,
+  nameOptions,
+  SelectField,
+  type SelectOption,
+} from "@/components/ui";
+import { ChevronLeftIcon, ChevronRightIcon } from "@/components/ui/icons";
+import { EVENT_KIND_LABELS, EVENT_KIND_ORDER } from "@/domain/constants";
+import type { EventKind } from "@/domain/types";
 import type { CalendarPageState } from "./types";
 
 type CalendarToolbarProps = Pick<
@@ -19,14 +21,12 @@ type CalendarToolbarProps = Pick<
   | "setFilter"
   | "clearFilter"
   | "filtering"
+  | "workAreas"
 >;
 
-const DIRECTORATE_FILTER_OPTIONS = [
-  { value: "", label: "Todas as diretorias" },
-  ...labelOptions(DIRECTORATE_LABELS),
-];
+const ALL_AREAS_OPTION = { value: "", label: "Todas as diretorias" };
 
-const KIND_FILTER_OPTIONS = [
+const KIND_FILTER_OPTIONS: SelectOption<"" | EventKind>[] = [
   { value: "", label: "Todos os tipos" },
   ...EVENT_KIND_ORDER.map((kind) => ({
     value: kind,
@@ -80,12 +80,12 @@ const CalendarToolbar: React.FC<CalendarToolbarProps> = (props) => {
           <div className="min-w-[190px]">
             <SelectField
               label="Diretoria"
-              value={props.filter.directorate}
-              options={DIRECTORATE_FILTER_OPTIONS}
-              onChange={(event) =>
+              value={props.filter.workAreaId}
+              options={[ALL_AREAS_OPTION, ...nameOptions(props.workAreas)]}
+              onValueChange={(next) =>
                 props.setFilter({
                   ...props.filter,
-                  directorate: event.target.value as "" | Directorate,
+                  workAreaId: next,
                 })
               }
             />
@@ -96,10 +96,10 @@ const CalendarToolbar: React.FC<CalendarToolbarProps> = (props) => {
               label="Tipo"
               value={props.filter.kind}
               options={KIND_FILTER_OPTIONS}
-              onChange={(event) =>
+              onValueChange={(next) =>
                 props.setFilter({
                   ...props.filter,
-                  kind: event.target.value as "" | EventKind,
+                  kind: next,
                 })
               }
             />

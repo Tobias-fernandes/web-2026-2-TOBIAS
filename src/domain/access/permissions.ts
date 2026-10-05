@@ -59,6 +59,9 @@ const ROLE_PERMISSIONS: Record<MemberRole, readonly Permission[]> = {
 /** Added on top for a director, over the area they lead. */
 const DIRECTORATE_PERMISSIONS: Record<Directorate, readonly Permission[]> = {
   presidency: EVERYTHING,
+  // Its own function so an EJ can keep the vice-presidency as a separate area;
+  // it leads what the presidency leads.
+  vicePresidency: EVERYTHING,
   commercial: ["client:manage", "deal:manage"],
   marketing: ["client:manage", "deal:manage"],
   people: ["member:manage", "membership:manage"],
@@ -73,8 +76,14 @@ export function permissionsOf(user: User | null): readonly Permission[] {
   if (!user) return [];
   const fromRole = ROLE_PERMISSIONS[user.role];
   if (!isAreaLead(user.role)) return fromRole;
+  // A merged area leads every function it answers to.
   return [
-    ...new Set([...fromRole, ...DIRECTORATE_PERMISSIONS[user.directorate]]),
+    ...new Set([
+      ...fromRole,
+      ...user.directorates.flatMap(
+        (directorate) => DIRECTORATE_PERMISSIONS[directorate],
+      ),
+    ]),
   ];
 }
 

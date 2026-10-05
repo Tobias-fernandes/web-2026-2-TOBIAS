@@ -1,7 +1,9 @@
 import type {
   AcademicTerm,
   CycleGoals,
+  CycleStartingPoint,
   Directorate,
+  IsoDate,
   Session,
 } from "@/domain/types";
 
@@ -26,10 +28,20 @@ export interface SignUpInput {
   };
   /** Names of the degree courses this EJ admits from. At least one. */
   courses: string[];
-  /** The EJ's own areas, each mapped to the function that grants permissions. */
-  workAreas: { name: string; directorate: Directorate }[];
+  /**
+   * The EJ's own areas, each mapped to the functions that grant permissions —
+   * one or several, and no function in two areas.
+   */
+  workAreas: { name: string; directorates: Directorate[] }[];
   /** Targets for the first management, which opens the moment the EJ registers. */
   cycleGoals: CycleGoals;
+  /**
+   * Set when the EJ adopts the system with its management already running:
+   * the day the board took office and where it stands today. Null when the
+   * management starts now, together with the system.
+   */
+  ongoingCycle:
+    ({ startsAt: IsoDate } & Omit<CycleStartingPoint, "recordedAt">) | null;
   president: {
     name: string;
     email: string;

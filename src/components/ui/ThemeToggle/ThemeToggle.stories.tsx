@@ -31,7 +31,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Padrao: Story = {};
 
-/** Na largura da barra lateral, que é onde ele mora. */
+/** At the sidebar's width, which is where it lives. */
 export const NaBarraLateral: Story = {
   render: () => (
     <div className="w-[228px] rounded-xl border border-linha bg-papel-alto p-3">

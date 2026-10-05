@@ -22,7 +22,7 @@ export const ComAcao: Story = {
   args: { action: <Button>Novo projeto</Button> },
 };
 
-/** Sem descrição — usado quando o título basta. */
+/** No description — used when the title is enough. */
 export const SoTitulo: Story = {
   args: { title: "Olá, Tobias", description: undefined },
 };

@@ -1,6 +1,5 @@
 import { Button, Modal, SelectField, labelOptions } from "@/components/ui";
 import { LOSS_REASON_LABELS } from "@/domain/constants";
-import type { LossReason } from "@/domain/types";
 import type { LossReasonDialogProps } from "./types";
 
 const LOSS_OPTIONS = labelOptions(LOSS_REASON_LABELS);
@@ -25,7 +24,7 @@ const LossReasonDialog: React.FC<LossReasonDialogProps> = ({
           hint="Sem o motivo, a diretoria seguinte repete o mesmo erro."
           value={reason ?? "price"}
           options={LOSS_OPTIONS}
-          onChange={(event) => onChange(event.target.value as LossReason)}
+          onValueChange={(next) => onChange(next)}
         />
         <div className="flex justify-end gap-2">
           <Button variant="subtle" onClick={onCancel}>

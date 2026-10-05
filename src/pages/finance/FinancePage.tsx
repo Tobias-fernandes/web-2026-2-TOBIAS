@@ -1,20 +1,27 @@
 import { PageHeader } from "@/components/layout";
-import { Button, Card, FormDialog, SelectField } from "@/components/ui";
+import {
+  Button,
+  Card,
+  FormDialog,
+  SelectField,
+  type SelectOption,
+} from "@/components/ui";
 import { FINANCE_KIND_LABELS } from "@/domain/constants";
-import type { FinanceKind } from "@/domain/types";
 import { CashFlowRow } from "./CashFlowRow";
 import { FinanceForm } from "./FinanceForm";
 import { LedgerTable } from "./LedgerTable";
 import { useFinancePage } from "./hooks";
 import type { FinanceFilterState } from "./types";
 
-const KIND_FILTER_OPTIONS = [
+const KIND_FILTER_OPTIONS: SelectOption<FinanceFilterState["kind"]>[] = [
   { value: "", label: "Entradas e saídas" },
   { value: "receivable", label: FINANCE_KIND_LABELS.receivable },
   { value: "payable", label: FINANCE_KIND_LABELS.payable },
 ];
 
-const SETTLEMENT_FILTER_OPTIONS = [
+const SETTLEMENT_FILTER_OPTIONS: SelectOption<
+  FinanceFilterState["settlement"]
+>[] = [
   { value: "", label: "Todas" },
   { value: "open", label: "Em aberto" },
   { value: "overdue", label: "Vencidas" },
@@ -46,10 +53,10 @@ const FinancePage: React.FC = () => {
             label="Tipo"
             value={ledger.filter.kind}
             options={KIND_FILTER_OPTIONS}
-            onChange={(event) =>
+            onValueChange={(next) =>
               ledger.setFilter({
                 ...ledger.filter,
-                kind: event.target.value as "" | FinanceKind,
+                kind: next,
               })
             }
           />
@@ -57,11 +64,10 @@ const FinancePage: React.FC = () => {
             label="Situação"
             value={ledger.filter.settlement}
             options={SETTLEMENT_FILTER_OPTIONS}
-            onChange={(event) =>
+            onValueChange={(next) =>
               ledger.setFilter({
                 ...ledger.filter,
-                settlement: event.target
-                  .value as FinanceFilterState["settlement"],
+                settlement: next,
               })
             }
           />
@@ -86,6 +92,7 @@ const FinancePage: React.FC = () => {
           value={ledger.dialog.form}
           projects={ledger.projects}
           clients={ledger.clients}
+          workAreas={ledger.workAreas}
           members={ledger.members}
           onChange={ledger.dialog.setForm}
         />

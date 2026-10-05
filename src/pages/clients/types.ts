@@ -13,6 +13,8 @@ export interface ClientFormState {
 }
 
 export interface ClientsPageState {
+  /** Registering and re-classifying clients belongs to commercial and marketing. */
+  editable: boolean;
   clients: Loadable<Client[]>;
   /** Matching the search, which the page only has to render. */
   rows: Client[];

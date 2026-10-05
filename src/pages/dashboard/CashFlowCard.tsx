@@ -11,9 +11,24 @@ import type { CashFlowSummary } from "@/domain/types";
 import { formatMoney } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
-/** The four lines of the management's cash, in the order money moves. */
+/**
+ * The lines of the management's cash, in the order money moves — starting with
+ * what was already there when the EJ joined mid-term, if it did.
+ */
 function linesOf(cash: CashFlowSummary) {
+  const opening =
+    cash.openingBalanceCents !== null
+      ? [
+          {
+            label: "Saldo ao começar",
+            value: cash.openingBalanceCents,
+            alert: cash.openingBalanceCents < 0,
+          },
+        ]
+      : [];
+
   return [
+    ...opening,
     { label: "Recebido", value: cash.receivedCents, alert: false },
     { label: "Pago", value: cash.paidCents, alert: false },
     { label: "A receber", value: cash.toReceiveCents, alert: false },

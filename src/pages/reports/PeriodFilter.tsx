@@ -24,9 +24,7 @@ const PeriodFilter: React.FC<PeriodFilterProps> = ({
             value: cycle.id,
             label: describeCycle(cycle),
           }))}
-          onChange={(event) =>
-            setPeriod({ ...period, cycleId: event.target.value })
-          }
+          onValueChange={(next) => setPeriod({ ...period, cycleId: next })}
         />
         <TextField
           label="Início do período"

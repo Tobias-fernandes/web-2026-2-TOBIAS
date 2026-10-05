@@ -61,7 +61,7 @@ import type {
  *   GET    /allocations?memberId=&projectId=&activeOn=
  *   GET    /time-entries?memberId=&projectId=&from=&to=
  *   GET    /finance?cycleId=&kind=&settlement=
- *   GET    /calendar-events?cycleId=&directorate=&kind=&from=&to=
+ *   GET    /calendar-events?cycleId=&workAreaId=&kind=&from=&to=
  *   GET    /reports/dashboard?cycleId=&from=&to=       → DashboardMetrics
  *   GET    /reports/cycles/:id/progress                → CycleProgress
  *   GET    /reports/workload?cycleId=&from=&to=        → MemberWorkload[]
@@ -90,6 +90,9 @@ export const apiDataLayer: DataLayer = {
     current: () => api.get<JuniorEnterprise | null>("/enterprise"),
   },
   courses: crudResource<Course>("/courses"),
+  // Each area carries `directorates: Directorate[]` — one or several — and the
+  // API must refuse a write that gives one function to two areas of the same
+  // enterprise (`workAreaConflict` in `domain/rules`).
   workAreas: crudResource<WorkArea>("/work-areas"),
   cycles: crudResource<Cycle>("/cycles"),
   clients: crudResource<Client>("/clients"),
@@ -98,6 +101,11 @@ export const apiDataLayer: DataLayer = {
     ...crudResource<Member>("/members"),
     // One request, so a person is never created without the position that makes
     // them visible to the reports.
+    //
+    // The API must refuse (409, with the message in the body) a CPF or e-mail
+    // already used by another member of the same enterprise — on admission and
+    // on update. Per enterprise, not globally: someone who left one EJ can join
+    // another. See `memberConflict` in `domain/rules` for the same rule here.
     admit: (admission: MemberAdmission) =>
       api.post<Member>("/members/admissions", admission),
   },

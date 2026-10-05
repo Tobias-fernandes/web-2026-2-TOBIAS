@@ -30,7 +30,9 @@ const ClientsPage: React.FC = () => {
         title="Clientes"
         description="Cadastro único de contatos, propostas e status de negociação — que continua na EJ quando a diretoria muda."
         action={
-          <Button onClick={() => list.dialog.openWith()}>Novo cliente</Button>
+          list.editable && (
+            <Button onClick={() => list.dialog.openWith()}>Novo cliente</Button>
+          )
         }
       />
 
@@ -62,7 +64,7 @@ const ClientsPage: React.FC = () => {
                 : "Cadastre o primeiro contato para começar a acompanhar a prospecção."
             }
             action={
-              list.searching ? undefined : (
+              list.searching || !list.editable ? undefined : (
                 <Button onClick={() => list.dialog.openWith()}>
                   Novo cliente
                 </Button>
@@ -99,7 +101,7 @@ const ClientsPage: React.FC = () => {
                     tone={CLIENT_STATUS_TONES[client.status]}
                     accessibleLabel={`Situação de ${client.name}`}
                     options={STATUS_OPTIONS}
-                    disabled={list.updating}
+                    disabled={!list.editable || list.updating}
                     onChange={(status) => list.changeStatus(client, status)}
                   />
                 </TableCell>

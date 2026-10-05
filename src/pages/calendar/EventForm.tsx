@@ -6,12 +6,10 @@ import {
   TextField,
 } from "@/components/ui";
 import {
-  DIRECTORATE_LABELS,
   EVENT_AUDIENCE_LABELS,
   EVENT_KIND_LABELS,
   EVENT_KIND_ORDER,
 } from "@/domain/constants";
-import type { Directorate, EventAudience, EventKind } from "@/domain/types";
 import { setField } from "@/lib/utils";
 import type { EventFormProps } from "./types";
 
@@ -21,7 +19,6 @@ const KIND_OPTIONS = EVENT_KIND_ORDER.map((kind) => ({
   label: EVENT_KIND_LABELS[kind],
 }));
 
-const DIRECTORATE_OPTIONS = labelOptions(DIRECTORATE_LABELS);
 const AUDIENCE_OPTIONS = labelOptions(EVENT_AUDIENCE_LABELS);
 
 /**
@@ -36,7 +33,12 @@ const DURATION_OPTIONS = [
   { value: "allDay", label: "Dia todo" },
 ];
 
-const EventForm: React.FC<EventFormProps> = ({ value, projects, onChange }) => {
+const EventForm: React.FC<EventFormProps> = ({
+  value,
+  projects,
+  workAreas,
+  onChange,
+}) => {
   const set = setField(value, onChange);
 
   return (
@@ -52,16 +54,14 @@ const EventForm: React.FC<EventFormProps> = ({ value, projects, onChange }) => {
         <SelectField
           label="Tipo"
           value={value.kind}
-          onChange={(event) => set("kind", event.target.value as EventKind)}
+          onValueChange={(next) => set("kind", next)}
           options={KIND_OPTIONS}
         />
         <SelectField
           label="Diretoria responsável"
-          value={value.directorate}
-          onChange={(event) =>
-            set("directorate", event.target.value as Directorate)
-          }
-          options={DIRECTORATE_OPTIONS}
+          value={value.workAreaId}
+          onValueChange={(next) => set("workAreaId", next)}
+          options={nameOptions(workAreas)}
         />
       </div>
 
@@ -69,16 +69,14 @@ const EventForm: React.FC<EventFormProps> = ({ value, projects, onChange }) => {
         label="Quem participa"
         hint="Marcar como da diretoria não esconde o compromisso: sinaliza de quem é a presença esperada."
         value={value.audience}
-        onChange={(event) =>
-          set("audience", event.target.value as EventAudience)
-        }
+        onValueChange={(next) => set("audience", next)}
         options={AUDIENCE_OPTIONS}
       />
 
       <SelectField
         label="Duração"
         value={value.allDay ? "allDay" : "timed"}
-        onChange={(event) => set("allDay", event.target.value === "allDay")}
+        onValueChange={(next) => set("allDay", next === "allDay")}
         options={DURATION_OPTIONS}
       />
 
@@ -148,7 +146,7 @@ const EventForm: React.FC<EventFormProps> = ({ value, projects, onChange }) => {
         label="Projeto relacionado"
         hint="Opcional. Liga a reunião ao projeto — kickoff, checkpoint, entrega."
         value={value.projectId}
-        onChange={(event) => set("projectId", event.target.value)}
+        onValueChange={(next) => set("projectId", next)}
         options={[{ value: "", label: "Nenhum" }, ...nameOptions(projects)]}
       />
 

@@ -54,7 +54,7 @@ export const Padrao: Story = {
   ),
 };
 
-/** Uma linha só, para conferir o espaçamento vertical. */
+/** A single row, to check the vertical spacing. */
 export const LinhaUnica: Story = {
   render: (args) => (
     <Table {...args}>
@@ -73,7 +73,7 @@ export const LinhaUnica: Story = {
   ),
 };
 
-/** Muitas colunas: o contêiner rola sem estourar a largura da página. */
+/** Many columns: the container scrolls without overflowing the page width. */
 export const ComRolagemHorizontal: Story = {
   args: {
     headers: [

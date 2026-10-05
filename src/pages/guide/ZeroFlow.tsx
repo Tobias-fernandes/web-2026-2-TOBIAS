@@ -8,7 +8,7 @@ import { ZERO_FLOW } from "./constants";
  * Numbered because the order is not a suggestion: each screen needs what the
  * one before it created, and the fastest way to see why the model is shaped
  * like this is to hit the wall — try to open a project before there is a
- * gestão to put it in.
+ * management to put it in.
  */
 const ZeroFlow: React.FC = () => {
   return (

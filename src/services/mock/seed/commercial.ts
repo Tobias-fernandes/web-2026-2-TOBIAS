@@ -217,7 +217,7 @@ export const SEED_DEALS: Deal[] = [
     createdAt: "2026-08-10",
   },
 
-  // ——— Gestão 2025, para haver com o que comparar ———
+  // ——— 2025 management, so there is something to compare against ———
   {
     id: "dea-9",
     clientId: "cli-5",

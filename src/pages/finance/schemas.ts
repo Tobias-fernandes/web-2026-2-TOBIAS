@@ -6,4 +6,5 @@ const MESSAGE = "Informe a descrição e um valor maior que zero.";
 export const financeFormSchema = z.object({
   description: zRequiredText(MESSAGE),
   amount: zPositiveMoney(MESSAGE),
+  workAreaId: zRequiredText("Escolha a área responsável."),
 });

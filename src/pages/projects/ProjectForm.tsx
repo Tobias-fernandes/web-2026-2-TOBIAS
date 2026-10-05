@@ -8,7 +8,6 @@ import {
   PROJECT_BOARD_COLUMNS,
   PROJECT_STATUS_LABELS,
 } from "@/domain/constants";
-import type { ProjectStatus } from "@/domain/types";
 import { setField } from "@/lib/utils";
 import type { ProjectFormProps } from "./types";
 
@@ -33,7 +32,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
       <SelectField
         label="Cliente"
         value={value.clientId}
-        onChange={(event) => set("clientId", event.target.value)}
+        onValueChange={(next) => set("clientId", next)}
         options={nameOptions(clients)}
       />
 
@@ -41,7 +40,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
         label="Gerente do projeto"
         hint="Responsável pela entrega e pelo consumo do orçamento de horas."
         value={value.ownerId}
-        onChange={(event) => set("ownerId", event.target.value)}
+        onValueChange={(next) => set("ownerId", next)}
         options={nameOptions(members)}
       />
 
@@ -56,9 +55,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
         <SelectField
           label="Situação"
           value={value.status}
-          onChange={(event) =>
-            set("status", event.target.value as ProjectStatus)
-          }
+          onValueChange={(next) => set("status", next)}
           options={PROJECT_BOARD_COLUMNS.map((status) => ({
             value: status,
             label: PROJECT_STATUS_LABELS[status],
@@ -80,7 +77,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
         <TextField
           label="Horas orçadas"
           type="number"
-          min={0}
+          min={1}
           hint="A base do preço por hora — e da margem depois da entrega."
           value={value.estimatedHours}
           onChange={(event) => set("estimatedHours", event.target.value)}

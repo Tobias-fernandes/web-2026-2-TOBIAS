@@ -1,4 +1,3 @@
-import type { Directorate } from "./directorate";
 import type { ID, IsoDate } from "./common";
 
 /** Money coming in (a contract instalment) or going out (a cost). */
@@ -56,8 +55,8 @@ export interface FinanceEntry {
    * able to point at the paper today.
    */
   receiptRef: string;
-  /** Which area owns the expense; receivables belong to finance. */
-  directorate: Directorate;
+  /** Which area owns the expense; receivables belong to finance's area. */
+  workAreaId: ID;
   /** Member who registered the line — a junior enterprise has to account for it. */
   createdBy: ID | null;
   createdAt: IsoDate;

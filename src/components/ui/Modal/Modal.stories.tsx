@@ -17,7 +17,7 @@ const meta = {
           "sem código extra. O corpo rola sozinho quando o formulário passa de 68dvh.",
       },
     },
-    // O dialog nativo é renderizado na top layer, fora do canvas do docs.
+    // The native dialog renders in the top layer, outside the docs canvas.
     layout: "centered",
   },
   args: {
@@ -31,7 +31,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Aberto por padrão, para inspecionar o conteúdo. */
+/** Open by default, to inspect the content. */
 export const Aberto: Story = {
   args: {
     children: (
@@ -39,6 +39,8 @@ export const Aberto: Story = {
         <TextField label="Nome do projeto" placeholder="Site institucional" />
         <SelectField
           label="Cliente"
+          value=""
+          onValueChange={() => {}}
           options={[
             { value: "cli-1", label: "Padaria Pão de Ouro" },
             { value: "cli-2", label: "Vistoria Norte Engenharia" },
@@ -53,7 +55,7 @@ export const Aberto: Story = {
   },
 };
 
-/** Abre e fecha de verdade, para testar o foco e a tecla Esc. */
+/** Really opens and closes, to test focus and the Esc key. */
 export const Interativo: Story = {
   args: { children: null },
   render: (args) => {
@@ -82,7 +84,7 @@ export const Interativo: Story = {
   },
 };
 
-/** Conteúdo longo: o corpo ganha rolagem e o cabeçalho fica fixo. */
+/** Long content: the body scrolls and the header stays fixed. */
 export const ConteudoLongo: Story = {
   args: {
     title: "Novo cliente",

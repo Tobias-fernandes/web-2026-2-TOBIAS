@@ -30,6 +30,7 @@ export const CYCLE_STATUS_LABELS: Record<CycleStatus, string> = {
 
 export const DIRECTORATE_LABELS: Record<Directorate, string> = {
   presidency: "Presidência",
+  vicePresidency: "Vice-presidência",
   commercial: "Comercial",
   marketing: "Marketing",
   people: "Gestão de Pessoas",
@@ -99,6 +100,7 @@ export const TIME_ENTRY_CATEGORY_LABELS: Record<TimeEntryCategory, string> = {
   project: "Projeto",
   internal: "Gestão interna",
   training: "Capacitação",
+  studying: "Estudo independente",
   commercial: "Comercial",
   event: "Evento",
 };
@@ -144,15 +146,15 @@ export const EVENT_STATUS_LABELS: Record<EventStatus, string> = {
 
 /**
  * Who is expected at a commitment, in the words the calendar shows: "Toda a EJ"
- * or the name of the area that called it.
+ * or the name of the area that called it, as the EJ names it.
  */
 export function describeAudience(
   audience: EventAudience,
-  directorate: Directorate,
+  areaName: string,
 ): string {
   return audience === "enterprise"
     ? EVENT_AUDIENCE_LABELS.enterprise
-    : DIRECTORATE_LABELS[directorate];
+    : areaName;
 }
 
 /**
@@ -169,12 +171,11 @@ export const describeCycle = (cycle: Pick<Cycle, "startsAt">): string =>
  * "Diretoria · Financeiro", but just "Presidência" when the position and the
  * area are the same word — which they are for the president and the vice, and
  * repeating it reads as a bug to whoever sees their own name under it.
+ *
+ * Takes the area as the EJ names it, so a merged area reads as the EJ wrote
+ * it — "Diretoria · Comercial e Marketing" — rather than as one of its parts.
  */
-export function describePosition(
-  role: MemberRole,
-  directorate: Directorate,
-): string {
+export function describePosition(role: MemberRole, areaName: string): string {
   const position = MEMBER_ROLE_LABELS[role];
-  const area = DIRECTORATE_LABELS[directorate];
-  return position === area ? position : `${position} · ${area}`;
+  return position === areaName ? position : `${position} · ${areaName}`;
 }

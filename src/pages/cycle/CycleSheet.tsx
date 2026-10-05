@@ -1,10 +1,33 @@
 import { Card, CardTitle, Note } from "@/components/ui";
 import { CYCLE_STATUS_LABELS } from "@/domain/constants";
 import type { Cycle } from "@/domain/types";
-import { formatMoney, formatPeriod, formatScore } from "@/lib/format";
+import {
+  formatDate,
+  formatMoney,
+  formatPeriod,
+  formatScore,
+} from "@/lib/format";
 
-/** The four facts that define a management, in the order a board asks for them. */
+/**
+ * The facts that define a management, in the order a board asks for them —
+ * plus where it stood when the EJ started using the system, if it did so
+ * mid-term, since every figure on the panel starts from there.
+ */
 function factsOf(cycle: Cycle) {
+  const start = cycle.startingPoint;
+  const carried = start
+    ? [
+        {
+          label: `Saldo em ${formatDate(start.recordedAt)}`,
+          value: formatMoney(start.balanceCents),
+        },
+        {
+          label: "Entregue antes do sistema",
+          value: `${formatMoney(start.contractedRevenueCents)} · ${start.deliveredProjects} ${start.deliveredProjects === 1 ? "projeto" : "projetos"}`,
+        },
+      ]
+    : [];
+
   return [
     {
       label: "Período",
@@ -16,6 +39,7 @@ function factsOf(cycle: Cycle) {
       value: formatMoney(cycle.goals.revenueCents),
     },
     { label: "Meta de satisfação", value: formatScore(cycle.goals.npsScore) },
+    ...carried,
   ];
 }
 

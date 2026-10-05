@@ -8,5 +8,10 @@ export {
 } from "./authSource";
 export { AuthError } from "./AuthError";
 export { NewPasswordRequiredError } from "./NewPasswordRequiredError";
-export { DEMO_USERS, DEMO_PASSWORD, SESSION_DURATION_MS } from "./constants";
+export { SESSION_DURATION_MS } from "./constants";
+export {
+  DEMO_ACCESSES,
+  DEMO_PASSWORD,
+  type DemoAccess,
+} from "@/services/mock/demoAccounts";
 export type { AuthService, Credentials, NewPasswordChallenge } from "./types";

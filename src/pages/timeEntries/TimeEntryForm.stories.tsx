@@ -49,7 +49,7 @@ export const Preenchido: Story = {
   },
 };
 
-/** Hora que não é de projeto: o seletor de projeto some do formulário. */
+/** A non-project hour: the project picker disappears from the form. */
 export const HoraDeGestaoInterna: Story = {
   args: {
     value: {

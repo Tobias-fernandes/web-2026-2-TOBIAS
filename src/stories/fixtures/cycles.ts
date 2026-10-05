@@ -11,5 +11,6 @@ export const activeCycle: Cycle = {
     members: 14,
     npsScore: 9,
   },
+  startingPoint: null,
   createdAt: "2025-12-08",
 };

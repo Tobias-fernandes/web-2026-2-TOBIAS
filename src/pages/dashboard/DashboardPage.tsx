@@ -4,6 +4,7 @@ import { CategoriesCard } from "./CategoriesCard";
 import { DeadlinesCard } from "./DeadlinesCard";
 import { GoalsCard } from "./GoalsCard";
 import { MetricsRow } from "./MetricsRow";
+import { StartingChecklistCard } from "./StartingChecklistCard";
 import { WorkloadCard } from "./WorkloadCard";
 import { useDashboardPage } from "./hooks";
 
@@ -20,6 +21,8 @@ const DashboardPage: React.FC = () => {
   return (
     <>
       <PageHeader title={panel.greeting} description={panel.description} />
+
+      {panel.checklist && <StartingChecklistCard checklist={panel.checklist} />}
 
       <MetricsRow metrics={panel.metrics} />
 

@@ -24,7 +24,7 @@ export const Padrao: Story = {
   ),
 };
 
-/** Com o cabeçalho e uma ação alinhada à direita. */
+/** With the header and an action aligned to the right. */
 export const ComTitulo: Story = {
   render: () => (
     <Card className="max-w-md">

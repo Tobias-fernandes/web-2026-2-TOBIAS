@@ -1,5 +1,6 @@
-import type { FinanceEntry } from "@/domain/types";
+import type { Directorate, FinanceEntry } from "@/domain/types";
 import { CURRENT_CYCLE_ID, PREVIOUS_CYCLE_ID } from "./cycles";
+import { WORK_AREA_ID_BY_DIRECTORATE } from "./organisation";
 
 /**
  * Cash flow of the term, as instalments rather than contract totals.
@@ -9,7 +10,7 @@ import { CURRENT_CYCLE_ID, PREVIOUS_CYCLE_ID } from "./cycles";
  * doing well. One row here is one date on which money should move.
  */
 export const SEED_FINANCE_ENTRIES: FinanceEntry[] = [
-  // ——— A receber ———
+  // ——— Receivables ———
   receivable(
     "fin-1",
     "Site institucional — 1ª parcela",
@@ -95,7 +96,7 @@ export const SEED_FINANCE_ENTRIES: FinanceEntry[] = [
     category: "sponsorship",
   },
 
-  // ——— A pagar ———
+  // ——— Payables ———
   payable(
     "fin-10",
     "Contribuição anual à federação",
@@ -169,8 +170,8 @@ export const SEED_FINANCE_ENTRIES: FinanceEntry[] = [
     "finance",
   ),
   {
-    // Alguém pagou do próprio bolso e trouxe a nota: sem projeto, sem cliente,
-    // já quitado no dia, e com a pessoa a reembolsar registrada.
+    // Someone paid out of pocket and brought the receipt: no project, no client,
+    // settled on the day, with the person to reimburse on record.
     ...payable(
       "fin-20",
       "Coffee break da reunião geral",
@@ -196,7 +197,7 @@ export const SEED_FINANCE_ENTRIES: FinanceEntry[] = [
     receiptRef: "Orçamento 2026-113",
   },
 
-  // ——— Entradas que não vêm de contrato ———
+  // ——— Income that does not come from a contract ———
   {
     ...receivable(
       "fin-22",
@@ -224,7 +225,7 @@ export const SEED_FINANCE_ENTRIES: FinanceEntry[] = [
     category: "membershipFee",
   },
 
-  // ——— Gestão anterior, mantida para comparar os ciclos ———
+  // ——— Previous management, kept to compare the cycles ———
   {
     ...receivable(
       "fin-18",
@@ -273,7 +274,7 @@ function receivable(
     clientId,
     memberId: null,
     receiptRef: "",
-    directorate: "finance",
+    workAreaId: WORK_AREA_ID_BY_DIRECTORATE.finance,
     createdBy: "mem-8",
     createdAt: dueAt,
   };
@@ -286,7 +287,8 @@ function payable(
   dueAt: string,
   paidAt: string | null,
   category: FinanceEntry["category"],
-  directorate: FinanceEntry["directorate"],
+  /** Named by function here; stored as the id of this EJ's area for it. */
+  directorate: Directorate,
 ): FinanceEntry {
   return {
     id,
@@ -301,7 +303,7 @@ function payable(
     clientId: null,
     memberId: null,
     receiptRef: "",
-    directorate,
+    workAreaId: WORK_AREA_ID_BY_DIRECTORATE[directorate],
     createdBy: "mem-8",
     createdAt: dueAt,
   };

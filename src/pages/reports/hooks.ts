@@ -45,8 +45,8 @@ export function useReportsPage(): ReportsPageState {
   };
 
   return {
-    // Da mais nova para a mais velha, que é a ordem em que uma diretoria pensa
-    // — e a mesma da tela de gestões.
+    // Newest to oldest, which is the order a board thinks in — and the same
+    // as the managements screen.
     cycles: [...(cycles.data ?? [])].sort((a, b) =>
       b.startsAt.localeCompare(a.startsAt),
     ),

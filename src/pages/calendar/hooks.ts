@@ -1,7 +1,11 @@
 import { useMemo, useState } from "react";
 import { useFormDialog } from "@/components/ui";
 import { can } from "@/domain/access";
-import { isActiveProject, isScheduledEvent } from "@/domain/rules";
+import {
+  areaOfDirectorate,
+  isActiveProject,
+  isScheduledEvent,
+} from "@/domain/rules";
 import type { CalendarEvent, ID, IsoDate, Project } from "@/domain/types";
 import {
   addMonths,
@@ -23,6 +27,7 @@ import {
   useMembers,
   useRemoveCalendarEvent,
   useUpsertCalendarEvent,
+  useWorkAreas,
 } from "@/queries";
 import { useCurrentUser } from "@/stores/auth";
 import { toast, toastMutationError } from "@/stores/toast";
@@ -68,13 +73,17 @@ const coversDate = (event: CalendarEvent, date: IsoDate) =>
  * events meant the filters had to be reimplemented for it, and the month grid
  * had to split its three chips between two arrays.
  */
-function deadlineEvent(project: Project, cycleId: ID): CalendarEvent {
+function deadlineEvent(
+  project: Project,
+  cycleId: ID,
+  projectsAreaId: ID,
+): CalendarEvent {
   return {
     id: DERIVED_ID_PREFIX + project.id,
     cycleId,
     title: `Entrega · ${project.name}`,
     kind: "deadline",
-    directorate: "projects",
+    workAreaId: projectsAreaId,
     audience: "enterprise",
     startsAt: project.dueAt,
     endsAt: project.dueAt,
@@ -96,7 +105,7 @@ function toForm(event: CalendarEvent): EventFormState {
   return {
     title: event.title,
     kind: event.kind,
-    directorate: event.directorate,
+    workAreaId: event.workAreaId,
     audience: event.audience,
     startsAt: event.startsAt,
     endsAt: event.endsAt,
@@ -118,6 +127,7 @@ function toForm(event: CalendarEvent): EventFormState {
  */
 export function useCalendarPage(): CalendarPageState {
   const user = useCurrentUser();
+  const workAreas = useWorkAreas();
   const { cycle } = useActiveCycle();
   const today = todayIso();
 
@@ -149,6 +159,12 @@ export function useCalendarPage(): CalendarPageState {
    */
   const deadlines = useMemo(() => {
     if (!cycle) return [];
+    // A delivery is the projects function's, in whichever area holds it. With
+    // no such area the id stays empty on purpose: a delivery's audience is the
+    // whole EJ, so no area name is ever shown for it, and it simply matches no
+    // area filter.
+    const projectsAreaId =
+      areaOfDirectorate(workAreas.data ?? [], "projects")?.id ?? "";
 
     return (projects.data ?? [])
       .filter(isActiveProject)
@@ -160,15 +176,15 @@ export function useCalendarPage(): CalendarPageState {
               coversDate(event, project.dueAt),
           ),
       )
-      .map((project) => deadlineEvent(project, cycle.id));
-  }, [projects.data, loaded, cycle]);
+      .map((project) => deadlineEvent(project, cycle.id, projectsAreaId));
+  }, [projects.data, loaded, cycle, workAreas.data]);
 
   const visible = useMemo(
     () =>
       [...loaded, ...deadlines]
         .filter(
           (event) =>
-            (!filter.directorate || event.directorate === filter.directorate) &&
+            (!filter.workAreaId || event.workAreaId === filter.workAreaId) &&
             (!filter.kind || event.kind === filter.kind),
         )
         .sort(byStart),
@@ -205,7 +221,7 @@ export function useCalendarPage(): CalendarPageState {
           cycleId: cycle?.id ?? "",
           title: form.title.trim(),
           kind: form.kind,
-          directorate: form.directorate,
+          workAreaId: form.workAreaId,
           audience: form.audience,
           startsAt: form.startsAt,
           endsAt: form.endsAt,
@@ -251,7 +267,7 @@ export function useCalendarPage(): CalendarPageState {
     filter,
     setFilter,
     clearFilter: () => setFilter(EMPTY_CALENDAR_FILTER),
-    filtering: filter.directorate !== "" || filter.kind !== "",
+    filtering: filter.workAreaId !== "" || filter.kind !== "",
 
     events,
     days,
@@ -267,8 +283,10 @@ export function useCalendarPage(): CalendarPageState {
       .slice(0, UPCOMING_LIMIT),
 
     projects: projects.data ?? [],
+    workAreas: workAreas.data ?? [],
     projectName: useNameLookup(projects.data),
     memberName: useNameLookup(members.data),
+    areaName: useNameLookup(workAreas.data),
 
     dialog,
     openDialog: (date = selectedDate) =>
@@ -276,7 +294,7 @@ export function useCalendarPage(): CalendarPageState {
         startsAt: date,
         endsAt: date,
         // The area the member leads is the one they schedule for most.
-        directorate: user?.directorate ?? "presidency",
+        workAreaId: user?.workAreaId ?? "",
       }),
     editEvent: (event) => dialog.openFor(event.id, toForm(event)),
     toggleCancelled: (event) => {

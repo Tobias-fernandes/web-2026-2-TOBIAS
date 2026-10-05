@@ -2,7 +2,12 @@ export type { ID, IsoDate, IsoTime, AcademicTerm, CreateInput } from "./common";
 export type { JuniorEnterprise } from "./enterprise";
 export type { Course } from "./course";
 export type { WorkArea } from "./workArea";
-export type { Cycle, CycleGoals, CycleStatus } from "./cycle";
+export type {
+  Cycle,
+  CycleGoals,
+  CycleStartingPoint,
+  CycleStatus,
+} from "./cycle";
 export type { Directorate } from "./directorate";
 export type { Member, MemberStatus } from "./member";
 export type { Membership, MemberRole } from "./membership";

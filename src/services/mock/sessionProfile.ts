@@ -1,4 +1,11 @@
-import type { Directorate, ID, MemberRole } from "@/domain/types";
+import type {
+  Cycle,
+  Directorate,
+  ID,
+  MemberRole,
+  Membership,
+  WorkArea,
+} from "@/domain/types";
 import {
   SEED_CYCLES,
   SEED_MEMBERS,
@@ -9,7 +16,48 @@ import { readCollectionOrSeed } from "./tenantStorage";
 
 export interface SessionProfile {
   role: MemberRole;
-  directorate: Directorate;
+  workAreaId: ID;
+  directorates: Directorate[];
+  areaName: string;
+}
+
+/** The three collections a position is read from. */
+export interface OrganisationSnapshot {
+  cycles: Cycle[];
+  memberships: Membership[];
+  workAreas: WorkArea[];
+}
+
+/**
+ * The position a person holds in the open management of an organisation.
+ *
+ * Pure, so the same join answers both for a live tenant (read from storage by
+ * `resolveSessionProfile`) and for the seed the demo accesses are listed from —
+ * one definition of "who is this person right now" instead of two that drift.
+ */
+export function profileIn(
+  { cycles, memberships, workAreas }: OrganisationSnapshot,
+  memberId: ID,
+): SessionProfile | null {
+  const openCycle =
+    cycles.find((cycle) => cycle.status === "active") ??
+    [...cycles].sort((a, b) => b.startsAt.localeCompare(a.startsAt))[0];
+  if (!openCycle) return null;
+
+  const membership = memberships.find(
+    (item) => item.memberId === memberId && item.cycleId === openCycle.id,
+  );
+  if (!membership) return null;
+
+  const area = workAreas.find((item) => item.id === membership.workAreaId);
+  if (!area) return null;
+
+  return {
+    role: membership.role,
+    workAreaId: area.id,
+    directorates: area.directorates,
+    areaName: area.name,
+  };
 }
 
 /**
@@ -29,31 +77,22 @@ export function resolveSessionProfile(
   enterpriseId: ID,
   memberId: ID,
 ): SessionProfile | null {
-  const cycles = readCollectionOrSeed("cycles", SEED_CYCLES, enterpriseId);
-  const openCycle =
-    cycles.find((cycle) => cycle.status === "active") ??
-    [...cycles].sort((a, b) => b.startsAt.localeCompare(a.startsAt))[0];
-  if (!openCycle) return null;
-
-  const memberships = readCollectionOrSeed(
-    "memberships",
-    SEED_MEMBERSHIPS,
-    enterpriseId,
+  return profileIn(
+    {
+      cycles: readCollectionOrSeed("cycles", SEED_CYCLES, enterpriseId),
+      memberships: readCollectionOrSeed(
+        "memberships",
+        SEED_MEMBERSHIPS,
+        enterpriseId,
+      ),
+      workAreas: readCollectionOrSeed(
+        "work-areas",
+        SEED_WORK_AREAS,
+        enterpriseId,
+      ),
+    },
+    memberId,
   );
-  const membership = memberships.find(
-    (item) => item.memberId === memberId && item.cycleId === openCycle.id,
-  );
-  if (!membership) return null;
-
-  const areas = readCollectionOrSeed(
-    "work-areas",
-    SEED_WORK_AREAS,
-    enterpriseId,
-  );
-  const area = areas.find((item) => item.id === membership.workAreaId);
-  if (!area) return null;
-
-  return { role: membership.role, directorate: area.directorate };
 }
 
 export interface AuthenticatedMember extends SessionProfile {

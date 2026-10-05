@@ -287,7 +287,7 @@ export const SEED_TIME_ENTRIES: TimeEntry[] = [
     1,
     10,
   ),
-  // Beatriz entrou em agosto: a trilha dela começa onde a gestão já ia pela metade.
+  // Beatriz joined in August: her track starts where the management was already halfway.
   ...routineLog(
     "mem-6",
     "commercial",

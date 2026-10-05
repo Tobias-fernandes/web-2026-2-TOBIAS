@@ -10,7 +10,11 @@ const FieldShell: React.FC<FieldShellProps> = ({
 }) => {
   return (
     <div className="flex flex-col gap-2">
-      <label htmlFor={id} className="text-sm font-semibold text-tinta">
+      <label
+        id={`${id}-label`}
+        htmlFor={id}
+        className="text-sm font-semibold text-tinta"
+      >
         {label}
       </label>
       {children}

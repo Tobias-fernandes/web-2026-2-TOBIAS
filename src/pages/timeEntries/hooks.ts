@@ -177,6 +177,15 @@ export function useTimesheetPage(): TimesheetPageState {
       }),
 
     dialog,
+    alreadyLogged: weekEntries
+      .filter(
+        (entry) =>
+          entry.date === dialog.form.date &&
+          entry.category === dialog.form.category &&
+          (entry.projectId ?? "") ===
+            (dialog.form.category === "project" ? dialog.form.projectId : ""),
+      )
+      .reduce((total, entry) => total + entry.hours, 0),
     openDialog: (overrides: Partial<TimeEntryFormState> = {}) =>
       dialog.openWith({
         memberId,

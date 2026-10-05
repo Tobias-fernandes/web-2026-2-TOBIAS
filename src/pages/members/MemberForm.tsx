@@ -6,7 +6,6 @@ import {
   TextField,
 } from "@/components/ui";
 import { MEMBER_ROLE_LABELS, MEMBER_STATUS_LABELS } from "@/domain/constants";
-import type { MemberRole, MemberStatus } from "@/domain/types";
 import { formatAcademicTerm, formatCpf, formatPhone } from "@/lib/document";
 import { setField } from "@/lib/utils";
 import type { MemberFormProps } from "./types";
@@ -59,7 +58,7 @@ const MemberForm: React.FC<MemberFormProps> = ({
         <SelectField
           label="Curso"
           value={value.courseId}
-          onChange={(event) => set("courseId", event.target.value)}
+          onValueChange={(next) => set("courseId", next)}
           options={nameOptions(courses)}
         />
         <TextField
@@ -80,9 +79,7 @@ const MemberForm: React.FC<MemberFormProps> = ({
         <SelectField
           label="Situação"
           value={value.status}
-          onChange={(event) =>
-            set("status", event.target.value as MemberStatus)
-          }
+          onValueChange={(next) => set("status", next)}
           options={STATUS_OPTIONS}
         />
       </div>
@@ -106,19 +103,19 @@ const MemberForm: React.FC<MemberFormProps> = ({
           <SelectField
             label="Cargo"
             value={value.role}
-            onChange={(event) => set("role", event.target.value as MemberRole)}
+            onValueChange={(next) => set("role", next)}
             options={ROLE_OPTIONS}
           />
           <SelectField
             label="Área"
             value={value.workAreaId}
-            onChange={(event) => set("workAreaId", event.target.value)}
+            onValueChange={(next) => set("workAreaId", next)}
             options={nameOptions(workAreas)}
           />
           <TextField
             label="Carga semanal (h)"
             type="number"
-            min={0}
+            min={1}
             value={value.weeklyHours}
             onChange={(event) => set("weeklyHours", event.target.value)}
           />

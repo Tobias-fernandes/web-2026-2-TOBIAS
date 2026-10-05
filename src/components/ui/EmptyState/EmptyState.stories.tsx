@@ -22,12 +22,12 @@ export const ComAcao: Story = {
   args: { action: <Button>Novo projeto</Button> },
 };
 
-/** Sem descrição — usado quando o título já é suficiente. */
+/** No description — used when the title is already enough. */
 export const SoTitulo: Story = {
   args: { description: undefined },
 };
 
-/** Resultado de busca vazio: sem ação, porque o caminho é ajustar o filtro. */
+/** Empty search result: no action, because the way out is adjusting the filter. */
 export const BuscaSemResultado: Story = {
   args: {
     title: "Nenhum cliente encontrado",

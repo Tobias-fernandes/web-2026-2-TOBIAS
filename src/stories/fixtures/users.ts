@@ -7,7 +7,9 @@ export const presidentUser: User = {
   name: "Tobias Fernandes",
   email: "tobias@altotech.ej.br",
   role: "president",
-  directorate: "presidency",
+  workAreaId: "wka-presidency",
+  directorates: ["presidency"],
+  areaName: "Presidência",
   avatarUrl: null,
   memberId: "mem-1",
 };
@@ -18,7 +20,9 @@ export const financeDirectorUser: User = {
   name: "Sofia Lira",
   email: "sofia@altotech.ej.br",
   role: "director",
-  directorate: "finance",
+  workAreaId: "wka-finance",
+  directorates: ["finance"],
+  areaName: "Financeiro",
   avatarUrl: null,
   memberId: "mem-8",
 };
@@ -29,7 +33,9 @@ export const traineeUser: User = {
   name: "Beatriz Nogueira",
   email: "beatriz@altotech.ej.br",
   role: "trainee",
-  directorate: "commercial",
+  workAreaId: "wka-commercial",
+  directorates: ["commercial"],
+  areaName: "Comercial",
   avatarUrl: null,
   memberId: "mem-6",
 };

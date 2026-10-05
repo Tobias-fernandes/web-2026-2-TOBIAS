@@ -100,7 +100,7 @@ const SidebarContent: React.FC<SidebarContentProps> = ({ onNavigate }) => {
           <div className="min-w-0">
             <p className="m-0 truncate text-sm font-semibold">{user?.name}</p>
             <p className="m-0 truncate text-2xs text-tinta-suave">
-              {user ? describePosition(user.role, user.directorate) : ""}
+              {user ? describePosition(user.role, user.areaName) : ""}
             </p>
           </div>
         </div>

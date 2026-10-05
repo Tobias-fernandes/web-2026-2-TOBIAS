@@ -62,7 +62,7 @@ export const Interativo: Story = {
   },
 };
 
-/** Todas as situações de cliente, para comparar as cores. */
+/** Every client status, to compare the colours. */
 export const SituacoesDeCliente: Story = {
   render: (args) => (
     <div className="flex flex-wrap gap-2">
@@ -79,7 +79,7 @@ export const SituacoesDeCliente: Story = {
   ),
 };
 
-/** As situações de membro usam o mesmo componente. */
+/** Member statuses use the same component. */
 export const SituacoesDeMembro: Story = {
   render: () => (
     <div className="flex flex-wrap gap-2">

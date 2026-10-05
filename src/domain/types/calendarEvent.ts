@@ -1,4 +1,3 @@
-import type { Directorate } from "./directorate";
 import type { ID, IsoDate, IsoTime } from "./common";
 
 /**
@@ -42,8 +41,12 @@ export interface CalendarEvent {
   cycleId: ID;
   title: string;
   kind: EventKind;
-  /** The area that called it — and who `directorate` means as an audience. */
-  directorate: Directorate;
+  /**
+   * The area that called it — and who a `directorate` audience means. An area,
+   * not a function: in an EJ that merges commercial and marketing, the meeting
+   * belongs to "Comercial e Marketing", which is what people see and filter by.
+   */
+  workAreaId: ID;
   audience: EventAudience;
   startsAt: IsoDate;
   /** The same day for most; later for a trip, a selection week, a congress. */

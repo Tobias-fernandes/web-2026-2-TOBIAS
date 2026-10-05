@@ -71,6 +71,8 @@ export function useCyclePage(): CyclePageState {
             form.status === "closed" ? (current?.endsAt ?? todayIso()) : null,
           status: form.status,
           goals: cycleGoalsFromForm(form),
+          // Set once, at sign-up; the form never asks for it again.
+          startingPoint: current?.startingPoint ?? null,
         },
       };
     },

@@ -13,7 +13,7 @@ import { WeekToolbar } from "./WeekToolbar";
 import { useTimesheetPage } from "./hooks";
 
 const DESCRIPTION =
-  "A semana em uma grade: clique no dia e lance. É um guia para a EJ se enxergar, não um ponto — toda hora lançada já conta.";
+  "Registre quanto tempo você dedicou à EJ em cada dia da semana. Não é ponto: serve para a EJ entender onde o tempo está indo.";
 
 const TimeEntriesPage: React.FC = () => {
   const sheet = useTimesheetPage();
@@ -53,34 +53,45 @@ const TimeEntriesPage: React.FC = () => {
         {() => (
           <>
             {sheet.rows.length > 0 ? (
-              <WeekGrid
-                days={sheet.days}
-                rows={sheet.rows}
-                today={sheet.today}
-                onCell={(row, date) =>
-                  sheet.openDialog({
-                    date,
-                    category: row.category,
-                    projectId: row.projectId,
-                  })
-                }
-              />
+              <>
+                <p className="mt-0 mb-3 text-sm text-tinta-suave">
+                  Cada linha é uma atividade e cada coluna, um dia. Clique em um
+                  dia para adicionar horas naquela atividade — ou use “Lançar
+                  horas” para uma atividade nova.
+                </p>
+                <WeekGrid
+                  days={sheet.days}
+                  rows={sheet.rows}
+                  today={sheet.today}
+                  onCell={(row, date) =>
+                    sheet.openDialog({
+                      date,
+                      category: row.category,
+                      projectId: row.projectId,
+                    })
+                  }
+                />
+              </>
             ) : (
               <div className="rounded-xl border border-dashed border-linha bg-papel-alto px-6 py-12 text-center">
                 <p className="m-0 font-display text-md font-bold">
                   Nenhuma hora nesta semana
                 </p>
                 <p className="mx-auto mt-2 mb-6 max-w-[52ch] text-base leading-relaxed text-tinta-suave">
-                  Lance a primeira e a grade passa a mostrar os dias em que
-                  faltou registro.
+                  Clique em “Lançar horas” e informe o dia, a atividade e
+                  quantas horas você trabalhou nela.
                 </p>
                 <Button onClick={() => sheet.openDialog()}>Lançar horas</Button>
               </div>
             )}
 
-            <h2 className="mt-10 mb-4 font-display text-lg font-bold">
-              Lançamentos da semana
+            <h2 className="mt-10 mb-1 font-display text-lg font-bold">
+              Detalhes da semana
             </h2>
+            <p className="mt-0 mb-4 text-sm text-tinta-suave">
+              Cada lançamento separado, com o que foi feito. Lançou algo errado?
+              Exclua aqui e lance de novo.
+            </p>
 
             <WeekEntriesTable {...sheet} />
           </>
@@ -89,7 +100,9 @@ const TimeEntriesPage: React.FC = () => {
 
       <FormDialog
         open={sheet.dialog.open}
-        title="Lançar horas"
+        title={
+          sheet.alreadyLogged > 0 ? "Adicionar mais horas" : "Lançar horas"
+        }
         submitLabel="Lançar"
         error={sheet.dialog.error}
         submitting={sheet.dialog.submitting}
@@ -99,6 +112,7 @@ const TimeEntriesPage: React.FC = () => {
         <TimeEntryForm
           value={sheet.dialog.form}
           projects={sheet.projects}
+          alreadyLogged={sheet.alreadyLogged}
           onChange={sheet.dialog.setForm}
         />
       </FormDialog>

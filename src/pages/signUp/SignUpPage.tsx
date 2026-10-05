@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { useSignUpPage } from "./hooks";
 import { AreasStep } from "./steps/AreasStep";
 import { CoursesStep } from "./steps/CoursesStep";
+import { CycleStartStep } from "./steps/CycleStartStep";
 import { EnterpriseStep } from "./steps/EnterpriseStep";
 import { GoalsStep } from "./steps/GoalsStep";
 import { PresidentStep } from "./steps/PresidentStep";
@@ -15,8 +16,8 @@ import { PresidentStep } from "./steps/PresidentStep";
  * Registering a junior enterprise.
  *
  * Steps rather than one long form, because each asks for a different kind of
- * thing — the company, its courses, its areas, the first management's goals,
- * and the person — and a president who has to fetch the CNPJ should not lose
+ * thing — the company, its courses, its areas, where the management stands,
+ * its goals, and the person — and a president who has to fetch the CNPJ should not lose
  * the rest while they look.
  *
  * Nothing is written until the last step is submitted: the enterprise, the
@@ -72,7 +73,7 @@ const SignUpPage: React.FC = () => {
           onSubmit={(event) => {
             event.preventDefault();
             if (page.isLastStep) void page.submit();
-            else page.goNext();
+            else void page.goNext();
           }}
           noValidate
           className="flex flex-col gap-4"
@@ -85,6 +86,9 @@ const SignUpPage: React.FC = () => {
           )}
           {page.step.id === "areas" && (
             <AreasStep value={page.form} onChange={page.update} />
+          )}
+          {page.step.id === "cycleStart" && (
+            <CycleStartStep value={page.form} onChange={page.update} />
           )}
           {page.step.id === "goals" && (
             <GoalsStep value={page.form} onChange={page.update} />
@@ -104,12 +108,14 @@ const SignUpPage: React.FC = () => {
               <span />
             )}
 
-            <Button type="submit" disabled={page.submitting}>
+            <Button type="submit" disabled={page.submitting || page.validating}>
               {page.isLastStep
                 ? page.submitting
                   ? "Cadastrando…"
                   : "Concluir cadastro"
-                : "Continuar"}
+                : page.validating
+                  ? "Verificando…"
+                  : "Continuar"}
             </Button>
           </div>
         </form>

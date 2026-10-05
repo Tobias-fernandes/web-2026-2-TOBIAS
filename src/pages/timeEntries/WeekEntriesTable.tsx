@@ -1,7 +1,7 @@
 import { ListState, Table, TableCell, TableRow } from "@/components/ui";
 import { TIME_ENTRY_CATEGORY_LABELS } from "@/domain/constants";
-import { formatDate, formatHours } from "@/lib/format";
-import { NO_PROJECT, WEEK_ENTRIES_HEADERS } from "./constants";
+import { formatDate, formatHours, formatWeekday } from "@/lib/format";
+import { NO_DESCRIPTION, WEEK_ENTRIES_HEADERS } from "./constants";
 import type { TimesheetPageState } from "./types";
 
 type WeekEntriesTableProps = Pick<
@@ -33,18 +33,16 @@ const WeekEntriesTable: React.FC<WeekEntriesTableProps> = (props) => {
           {list.map((entry) => (
             <TableRow key={entry.id}>
               <TableCell className="whitespace-nowrap text-tinta-suave">
-                {formatDate(entry.date)}
+                {formatWeekday(entry.date)}, {formatDate(entry.date)}
               </TableCell>
-              <TableCell className="text-tinta-suave">
-                {TIME_ENTRY_CATEGORY_LABELS[entry.category]}
-              </TableCell>
+              {/* A project entry reads as the project; anything else as its category. */}
               <TableCell className="font-medium">
                 {entry.projectId
                   ? props.projectName(entry.projectId)
-                  : NO_PROJECT}
+                  : TIME_ENTRY_CATEGORY_LABELS[entry.category]}
               </TableCell>
               <TableCell className="text-tinta-suave">
-                {entry.description}
+                {entry.description || NO_DESCRIPTION}
               </TableCell>
               <TableCell className="whitespace-nowrap font-display font-bold">
                 {formatHours(entry.hours)}

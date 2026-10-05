@@ -52,7 +52,7 @@ export const Atrasado: Story = {
   args: { project: overdueProject, clientName: "Vistoria Norte Engenharia" },
 };
 
-/** Orçamento estourado: a barra e a hora real viram âmbar. */
+/** Over budget: the bar and the realised hourly rate turn amber. */
 export const OrcamentoEstourado: Story = {
   args: {
     project: overdueProject,
@@ -61,7 +61,7 @@ export const OrcamentoEstourado: Story = {
   },
 };
 
-/** Em planejamento, e ainda sem horas lançadas para calcular margem. */
+/** In planning, with no hours logged yet to compute a margin. */
 export const EmPlanejamento: Story = {
   args: {
     project: planningProject,
@@ -71,7 +71,7 @@ export const EmPlanejamento: Story = {
   },
 };
 
-/** Sem permissão de gerir projetos: o botão de avançar não aparece. */
+/** Without permission to manage projects: the advance button is hidden. */
 export const Entregue: Story = {
   args: {
     project: deliveredProject,
@@ -81,7 +81,7 @@ export const Entregue: Story = {
   },
 };
 
-/** Enquanto a mutação do TanStack Query está pendente. */
+/** While the TanStack Query mutation is pending. */
 export const Movendo: Story = {
   args: { moving: true },
 };

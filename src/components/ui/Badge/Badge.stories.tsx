@@ -39,7 +39,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Padrao: Story = {};
 
-/** Os quatro tons disponíveis, lado a lado. */
+/** The four available tones, side by side. */
 export const Tons: Story = {
   render: () => (
     <div className="flex flex-wrap gap-2">
@@ -51,7 +51,7 @@ export const Tons: Story = {
   ),
 };
 
-/** Como cada situação de projeto aparece no painel. */
+/** How each project status appears on the dashboard. */
 export const SituacoesDeProjeto: Story = {
   render: () => (
     <div className="flex flex-wrap gap-2">
@@ -64,7 +64,7 @@ export const SituacoesDeProjeto: Story = {
   ),
 };
 
-/** Como cada situação de cliente aparece na tabela de prospecção. */
+/** How each client status appears in the prospecting table. */
 export const SituacoesDeCliente: Story = {
   render: () => (
     <div className="flex flex-wrap gap-2">

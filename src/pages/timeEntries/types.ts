@@ -63,12 +63,19 @@ export interface TimesheetPageState {
   removeEntry: (id: string) => void;
 
   dialog: FormDialogState<TimeEntryFormState>;
+  /**
+   * Hours already on the day and activity the dialog points at — a new entry
+   * adds to them, and the member has to know that before saving.
+   */
+  alreadyLogged: number;
   openDialog: (overrides?: Partial<TimeEntryFormState>) => void;
 }
 
 export interface TimeEntryFormProps {
   value: TimeEntryFormState;
   projects: Project[];
+  /** Hours already on this day and activity; the new entry is added to them. */
+  alreadyLogged?: number;
   onChange: (value: TimeEntryFormState) => void;
 }
 

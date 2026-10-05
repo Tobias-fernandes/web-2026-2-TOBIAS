@@ -118,6 +118,12 @@ export interface CashFlowSummary {
   overdueCents: number;
   paidCents: number;
   toPayCents: number;
-  /** Received minus paid: what actually moved through the account. */
+  /**
+   * What was already in the account when the EJ started using the system.
+   * Null for a management that started with it — which is not the same as an
+   * EJ that joined mid-term with an empty account, and is shown differently.
+   */
+  openingBalanceCents: number | null;
+  /** Opening balance plus received minus paid: what is in the account now. */
   balanceCents: number;
 }

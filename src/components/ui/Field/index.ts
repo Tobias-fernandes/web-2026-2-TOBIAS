@@ -7,5 +7,4 @@ export type {
   TextFieldProps,
   TextAreaFieldProps,
   SelectFieldProps,
-  SelectOption,
 } from "./types";

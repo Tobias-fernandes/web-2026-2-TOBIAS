@@ -13,6 +13,15 @@ export const DIRECTORATE_GUIDES: DirectorateGuide[] = [
     ],
   },
   {
+    directorate: "vicePresidency",
+    does: "Divide com a presidência o acompanhamento da gestão: vê o consolidado das áreas, acompanha as metas e substitui a presidência quando preciso.",
+    screens: [
+      { label: "Painel", to: ROUTES.app.root },
+      { label: "Gestão e metas", to: ROUTES.app.cycle },
+      { label: "Relatórios", to: ROUTES.app.reports },
+    ],
+  },
+  {
     directorate: "commercial",
     does: "Mantém o funil vivo: qualifica leads, envia propostas, registra ganhos e perdas com motivo, e cuida do cadastro de clientes.",
     screens: [

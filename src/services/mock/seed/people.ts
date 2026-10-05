@@ -256,7 +256,7 @@ export const SEED_MEMBERSHIPS: Membership[] = [
     "mem-2",
     CURRENT_CYCLE_ID,
     "vicePresident",
-    "presidency",
+    "vicePresidency",
     14,
   ),
   membership("msh-203", "mem-3", CURRENT_CYCLE_ID, "director", "projects", 12),

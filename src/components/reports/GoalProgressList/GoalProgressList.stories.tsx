@@ -69,7 +69,7 @@ type Story = StoryObj<typeof meta>;
 
 export const NoRitmo: Story = {};
 
-/** Fim da gestão com as metas atrasadas: quase tudo vira âmbar. */
+/** End of the management with goals behind: almost everything turns amber. */
 export const AtrasadaNoFimDaGestao: Story = {
   args: {
     progress: {
@@ -84,7 +84,7 @@ export const AtrasadaNoFimDaGestao: Story = {
   },
 };
 
-/** Gestão recém-aberta: nada foi feito ainda, e nada está atrasado. */
+/** A freshly opened management: nothing done yet, and nothing behind. */
 export const RecemAberta: Story = {
   args: {
     progress: {

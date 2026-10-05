@@ -11,6 +11,8 @@
 export const ROUTES = {
   landing: "/",
   login: "/login",
+  /** Where Cognito sends the reader back after "Entrar com Google". */
+  loginCallback: "/login/callback",
   signUp: "/cadastro",
   app: {
     root: "/app",

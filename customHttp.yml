@@ -19,12 +19,13 @@ customHeaders:
   # No inline script is allowed (the theme bootstrap lives in
   # public/theme-init.js for that reason; the JSON-LD blocks in index.html are
   # data, not scripts, and CSP does not apply to them).
-  # connect-src covers Cognito (cognito-idp.<region>.amazonaws.com) and an API
+  # connect-src covers Cognito (cognito-idp.<region>.amazonaws.com, plus the
+  # hosted domain *.amazoncognito.com the Google sign-in trades its code at) and an API
   # on API Gateway or App Runner. An API on a custom domain must be added here.
   - pattern: "/**/*"
     headers:
       - key: Content-Security-Policy
-        value: "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.amazonaws.com https://*.awsapprunner.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+        value: "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.amazonaws.com https://*.amazoncognito.com https://*.awsapprunner.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
       - key: Strict-Transport-Security
         value: "max-age=31536000; includeSubDomains"
       - key: X-Frame-Options

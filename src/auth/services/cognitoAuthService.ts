@@ -6,7 +6,11 @@ import {
 } from "amazon-cognito-identity-js";
 import { env } from "@/config/env";
 import type { Session, User } from "@/domain/types";
-import { resolveSessionProfileByEmail } from "@/services/mock/sessionProfile";
+import { listEnterprises } from "@/services/mock/enterprises";
+import {
+  resolveSessionProfileByEmail,
+  type AuthenticatedMember,
+} from "@/services/mock/sessionProfile";
 import { AuthError } from "./AuthError";
 import { cognitoStorage } from "./cognitoStorage";
 import { NewPasswordRequiredError } from "./NewPasswordRequiredError";
@@ -37,7 +41,7 @@ function isConfigured(): boolean {
   return Boolean(env.cognito.userPoolId && env.cognito.clientId);
 }
 
-function getPool(): CognitoUserPool {
+export function getPool(): CognitoUserPool {
   if (!isConfigured()) {
     throw new AuthError(
       "Cognito ainda não está configurado. Cadastre VITE_COGNITO_USER_POOL_ID e " +
@@ -106,21 +110,48 @@ function describePasswordPolicyFailure(message: string): string {
     : "A senha não atende aos requisitos da sua EJ. Tente uma com letras maiúsculas, minúsculas, números e símbolos.";
 }
 
+/**
+ * Which enterprise a federated (Google) account belongs to, found by e-mail.
+ *
+ * A Google sign-in creates its Cognito user on the spot, and nothing in that
+ * path writes `custom:ejId` — so the tenant is looked up the same way cargo
+ * already is: by the e-mail a presidency registered the member under. Only
+ * for federated accounts, whose e-mail Google has already verified; a
+ * password account without the claim is still refused outright.
+ */
+function findMemberByEmail(
+  email: string,
+): { enterpriseId: string; profile: AuthenticatedMember } | null {
+  for (const enterprise of listEnterprises()) {
+    const profile = resolveSessionProfileByEmail(enterprise.id, email);
+    if (profile) return { enterpriseId: enterprise.id, profile };
+  }
+  return null;
+}
+
 /** Turns a live Cognito session into the domain `Session`, resolving cargo along the way. */
-function toDomainSession(cognitoSession: CognitoUserSession): Session {
+export function toDomainSession(cognitoSession: CognitoUserSession): Session {
   const claims = cognitoSession.getIdToken().decodePayload();
-  const enterpriseId = claims["custom:ejId"] as string | undefined;
+  const claimedEnterpriseId = claims["custom:ejId"] as string | undefined;
   const email = claims["email"] as string | undefined;
   const sub = claims["sub"] as string | undefined;
+  const isFederated = Array.isArray(claims["identities"]);
 
-  if (!enterpriseId || !email || !sub) {
+  if (!email || !sub || (!claimedEnterpriseId && !isFederated)) {
     throw new AuthError(
       "Sua conta não está associada a nenhuma empresa júnior. Fale com o suporte.",
     );
   }
 
-  const profile = resolveSessionProfileByEmail(enterpriseId, email);
-  if (!profile) {
+  const match = claimedEnterpriseId
+    ? {
+        enterpriseId: claimedEnterpriseId,
+        profile: resolveSessionProfileByEmail(claimedEnterpriseId, email),
+      }
+    : findMemberByEmail(email);
+  const enterpriseId = match?.enterpriseId;
+  const profile = match?.profile;
+  if (!enterpriseId || !profile) {
     throw new AuthError(
       "Sua conta não tem cargo na gestão vigente. Fale com a presidência da sua EJ.",
     );

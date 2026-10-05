@@ -7,7 +7,7 @@ export { FinancePage } from "./finance";
 export { FunnelPage } from "./funnel";
 export { GuidePage } from "./guide";
 export { LandingPage } from "./landing";
-export { LoginPage } from "./login";
+export { GoogleCallbackPage, LoginPage } from "./login";
 export { MembersPage } from "./members";
 export { NotFoundPage } from "./notFound";
 export { ProjectsPage } from "./projects";

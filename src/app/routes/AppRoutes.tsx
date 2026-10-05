@@ -11,6 +11,7 @@ import {
   DashboardPage,
   FinancePage,
   FunnelPage,
+  GoogleCallbackPage,
   GuidePage,
   LandingPage,
   LoginPage,
@@ -34,6 +35,10 @@ const AppRoutes = () => {
     <Routes>
       <Route path={ROUTES.landing} element={<LandingPage />} />
       <Route path={ROUTES.login} element={<LoginPage />} />
+      <Route
+        path={ROUTES.loginCallback}
+        element={<GoogleCallbackPage />}
+      />
       <Route path={ROUTES.signUp} element={<SignUpPage />} />
 
       <Route element={<RequireAuth />}>

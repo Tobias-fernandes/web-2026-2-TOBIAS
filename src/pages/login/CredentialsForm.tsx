@@ -1,7 +1,7 @@
 import { DEMO_ACCESSES, DEMO_PASSWORD, isUsingMockAuth } from "@/auth/services";
 import { Button, ErrorText, TextField } from "@/components/ui";
 import { ChevronDownIcon } from "@/components/ui/icons";
-import type {} from "@/auth/services";
+import { GoogleSignInButton } from "./GoogleSignInButton";
 import { useCredentialsForm } from "./hooks";
 import type { CredentialsFormProps } from "./types";
 
@@ -54,6 +54,18 @@ const CredentialsForm: React.FC<CredentialsFormProps> = ({
           {submitting ? "Entrando…" : "Entrar"}
         </Button>
       </form>
+
+      {/* Google signs in through the Cognito User Pool, so the demo accounts have no equivalent. */}
+      {!isUsingMockAuth && (
+        <div className="mt-6 flex flex-col gap-4">
+          <div className="flex items-center gap-3 text-xs text-tinta-suave">
+            <span className="h-px flex-1 bg-linha" />
+            ou
+            <span className="h-px flex-1 bg-linha" />
+          </div>
+          <GoogleSignInButton redirectTo={redirectTo} />
+        </div>
+      )}
 
       {isUsingMockAuth && (
         <details className="group mt-10 border-t border-linha pt-5">

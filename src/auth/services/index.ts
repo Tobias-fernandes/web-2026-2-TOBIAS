@@ -1,6 +1,7 @@
 export { authService } from "./authService";
 export { mockAuthService } from "./mockAuthService";
 export { cognitoAuthService } from "./cognitoAuthService";
+export { completeGoogleSignIn, startGoogleSignIn } from "./googleSignIn";
 export {
   activeAuthSource,
   isUsingMockAuth,

@@ -2,7 +2,9 @@ import { Outlet } from "react-router-dom";
 import { ROUTES } from "@/config/routes";
 import { Sheet } from "@/components/ui";
 import { MenuIcon } from "@/components/ui/icons";
+import { env } from "@/config/env";
 import { Brand } from "@/components/layout/Brand";
+import { ChatWidget } from "@/components/layout/ChatWidget";
 import { SidebarContent } from "./SidebarContent";
 import { useAppLayout } from "./hooks";
 
@@ -58,6 +60,9 @@ const AppLayout: React.FC = () => {
       >
         <Outlet />
       </main>
+
+      {/* Optional: without the WebSocket URL there is no assistant to talk to. */}
+      {env.chatUrl && <ChatWidget />}
     </div>
   );
 };

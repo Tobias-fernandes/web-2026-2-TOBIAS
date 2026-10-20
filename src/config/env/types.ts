@@ -23,6 +23,11 @@ export interface AppEnv {
   dataSource: DataSource;
   authSource: AuthSource;
   apiUrl: string;
+  /**
+   * `wss://` address of the chatbot's WebSocket API. Empty hides the chat:
+   * the assistant is optional, and the rest of the app must not depend on it.
+   */
+  chatUrl: string;
   region: string;
   cognito: CognitoConfig;
 }

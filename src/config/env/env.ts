@@ -16,6 +16,7 @@ export const env: AppEnv = {
   dataSource: readText(import.meta.env.VITE_DATA_SOURCE, "mock") as DataSource,
   authSource: readText(import.meta.env.VITE_AUTH_SOURCE, "mock") as AuthSource,
   apiUrl: readText(import.meta.env.VITE_API_URL),
+  chatUrl: readText(import.meta.env.VITE_CHAT_WS_URL),
   region: readText(import.meta.env.VITE_AWS_REGION, DEFAULT_REGION),
   cognito: {
     userPoolId: readText(import.meta.env.VITE_COGNITO_USER_POOL_ID),

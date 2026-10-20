@@ -14,5 +14,7 @@ export {
   CheckIcon,
   AlertIcon,
   InfoIcon,
+  ChatIcon,
+  SendIcon,
 } from "./icons";
 export type { IconProps } from "./types";

@@ -103,3 +103,19 @@ export const InfoIcon = (props: IconProps) => (
     <path d="M8 4.9v.01" />
   </Icon>
 );
+
+/* Chat ------------------------------------------------------------------- */
+
+export const ChatIcon = (props: IconProps) => (
+  <Icon strokeWidth={1.5} {...props}>
+    <path d="M2.5 4a1.5 1.5 0 0 1 1.5-1.5h8A1.5 1.5 0 0 1 13.5 4v5.5A1.5 1.5 0 0 1 12 11H7l-3 2.5V11a1.5 1.5 0 0 1-1.5-1.5Z" />
+    <path d="M5.5 6.8h5" />
+  </Icon>
+);
+
+export const SendIcon = (props: IconProps) => (
+  <Icon strokeWidth={1.5} {...props}>
+    <path d="M14 2 7 9" />
+    <path d="M14 2 9.5 14 7 9 2 6.5Z" />
+  </Icon>
+);

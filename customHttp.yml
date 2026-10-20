@@ -21,11 +21,13 @@ customHeaders:
   # data, not scripts, and CSP does not apply to them).
   # connect-src covers Cognito (cognito-idp.<region>.amazonaws.com, plus the
   # hosted domain *.amazoncognito.com the Google sign-in trades its code at) and an API
-  # on API Gateway or App Runner. An API on a custom domain must be added here.
+  # on API Gateway or App Runner. An API on a custom domain must be added here —
+  # as the chatbot's WebSocket is: an https:// source never matches wss://, so
+  # it needs its own entry even under *.amazonaws.com.
   - pattern: "/**/*"
     headers:
       - key: Content-Security-Policy
-        value: "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.amazonaws.com https://*.amazoncognito.com https://*.awsapprunner.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+        value: "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.amazonaws.com https://*.amazoncognito.com https://*.awsapprunner.com wss://api.tobias.feliz.web.ufersa.dev.br; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
       - key: Strict-Transport-Security
         value: "max-age=31536000; includeSubDomains"
       - key: X-Frame-Options

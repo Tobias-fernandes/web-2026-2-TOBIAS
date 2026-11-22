@@ -166,7 +166,8 @@ export function toDomainSession(cognitoSession: CognitoUserSession): Session {
     workAreaId: profile.workAreaId,
     directorates: profile.directorates,
     areaName: profile.areaName,
-    avatarUrl: profile.avatarUrl,
+    avatarUrl: profile.avatarUrl ?? (claims["picture"] as string | undefined) ?? null,
+    providerAvatarUrl: (claims["picture"] as string | undefined) ?? null,
     memberId: profile.memberId,
   };
 

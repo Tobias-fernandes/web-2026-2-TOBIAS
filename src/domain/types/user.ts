@@ -31,6 +31,12 @@ export interface User {
   areaName: string;
   /** Picture URL, when the identity provider has one — Cognito's `picture` claim. */
   avatarUrl: string | null;
+  /**
+   * The picture the identity provider (Google) sent, kept apart from
+   * `avatarUrl` so the profile page can show both: the one from the federated
+   * sign-in and the one the user uploaded to their profile.
+   */
+  providerAvatarUrl?: string | null;
   memberId: ID | null;
 }
 

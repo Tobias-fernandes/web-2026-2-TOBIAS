@@ -10,6 +10,7 @@ export { LandingPage } from "./landing";
 export { GoogleCallbackPage, LoginPage } from "./login";
 export { MembersPage } from "./members";
 export { NotFoundPage } from "./notFound";
+export { ProfilePage } from "./profile";
 export { ProjectsPage } from "./projects";
 export { ReportsPage } from "./reports";
 export { SignUpPage } from "./signUp";

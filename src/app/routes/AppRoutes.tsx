@@ -17,6 +17,7 @@ import {
   LoginPage,
   MembersPage,
   NotFoundPage,
+  ProfilePage,
   ProjectsPage,
   ReportsPage,
   SignUpPage,
@@ -47,6 +48,7 @@ const AppRoutes = () => {
           <Route path={ROUTES.app.clients} element={<ClientsPage />} />
           <Route path={ROUTES.app.timeEntries} element={<TimeEntriesPage />} />
           <Route path={ROUTES.app.guide} element={<GuidePage />} />
+          <Route path={ROUTES.app.profile} element={<ProfilePage />} />
 
           <Route element={<RequireCycle />}>
             <Route index element={<DashboardPage />} />

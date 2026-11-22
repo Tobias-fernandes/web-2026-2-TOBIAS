@@ -41,6 +41,14 @@ export const useAuthStore = create<AuthState>()((set) => ({
     set({ session, status: "authenticated" });
   },
 
+  updateUser(changes) {
+    set((state) =>
+      state.session
+        ? { session: { ...state.session, user: { ...state.session.user, ...changes } } }
+        : state,
+    );
+  },
+
   async signOut() {
     await authService.signOut();
     writeActiveEnterpriseId(null);

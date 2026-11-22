@@ -12,3 +12,6 @@ node_modules/.tmp
 npm-debug.log*
 DESENVOLVIMENTO.md
 fazer-depois.md
+# Local AWS deploy secrets and outputs
+aws/.secrets.env
+aws/.outputs.env

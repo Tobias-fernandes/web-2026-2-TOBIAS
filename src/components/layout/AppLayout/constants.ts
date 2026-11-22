@@ -44,7 +44,10 @@ const APP_NAV_GROUPS: NavGroup[] = [
   },
   {
     label: "Pessoas",
-    items: [{ to: ROUTES.app.members, label: "Membros" }],
+    items: [
+      { to: ROUTES.app.members, label: "Membros" },
+      { to: ROUTES.app.profile, label: "Meu perfil" },
+    ],
   },
   {
     label: "Apoio",

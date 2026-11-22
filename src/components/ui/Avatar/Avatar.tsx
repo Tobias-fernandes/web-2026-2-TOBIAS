@@ -23,7 +23,15 @@ const Avatar: React.FC<AvatarProps> = ({
   );
 
   if (src) {
-    return <img src={src} alt="" aria-hidden className={classes} />;
+    return (
+      <img
+        src={src}
+        alt=""
+        aria-hidden
+        referrerPolicy="no-referrer"
+        className={classes}
+      />
+    );
   }
 
   return (

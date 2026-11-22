@@ -27,5 +27,6 @@ export const ROUTES = {
     members: "/app/membros",
     reports: "/app/relatorios",
     guide: "/app/como-funciona",
+    profile: "/app/perfil",
   },
 } as const;

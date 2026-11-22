@@ -23,6 +23,8 @@ export interface AuthState {
    * would silently fail to find it.
    */
   adopt: (session: Session) => void;
+  /** Merges profile edits (name, picture) into the signed-in user. */
+  updateUser: (changes: Partial<Session["user"]>) => void;
   signOut: () => Promise<void>;
   restore: () => Promise<void>;
 }

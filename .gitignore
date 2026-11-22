@@ -15,3 +15,4 @@ fazer-depois.md
 # Local AWS deploy secrets and outputs
 aws/.secrets.env
 aws/.outputs.env
+.claude-out/

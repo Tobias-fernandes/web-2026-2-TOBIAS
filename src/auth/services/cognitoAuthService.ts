@@ -8,6 +8,7 @@ import { env } from "@/config/env";
 import type { Session, User } from "@/domain/types";
 import { listEnterprises } from "@/services/mock/enterprises";
 import {
+  resolveDemoGuestProfile,
   resolveSessionProfileByEmail,
   type AuthenticatedMember,
 } from "@/services/mock/sessionProfile";
@@ -148,7 +149,11 @@ export function toDomainSession(cognitoSession: CognitoUserSession): Session {
         enterpriseId: claimedEnterpriseId,
         profile: resolveSessionProfileByEmail(claimedEnterpriseId, email),
       }
-    : findMemberByEmail(email);
+    : (findMemberByEmail(email) ??
+      (isFederated ? resolveDemoGuestProfile() : null));
+  const isGuest = Boolean(
+    match && !claimedEnterpriseId && !findMemberByEmail(email),
+  );
   const enterpriseId = match?.enterpriseId;
   const profile = match?.profile;
   if (!enterpriseId || !profile) {
@@ -160,7 +165,8 @@ export function toDomainSession(cognitoSession: CognitoUserSession): Session {
   const user: User = {
     id: sub,
     enterpriseId,
-    name: profile.name,
+    // A guest borrows the demo president's position, not their identity.
+    name: isGuest ? ((claims["name"] as string | undefined) ?? email) : profile.name,
     email,
     role: profile.role,
     workAreaId: profile.workAreaId,

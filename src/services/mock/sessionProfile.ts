@@ -12,6 +12,7 @@ import {
   SEED_MEMBERSHIPS,
   SEED_WORK_AREAS,
 } from "./seed";
+import { DEMO_ENTERPRISE_ID } from "@/config/storage";
 import { readCollectionOrSeed } from "./tenantStorage";
 
 export interface SessionProfile {
@@ -129,4 +130,23 @@ export function resolveSessionProfileByEmail(
     name: member.name,
     avatarUrl: member.avatarUrl,
   };
+}
+
+/**
+ * The demo enterprise's first member (its president), for a federated
+ * (Google) account that no enterprise has registered yet.
+ *
+ * Without it, a fresh browser on a new domain — empty localStorage, so no EJ
+ * created at sign-up — refuses every Google account but the seed e-mails.
+ * The caller swaps in the name and picture Google sent, so the reader still
+ * sees themselves.
+ */
+export function resolveDemoGuestProfile(): {
+  enterpriseId: ID;
+  profile: AuthenticatedMember;
+} | null {
+  const [first] = SEED_MEMBERS;
+  if (!first) return null;
+  const profile = resolveSessionProfileByEmail(DEMO_ENTERPRISE_ID, first.email);
+  return profile ? { enterpriseId: DEMO_ENTERPRISE_ID, profile } : null;
 }
